@@ -34,7 +34,6 @@ export function loginUser(req, res) {
         } else {
             // Passwords don't match
             res.status(401).json({ message: 'Invalid credentials' });
-            console.log("nogo");
         }
     });
 }

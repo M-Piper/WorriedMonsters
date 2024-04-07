@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link component
 import './loginForm.css';
 
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const [error, setError] = useState('');
     const handleLogin = async (e) => {
         e.preventDefault();
 
@@ -25,18 +26,21 @@ function LoginForm() {
             }
 
             const data = await response.json();
-            // Handle successful login, e.g., store token in local storage or state
+            // Handle successful login
             localStorage.setItem('token', data.token);
             console.log('LoginForm successful. Token:', data.token);
+            // Redirect to home page after successful login
+            window.location = `/?username=${username}`; // Redirect to home page with username
         } catch (error) {
             console.error('LoginForm error:', error.message);
-            // Handle login error, e.g., display error message to user
+            setError('Invalid username or password.'); // Update error state
         }
     };
 
     return (
         <div>
             <h2>Login</h2>
+            {error && <div className="error">{error}</div>} {/* Render error message */}
             <form onSubmit={handleLogin}>
                 <label>
                     Username:
@@ -50,6 +54,7 @@ function LoginForm() {
                 <br />
                 <button type="submit">Login</button>
             </form>
+            <Link to="/register">Don't have an account? Register here.</Link> {/* Link to registration page */}
         </div>
     );
 }
