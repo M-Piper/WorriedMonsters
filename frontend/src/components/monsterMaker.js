@@ -11,7 +11,10 @@ function MonsterMaker() {
         backSVG: '',
     });
 
+    const [colours, setColours] = useState('');
+
     const [monsterName, setMonsterName] = useState('');
+
     useEffect(() => {
         // Fetch body SVG from the database
         axios.get('http://localhost:5000/api/body')
@@ -64,8 +67,6 @@ function MonsterMaker() {
                 console.error('Error fetching mouth SVG:', error);
             });
 
-
-
         // Fetch back SVG from the database
         axios.get('http://localhost:5000/api/back')
             .then(response => {
@@ -114,6 +115,15 @@ function MonsterMaker() {
                 console.error('Error fetching random name:', error);
             });
 
+        // Fetch random colour scheme
+        axios.get('http://localhost:5000/api/colours')
+            .then(response => {
+                setColours(response.data.output);
+            })
+            .catch(error => {
+                console.error('Error fetching colour scheme:', error);
+            });
+
     }, []); // Empty dependency array ensures this effect runs only once after the initial render
 
 
@@ -124,6 +134,13 @@ function MonsterMaker() {
         // Remove non-SVG tags from the SVG string
         return svgString;
             //.replace(nonSVGTagsRegex, '');
+    };
+
+    const addColour = (svgString) => {
+        // Replace fill:none with colour
+        const filledSVG = svgString.replace(/fill:none/g, `fill:${colours}`);
+        // Replace colour
+        return filledSVG;
     };
 
     const combineSVGs = () => {
@@ -141,27 +158,27 @@ function MonsterMaker() {
         <svg xmlns="http://www.w3.org/2000/svg">
             <!-- Body SVG -->
             <g id="body">
-                ${sanitizedBodySVG}
+            ${addColour(sanitizedBodySVG)}
             </g>
             <!-- Feet SVG -->
             <g id="feet">
-                ${sanitizedFeetSVG}
+            ${addColour(sanitizedFeetSVG)}
             </g>
             <!-- Eyes SVG -->
             <g id="eyes">
-                ${sanitizedEyesSVG}
+            ${addColour(sanitizedEyesSVG)}
             </g>
             <!-- Mouth SVG -->
             <g id="mouth">
-                ${sanitizedMouthSVG}
+            ${addColour(sanitizedMouthSVG)}
             </g>
             <!-- Back SVG -->
             <g id="back">
-                ${sanitizedBackSVG}
+            ${addColour(sanitizedBackSVG)}
             </g>
             <!-- Tail SVG -->
             <g id="tail">
-                ${sanitizedTailSVG}
+            ${addColour(sanitizedTailSVG)}
             </g>
         </svg>
     `;
