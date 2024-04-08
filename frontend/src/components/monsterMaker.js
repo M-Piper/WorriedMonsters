@@ -132,58 +132,45 @@ function MonsterMaker() {
         // Define regular expressions to match non-SVG tags
         const nonSVGTagsRegex = /<\?xml.*?\?>|<!DOCTYPE.*?>|<html.*?>|<\/html>|<body.*?>|<\/body>|<head.*?>|<\/head>/g;
         // Remove non-SVG tags from the SVG string
+
         return svgString;
-            //.replace(nonSVGTagsRegex, '');
+
     };
 
     const addColour = (svgString) => {
-        // Replace fill:none with colour
-        const filledSVG = svgString.replace(/fill:none/g, `fill:${colours}`);
-        // Replace colour
-        return filledSVG;
+        // Check if colours state is available
+        if (colours) {
+            // Replace fill:none with colour
+            const filledSVG = svgString.replace(/fill:none/g, `fill:${colours}`);
+            return filledSVG;
+        } else {
+            // If colours state is not available, return the SVG string as is
+            return svgString;
+        }
     };
-
     const combineSVGs = () => {
-        // Remove non-SVG tags from each SVG string
-        const sanitizedBodySVG = removeNonSVGTags(monsterParts.bodySVG);
-        const sanitizedFeetSVG = removeNonSVGTags(monsterParts.feetSVG);
-        const sanitizedEyesSVG = removeNonSVGTags(monsterParts.eyesSVG);
-        const sanitizedMouthSVG = removeNonSVGTags(monsterParts.mouthSVG);
-        const sanitizedBackSVG = removeNonSVGTags(monsterParts.backSVG);
-        const sanitizedTailSVG = removeNonSVGTags(monsterParts.tailSVG);
+        // Add color to each SVG part
+        const colourBodySVG = addColour(monsterParts.bodySVG);
+        const colourFeetSVG = addColour(monsterParts.feetSVG);
+        const colourMouthSVG = addColour(monsterParts.mouthSVG);
+        const colourBackSVG = addColour(monsterParts.backSVG);
+        const colourArmsSVG = addColour(monsterParts.armsSVG);
+        const colourTailSVG = addColour(monsterParts.tailSVG);
 
-        // Combine sanitized SVG strings into one sprite
-        const combinedSVG = `
-        <?xml version="1.0" encoding="UTF-8"?>
-        <svg xmlns="http://www.w3.org/2000/svg">
-            <!-- Body SVG -->
-            <g id="body">
-            ${addColour(sanitizedBodySVG)}
-            </g>
-            <!-- Feet SVG -->
-            <g id="feet">
-            ${addColour(sanitizedFeetSVG)}
-            </g>
-            <!-- Eyes SVG -->
-            <g id="eyes">
-            ${addColour(sanitizedEyesSVG)}
-            </g>
-            <!-- Mouth SVG -->
-            <g id="mouth">
-            ${addColour(sanitizedMouthSVG)}
-            </g>
-            <!-- Back SVG -->
-            <g id="back">
-            ${addColour(sanitizedBackSVG)}
-            </g>
-            <!-- Tail SVG -->
-            <g id="tail">
-            ${addColour(sanitizedTailSVG)}
-            </g>
+        // Combine SVG parts into one SVG
+        const combinedSVG = `<?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1728 1296" style="enable-background:new 0 0 1728 1296;" xml:space="preserve">
+                ${colourBodySVG}
+                ${colourFeetSVG}
+                ${colourArmsSVG}
+                ${monsterParts.eyesSVG}
+                ${colourMouthSVG}
+                ${colourBackSVG}
+                ${colourTailSVG}
         </svg>
     `;
         return combinedSVG;
     };
+
 
 
 

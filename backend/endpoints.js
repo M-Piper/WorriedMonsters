@@ -33,7 +33,6 @@ export default function setupEndpoints(app) {
 
 
     app.get('/api/body', (req, res) => {
-        console.log('Colours Main:', colours.main);
 
         //generate random number for selecting body SVG file by ID
         //const randomBodyNumber = Math.floor(Math.random() * 5) + 1;
@@ -80,6 +79,27 @@ export default function setupEndpoints(app) {
         });
     });
 
+    // Route to fetch arms SVG
+    app.get('/api/arms', (req, res) => {
+
+        const armsQuery = 'SELECT mainsvg FROM body WHERE armsID = 2';
+
+        connection.query(armsQuery, (err, feetResults) => {
+            if (err) {
+                console.error('Error fetching random arms svg file:', err);
+                res.status(500).json({message: 'Internal server error'});
+                return;
+            }
+
+            if (armsResults.length === 0) {
+                res.status(404).json({message: 'Arms svg not found'});
+                return;
+            }
+
+            const armsSVG = armsResults[0].mainsvg;
+            res.json({armsSVG});
+        });
+    });
 
     app.get('/api/mouth', (req, res) => {
         const mouthQuery = 'SELECT mainsvg FROM mouth WHERE mouthID = 1';
@@ -99,32 +119,6 @@ export default function setupEndpoints(app) {
             const mouthSVG = mouthResults[0].mainsvg;
 
             res.json({mouthSVG});
-        });
-    });
-
-
-// Endpoint for a randomized selection of the SVG text for the monster's arms and a texture overlay
-    // Select between 1 and 5 options
-    app.get('/api/arms', (req, res) => {
-        // Query to select mainsvg and texturesvg for arms based on the given ID
-        // Temporarily hardcoded to retrieve 1 during debugging
-        const armsQuery = 'SELECT mainsvg, texturesvg FROM arms WHERE armsID = 1';
-
-        // Connect to database and make query
-        connection.query(armsQuery, (err, armsResults) => {
-            if (err) {
-                console.error('Error fetching random arms svg file:', err);
-                res.status(500).json({message: 'Internal server error'});
-                return;
-            }
-
-            if (armsResults.length === 0) {
-                res.status(404).json({message: 'Arms svg not found'});
-                return;
-            }
-            const armsSVG = armsResults[0].mainsvg;
-
-            res.json({armsSVG});
         });
     });
 
