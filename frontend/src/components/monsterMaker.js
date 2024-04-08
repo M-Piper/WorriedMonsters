@@ -4,39 +4,105 @@ import axios from 'axios'; // Import axios for making HTTP requests
 function MonsterMaker() {
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
-        bodyTextureSVG: '',
         feetSVG: '',
-        feetTextureSVG: ''
+        eyesSVG: '',
+        mouthSVG: '',
+        tailSVG: '',
+        backSVG: '',
     });
+
     const [monsterName, setMonsterName] = useState('');
     useEffect(() => {
-        // Fetch body SVG and texture SVG from the database
+        // Fetch body SVG from the database
         axios.get('http://localhost:5000/api/body')
             .then(response => {
                 setMonsterParts(prevState => ({
                     ...prevState,
                     bodySVG: response.data.bodySVG,
-                    bodyTextureSVG: response.data.bodyTextureSVG
                 }));
             })
             .catch(error => {
                 console.error('Error fetching body SVG:', error);
             });
 
-        // Fetch feet SVG and texture SVG from the database
+        // Fetch feet SVG from the database
         axios.get('http://localhost:5000/api/feet')
             .then(response => {
                 setMonsterParts(prevState => ({
                     ...prevState,
                     feetSVG: response.data.feetSVG,
-                    feetTextureSVG: response.data.feetTextureSVG
                 }));
             })
             .catch(error => {
                 console.error('Error fetching feet SVG:', error);
             });
 
-        //Add API calls for face, tail, back, arms
+
+        // Fetch eyes SVG from the database
+        axios.get('http://localhost:5000/api/eyes')
+            .then(response => {
+                setMonsterParts(prevState => ({
+                    ...prevState,
+                    eyesSVG: response.data.eyesSVG,
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching eyes SVG:', error);
+            });
+
+
+
+        // Fetch mouth SVG
+        axios.get('http://localhost:5000/api/mouth')
+            .then(response => {
+                setMonsterParts(prevState => ({
+                    ...prevState,
+                    mouthSVG: response.data.mouthSVG,
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching mouth SVG:', error);
+            });
+
+
+
+        // Fetch back SVG from the database
+        axios.get('http://localhost:5000/api/back')
+            .then(response => {
+                setMonsterParts(prevState => ({
+                    ...prevState,
+                    backSVG: response.data.backSVG,
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching back SVG:', error);
+            });
+
+
+        // Fetch tail SVG and texture SVG from the database
+        axios.get('http://localhost:5000/api/tail')
+            .then(response => {
+                setMonsterParts(prevState => ({
+                    ...prevState,
+                    tailSVG: response.data.tailSVG,
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching tail SVG:', error);
+            });
+
+
+        // Fetch arms SVG and texture SVG from the database
+        axios.get('http://localhost:5000/api/arms')
+            .then(response => {
+                setMonsterParts(prevState => ({
+                    ...prevState,
+                    armsSVG: response.data.armsSVG,
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching arms SVG:', error);
+            });
 
 
         // Fetch random monster name
@@ -56,15 +122,18 @@ function MonsterMaker() {
         // Define regular expressions to match non-SVG tags
         const nonSVGTagsRegex = /<\?xml.*?\?>|<!DOCTYPE.*?>|<html.*?>|<\/html>|<body.*?>|<\/body>|<head.*?>|<\/head>/g;
         // Remove non-SVG tags from the SVG string
-        return svgString.replace(nonSVGTagsRegex, '');
+        return svgString;
+            //.replace(nonSVGTagsRegex, '');
     };
 
     const combineSVGs = () => {
         // Remove non-SVG tags from each SVG string
         const sanitizedBodySVG = removeNonSVGTags(monsterParts.bodySVG);
-        const sanitizedBodyTextureSVG = removeNonSVGTags(monsterParts.bodyTextureSVG);
         const sanitizedFeetSVG = removeNonSVGTags(monsterParts.feetSVG);
-        const sanitizedFeetTextureSVG = removeNonSVGTags(monsterParts.feetTextureSVG);
+        const sanitizedEyesSVG = removeNonSVGTags(monsterParts.eyesSVG);
+        const sanitizedMouthSVG = removeNonSVGTags(monsterParts.mouthSVG);
+        const sanitizedBackSVG = removeNonSVGTags(monsterParts.backSVG);
+        const sanitizedTailSVG = removeNonSVGTags(monsterParts.tailSVG);
 
         // Combine sanitized SVG strings into one sprite
         const combinedSVG = `
@@ -74,17 +143,25 @@ function MonsterMaker() {
             <g id="body">
                 ${sanitizedBodySVG}
             </g>
-            <!-- Body Texture SVG -->
-            <g id="body-texture">
-                ${sanitizedBodyTextureSVG}
-            </g>
             <!-- Feet SVG -->
             <g id="feet">
                 ${sanitizedFeetSVG}
             </g>
-            <!-- Feet Texture SVG -->
-            <g id="feet-texture">
-                ${sanitizedFeetTextureSVG}
+            <!-- Eyes SVG -->
+            <g id="eyes">
+                ${sanitizedEyesSVG}
+            </g>
+            <!-- Mouth SVG -->
+            <g id="mouth">
+                ${sanitizedMouthSVG}
+            </g>
+            <!-- Back SVG -->
+            <g id="back">
+                ${sanitizedBackSVG}
+            </g>
+            <!-- Tail SVG -->
+            <g id="tail">
+                ${sanitizedTailSVG}
             </g>
         </svg>
     `;
