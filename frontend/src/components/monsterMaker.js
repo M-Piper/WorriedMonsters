@@ -5,6 +5,7 @@ function MonsterMaker() {
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
         feetSVG: '',
+        armsSVG: '',
         eyesSVG: '',
         mouthSVG: '',
         tailSVG: '',
@@ -103,6 +104,7 @@ function MonsterMaker() {
             })
             .catch(error => {
                 console.error('Error fetching arms SVG:', error);
+                console.error(error.response.data)
             });
 
 
@@ -127,17 +129,12 @@ function MonsterMaker() {
     }, []); // Empty dependency array ensures this effect runs only once after the initial render
 
 
-    // Function to combine all SVG parts into one SVG string
-    const removeNonSVGTags = (svgString) => {
-        // Define regular expressions to match non-SVG tags
-        const nonSVGTagsRegex = /<\?xml.*?\?>|<!DOCTYPE.*?>|<html.*?>|<\/html>|<body.*?>|<\/body>|<head.*?>|<\/head>/g;
-        // Remove non-SVG tags from the SVG string
-
-        return svgString;
-
-    };
-
     const addColour = (svgString) => {
+        // Check if svgString is defined
+        if (!svgString) {
+            return svgString;
+        }
+
         // Check if colours state is available
         if (colours) {
             // Replace fill:none with colour
@@ -148,12 +145,12 @@ function MonsterMaker() {
             return svgString;
         }
     };
+
     const combineSVGs = () => {
         // Add color to each SVG part
         const colourBodySVG = addColour(monsterParts.bodySVG);
         const colourFeetSVG = addColour(monsterParts.feetSVG);
         const colourMouthSVG = addColour(monsterParts.mouthSVG);
-        const colourBackSVG = addColour(monsterParts.backSVG);
         const colourArmsSVG = addColour(monsterParts.armsSVG);
         const colourTailSVG = addColour(monsterParts.tailSVG);
 
@@ -162,10 +159,10 @@ function MonsterMaker() {
                 ${colourBodySVG}
                 ${colourFeetSVG}
                 ${colourArmsSVG}
-                ${monsterParts.eyesSVG}
                 ${colourMouthSVG}
-                ${colourBackSVG}
+                ${monsterParts.backSVG}
                 ${colourTailSVG}
+                ${monsterParts.eyesSVG}
         </svg>
     `;
         return combinedSVG;
@@ -193,7 +190,12 @@ function MonsterMaker() {
         <div className="monster-container">
             {/* Display monster name */}
             <h1 className="monster-name">{monsterName}</h1>
-
+            <div>Colour: {colours}</div>
+            <div>arms: {monsterParts.armsSVG.length}</div>
+            <div>eyes: {monsterParts.eyesSVG.length}</div>
+            <div>body: {monsterParts.bodySVG.length}</div>
+            <div>feet: {monsterParts.feetSVG.length}</div>
+            <div>tail: {monsterParts.tailSVG.length}</div>
             {/* Render the combined SVG */}
             <svg className="combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
 

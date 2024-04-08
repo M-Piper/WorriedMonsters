@@ -82,9 +82,9 @@ export default function setupEndpoints(app) {
     // Route to fetch arms SVG
     app.get('/api/arms', (req, res) => {
 
-        const armsQuery = 'SELECT mainsvg FROM body WHERE armsID = 2';
+        const armsQuery = 'SELECT mainsvg FROM arms WHERE armsID = 3';
 
-        connection.query(armsQuery, (err, feetResults) => {
+        connection.query(armsQuery, (err, armsResults) => {
             if (err) {
                 console.error('Error fetching random arms svg file:', err);
                 res.status(500).json({message: 'Internal server error'});
@@ -172,6 +172,28 @@ export default function setupEndpoints(app) {
         });
     });
 
+    app.get('/api/eyes', (req, res) => {
+        const eyesQuery = 'SELECT mainsvg FROM eyes WHERE eyesID = 3';
+
+        // Connect to database and make query
+        connection.query(eyesQuery, (err, eyesResults) => {
+            if (err) {
+                console.error('Error fetching eyes svg file:', err);
+                res.status(500).json({message: 'Internal server error'});
+                return;
+            }
+
+            if (eyesResults.length === 0) {
+                res.status(404).json({message: 'Eyes svg not found'});
+                return;
+            }
+            const eyesSVG = eyesResults[0].mainsvg;
+
+            res.json({eyesSVG});
+        });
+    });
+
+
     app.get('/api/colours', (req, res) => {
         const randomColourNumber = Math.floor(Math.random() * 47) + 1;
         const colourQuery = 'SELECT main FROM colours WHERE coloursID = ?';
@@ -189,8 +211,9 @@ export default function setupEndpoints(app) {
             }
 
             // Extract hex codes from the database results
-            const {main} = colourResults[0];
-            res.json({main});
+            // Extract hex codes from the database results
+            const { main } = colourResults[0];
+            res.json({ output: main });
 
         });
     });
