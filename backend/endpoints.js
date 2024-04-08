@@ -99,7 +99,8 @@ export default function setupEndpoints(app) {
             }
 
             const armsSVG = armsResults[0].mainsvg;
-            const armsTextureSVG = armsResults[0].textureSVG;
+            const armsTextureSVG = armsResults[0].texturesvg;
+
             res.json({armsSVG, armsTextureSVG });
         });
     });
@@ -182,7 +183,7 @@ export default function setupEndpoints(app) {
 
     app.get('/api/eyes', (req, res) => {
         // Generate random number for selecting 'eyes' SVG file by ID
-        const randomEyesNumber = Math.floor(Math.random() * 8) + 1;
+        const randomEyesNumber= Math.floor(Math.random() * 6) + 9;
 
         const eyesQuery = `SELECT mainsvg FROM eyes WHERE eyesID = ${randomEyesNumber}`;
 
@@ -226,7 +227,7 @@ export default function setupEndpoints(app) {
             const { main } = colourResults[0];
             const { darker } = colourResults[0];
             const { contrast } = colourResults[0];
-            res.json({ output: main, darker, contrast });
+            res.json({ main, darker, contrast });
 
         });
     });

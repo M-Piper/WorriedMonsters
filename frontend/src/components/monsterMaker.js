@@ -105,7 +105,7 @@ function MonsterMaker() {
                 setMonsterParts(prevState => ({
                     ...prevState,
                     armsSVG: response.data.armsSVG,
-                    armTextureSVG: response.data.armTextureSVG,
+                    armsTextureSVG: response.data.armsTextureSVG,
                 }));
             })
             .catch(error => {
@@ -126,7 +126,12 @@ function MonsterMaker() {
         // Fetch random colour scheme
         axios.get('http://localhost:5000/api/colours')
             .then(response => {
-                setColours(response.data.output);
+                setColours(prevState => ({
+                    ...prevState,
+                    main : response.data.main,
+                    darker : response.data.darker,
+                    contrast : response.data.contrast,
+                }));
             })
             .catch(error => {
                 console.error('Error fetching colour scheme:', error);
@@ -135,7 +140,7 @@ function MonsterMaker() {
     }, []); // Empty dependency array ensures this effect runs only once after the initial render
 
 
-    const addColour = (svgString) => {
+    const addColour = (svgString, styleName) => {
         // Check if svgString is defined
         if (!svgString) {
             return svgString;
@@ -144,7 +149,11 @@ function MonsterMaker() {
         // Check if colours state is available
         if (colours) {
             // Replace fill:none with colour
-            const filledSVG = svgString.replace(/fill:none/g, `fill:${colours}`);
+            let filledSVG = svgString.replace(/fill:none/g, `fill:${colours.main}`);
+            // Replace st0 with the specified styleName
+            filledSVG = filledSVG.replace(/st0/g, styleName + '0');
+            filledSVG = filledSVG.replace(/st1/g, styleName + '1');
+            filledSVG = filledSVG.replace(/st2/g, styleName + '2');
             return filledSVG;
         } else {
             // If colours state is not available, return the SVG string as is
@@ -152,8 +161,7 @@ function MonsterMaker() {
         }
     };
 
-
-    const addDarkerColour = (svgString) => {
+    const addDarkerColour = (svgString, styleName) => {
         // Check if svgString is defined
         if (!svgString) {
             return svgString;
@@ -162,7 +170,11 @@ function MonsterMaker() {
         // Check if darkerColour is defined
         if (colours) {
             // Replace fill:none with darkerColour
-            const darkerSVG = svgString.replace(/fill:none/g, `fill:${colours.darker}`);
+            let darkerSVG = svgString.replace(/stroke:#000000/g, `stroke:${colours.darker}`);
+            // Replace st0 with the specified styleName
+            darkerSVG = darkerSVG.replace(/st0/g, styleName + '0');
+            darkerSVG = darkerSVG.replace(/st1/g, styleName + '1');
+            darkerSVG = darkerSVG.replace(/st2/g, styleName + '2');
             return darkerSVG;
         } else {
             // If darkerColour is not available, return the SVG string as is
@@ -172,24 +184,24 @@ function MonsterMaker() {
 
     const combineSVGs = () => {
         // Add color to each SVG part
-        const colourBodySVG = addColour(monsterParts.bodySVG);
-        const colourFeetSVG = addColour(monsterParts.feetSVG);
-        const colourArmsSVG = addColour(monsterParts.armsSVG);
-        const colourArmsTextureSVG = addDarkerColour(monsterParts.armsTextureSVG);
-        const colourBackSVG = addColour(monsterParts.backSVG);
-        const colourTailSVG = addColour(monsterParts.tailSVG);
+        const colourBodySVG = addColour(monsterParts.bodySVG, 'body');
+        const colourFeetSVG = addColour(monsterParts.feetSVG, 'feet');
+        const colourArmsSVG = addColour(monsterParts.armsSVG, 'arms');
+        const colourArmsTextureSVG = addDarkerColour(monsterParts.armsTextureSVG, 'armstexture');
+        const colourBackSVG = addColour(monsterParts.backSVG, 'back');
+        const colourTailSVG = addColour(monsterParts.tailSVG, 'tail');
 
         // Combine SVG parts into one SVG
-        const combinedSVG = `<?xml version="1.0" encoding="utf-8"?>
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1728 1296" style="enable-background:new 0 0 1728 1296;" xml:space="preserve">
-            <g id="body">${colourBodySVG}</g>
-            <g id="feet">${colourFeetSVG}</g>
-            <g id="arms">${colourArmsSVG}</g>
-            <g id="armsTexture">${colourArmsTextureSVG}</g>
-            <g id="mouth">${monsterParts.mouthSVG}</g>
-            <g id="back">${colourBackSVG}</g>
-            <g id="tail">${colourTailSVG}</g>
-            <g id="eyes">${monsterParts.eyesSVG}</g>
+        const combinedSVG = `<?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1728 1296" style="enable-background:new 0 0 1728 1296;" xml:space="preserve">
+                ${colourBodySVG}
+                ${colourFeetSVG}
+                ${colourArmsSVG}
+                ${colourArmsTextureSVG}
+                ${monsterParts.mouthSVG}
+                ${colourBackSVG}
+                ${colourTailSVG}
+                ${monsterParts.eyesSVG}
+                
         </svg>
     `;
         return combinedSVG;
