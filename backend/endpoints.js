@@ -60,7 +60,7 @@ export default function setupEndpoints(app) {
     // Route to fetch feet SVG
     app.get('/api/feet', (req, res) => {
 
-        const feetQuery = 'SELECT mainsvg FROM body WHERE bodyID = 1';
+        const feetQuery = 'SELECT mainsvg FROM feet WHERE feetID = 1';
 
         connection.query(feetQuery, (err, feetResults) => {
             if (err) {
