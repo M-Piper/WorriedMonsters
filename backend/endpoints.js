@@ -34,12 +34,9 @@ export default function setupEndpoints(app) {
 
     app.get('/api/body', (req, res) => {
 
-        //generate random number for selecting body SVG file by ID
-        //const randomBodyNumber = Math.floor(Math.random() * 5) + 1;
         const bodyQuery = 'SELECT mainsvg FROM body WHERE bodyID = 1';
 
         //Connect to database and make query
-        //connection.query(bodyQuery, [randomBodyNumber], (err, bodyResults) => {
         connection.query(bodyQuery, (err, bodyResults) => {
             if (err) {
                 console.error('Error fetching random body svg file:', err);
@@ -60,7 +57,10 @@ export default function setupEndpoints(app) {
     // Route to fetch feet SVG
     app.get('/api/feet', (req, res) => {
 
-        const feetQuery = 'SELECT mainsvg FROM feet WHERE feetID = 1';
+        // Generate random number for selecting 'feet' SVG file by ID
+        const randomFeetNumber = Math.floor(Math.random() * 4) + 1;
+
+        const feetQuery = `SELECT mainsvg FROM feet WHERE feetID = ${randomFeetNumber}`;
 
         connection.query(feetQuery, (err, feetResults) => {
             if (err) {
@@ -81,8 +81,10 @@ export default function setupEndpoints(app) {
 
     // Route to fetch arms SVG
     app.get('/api/arms', (req, res) => {
+        //generate random number for selecting Arms SVG file by ID
+        const randomArmsNumber = Math.floor(Math.random() * 3) + 5;
 
-        const armsQuery = 'SELECT mainsvg FROM arms WHERE armsID = 3';
+        const armsQuery = `SELECT mainsvg FROM arms WHERE armsID = ${randomArmsNumber}`;
 
         connection.query(armsQuery, (err, armsResults) => {
             if (err) {
@@ -102,7 +104,10 @@ export default function setupEndpoints(app) {
     });
 
     app.get('/api/mouth', (req, res) => {
-        const mouthQuery = 'SELECT mainsvg FROM mouth WHERE mouthID = 1';
+        const randomMouthNumber = Math.floor(Math.random() * 11) + 11;
+
+        const mouthQuery = `SELECT mainsvg FROM mouth WHERE mouthID = ${randomMouthNumber}`;
+
 
         // Connect to database and make query
         connection.query(mouthQuery, (err, mouthResults) => {
@@ -150,9 +155,11 @@ export default function setupEndpoints(app) {
 // Endpoint for a randomized selection of the SVG text for the monster's back and a texture overlay
     // Select between 1 and 5 options
     app.get('/api/back', (req, res) => {
-        // Query to select mainsvg and texturesvg for back based on the given ID
-        // Temporarily hardcoded to retrieve 1 during debugging
-        const backQuery = 'SELECT mainsvg FROM back WHERE backID = 1';
+        // Generate random number for selecting 'back' SVG file by ID
+        const randomBackNumber = Math.floor(Math.random() * 13) + 1;
+
+        const backQuery = `SELECT mainsvg FROM back WHERE backID = ${randomBackNumber}`;
+
 
         // Connect to database and make query
         connection.query(backQuery, (err, backResults) => {
@@ -173,7 +180,11 @@ export default function setupEndpoints(app) {
     });
 
     app.get('/api/eyes', (req, res) => {
-        const eyesQuery = 'SELECT mainsvg FROM eyes WHERE eyesID = 3';
+        // Generate random number for selecting 'eyes' SVG file by ID
+        const randomEyesNumber = Math.floor(Math.random() * 8) + 1;
+
+        const eyesQuery = `SELECT mainsvg FROM eyes WHERE eyesID = ${randomEyesNumber}`;
+
 
         // Connect to database and make query
         connection.query(eyesQuery, (err, eyesResults) => {

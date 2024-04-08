@@ -190,12 +190,6 @@ function MonsterMaker() {
         <div className="monster-container">
             {/* Display monster name */}
             <h1 className="monster-name">{monsterName}</h1>
-            <div>Colour: {colours}</div>
-            <div>arms: {monsterParts.armsSVG.length}</div>
-            <div>eyes: {monsterParts.eyesSVG.length}</div>
-            <div>body: {monsterParts.bodySVG.length}</div>
-            <div>feet: {monsterParts.feetSVG.length}</div>
-            <div>tail: {monsterParts.tailSVG.length}</div>
             {/* Render the combined SVG */}
             <svg className="combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
 
