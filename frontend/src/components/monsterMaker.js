@@ -6,13 +6,18 @@ function MonsterMaker() {
         bodySVG: '',
         feetSVG: '',
         armsSVG: '',
+        armsTextureSVG: '',
         eyesSVG: '',
         mouthSVG: '',
         tailSVG: '',
         backSVG: '',
     });
 
-    const [colours, setColours] = useState('');
+    const [colours, setColours] = useState({
+        main: '', // Initialize main colour
+        darker: '', // Initialize darker colour
+        contrast: '', // Initialize contrast colour
+    });
 
     const [monsterName, setMonsterName] = useState('');
 
@@ -100,6 +105,7 @@ function MonsterMaker() {
                 setMonsterParts(prevState => ({
                     ...prevState,
                     armsSVG: response.data.armsSVG,
+                    armTextureSVG: response.data.armTextureSVG,
                 }));
             })
             .catch(error => {
@@ -146,23 +152,44 @@ function MonsterMaker() {
         }
     };
 
+
+    const addDarkerColour = (svgString) => {
+        // Check if svgString is defined
+        if (!svgString) {
+            return svgString;
+        }
+
+        // Check if darkerColour is defined
+        if (colours) {
+            // Replace fill:none with darkerColour
+            const darkerSVG = svgString.replace(/fill:none/g, `fill:${colours.darker}`);
+            return darkerSVG;
+        } else {
+            // If darkerColour is not available, return the SVG string as is
+            return svgString;
+        }
+    };
+
     const combineSVGs = () => {
         // Add color to each SVG part
         const colourBodySVG = addColour(monsterParts.bodySVG);
         const colourFeetSVG = addColour(monsterParts.feetSVG);
-        const colourMouthSVG = addColour(monsterParts.mouthSVG);
         const colourArmsSVG = addColour(monsterParts.armsSVG);
+        const colourArmsTextureSVG = addDarkerColour(monsterParts.armsTextureSVG);
+        const colourBackSVG = addColour(monsterParts.backSVG);
         const colourTailSVG = addColour(monsterParts.tailSVG);
 
         // Combine SVG parts into one SVG
-        const combinedSVG = `<?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1728 1296" style="enable-background:new 0 0 1728 1296;" xml:space="preserve">
-                ${colourBodySVG}
-                ${colourFeetSVG}
-                ${colourArmsSVG}
-                ${colourMouthSVG}
-                ${monsterParts.backSVG}
-                ${colourTailSVG}
-                ${monsterParts.eyesSVG}
+        const combinedSVG = `<?xml version="1.0" encoding="utf-8"?>
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1728 1296" style="enable-background:new 0 0 1728 1296;" xml:space="preserve">
+            <g id="body">${colourBodySVG}</g>
+            <g id="feet">${colourFeetSVG}</g>
+            <g id="arms">${colourArmsSVG}</g>
+            <g id="armsTexture">${colourArmsTextureSVG}</g>
+            <g id="mouth">${monsterParts.mouthSVG}</g>
+            <g id="back">${colourBackSVG}</g>
+            <g id="tail">${colourTailSVG}</g>
+            <g id="eyes">${monsterParts.eyesSVG}</g>
         </svg>
     `;
         return combinedSVG;

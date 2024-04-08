@@ -84,7 +84,7 @@ export default function setupEndpoints(app) {
         //generate random number for selecting Arms SVG file by ID
         const randomArmsNumber = Math.floor(Math.random() * 3) + 5;
 
-        const armsQuery = `SELECT mainsvg FROM arms WHERE armsID = ${randomArmsNumber}`;
+        const armsQuery = `SELECT mainsvg, texturesvg FROM arms WHERE armsID = ${randomArmsNumber}`;
 
         connection.query(armsQuery, (err, armsResults) => {
             if (err) {
@@ -99,7 +99,8 @@ export default function setupEndpoints(app) {
             }
 
             const armsSVG = armsResults[0].mainsvg;
-            res.json({armsSVG});
+            const armsTextureSVG = armsResults[0].textureSVG;
+            res.json({armsSVG, armsTextureSVG });
         });
     });
 
@@ -207,7 +208,7 @@ export default function setupEndpoints(app) {
 
     app.get('/api/colours', (req, res) => {
         const randomColourNumber = Math.floor(Math.random() * 47) + 1;
-        const colourQuery = 'SELECT main FROM colours WHERE coloursID = ?';
+        const colourQuery = 'SELECT main, darker, contrast FROM colours WHERE coloursID = ?';
 
         connection.query(colourQuery, [randomColourNumber], (err, colourResults) => {
             if (err) {
@@ -222,9 +223,10 @@ export default function setupEndpoints(app) {
             }
 
             // Extract hex codes from the database results
-            // Extract hex codes from the database results
             const { main } = colourResults[0];
-            res.json({ output: main });
+            const { darker } = colourResults[0];
+            const { contrast } = colourResults[0];
+            res.json({ output: main, darker, contrast });
 
         });
     });
