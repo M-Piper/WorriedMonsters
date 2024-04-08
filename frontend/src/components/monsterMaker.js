@@ -5,13 +5,22 @@ function MonsterMaker() {
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
         feetSVG: '',
+        armsSVG: '',
+        armsTextureSVG: '',
         eyesSVG: '',
         mouthSVG: '',
         tailSVG: '',
         backSVG: '',
     });
 
+    const [colours, setColours] = useState({
+        main: '', // Initialize main colour
+        darker: '', // Initialize darker colour
+        contrast: '', // Initialize contrast colour
+    });
+
     const [monsterName, setMonsterName] = useState('');
+
     useEffect(() => {
         // Fetch body SVG from the database
         axios.get('http://localhost:5000/api/body')
@@ -64,8 +73,6 @@ function MonsterMaker() {
                 console.error('Error fetching mouth SVG:', error);
             });
 
-
-
         // Fetch back SVG from the database
         axios.get('http://localhost:5000/api/back')
             .then(response => {
@@ -98,10 +105,12 @@ function MonsterMaker() {
                 setMonsterParts(prevState => ({
                     ...prevState,
                     armsSVG: response.data.armsSVG,
+                    armsTextureSVG: response.data.armsTextureSVG,
                 }));
             })
             .catch(error => {
                 console.error('Error fetching arms SVG:', error);
+                console.error(error.response.data)
             });
 
 
@@ -114,59 +123,90 @@ function MonsterMaker() {
                 console.error('Error fetching random name:', error);
             });
 
+        // Fetch random colour scheme
+        axios.get('http://localhost:5000/api/colours')
+            .then(response => {
+                setColours(prevState => ({
+                    ...prevState,
+                    main : response.data.main,
+                    darker : response.data.darker,
+                    contrast : response.data.contrast,
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching colour scheme:', error);
+            });
+
     }, []); // Empty dependency array ensures this effect runs only once after the initial render
 
 
-    // Function to combine all SVG parts into one SVG string
-    const removeNonSVGTags = (svgString) => {
-        // Define regular expressions to match non-SVG tags
-        const nonSVGTagsRegex = /<\?xml.*?\?>|<!DOCTYPE.*?>|<html.*?>|<\/html>|<body.*?>|<\/body>|<head.*?>|<\/head>/g;
-        // Remove non-SVG tags from the SVG string
-        return svgString;
-            //.replace(nonSVGTagsRegex, '');
+    const addColour = (svgString, styleName) => {
+        // Check if svgString is defined
+        if (!svgString) {
+            return svgString;
+        }
+
+        // Check if colours state is available
+        if (colours) {
+            // Replace fill:none with colour
+            let filledSVG = svgString.replace(/fill:none/g, `fill:${colours.main}`);
+            // Replace st0 with the specified styleName
+            filledSVG = filledSVG.replace(/st0/g, styleName + '0');
+            filledSVG = filledSVG.replace(/st1/g, styleName + '1');
+            filledSVG = filledSVG.replace(/st2/g, styleName + '2');
+            return filledSVG;
+        } else {
+            // If colours state is not available, return the SVG string as is
+            return svgString;
+        }
+    };
+
+    const addDarkerColour = (svgString, styleName) => {
+        // Check if svgString is defined
+        if (!svgString) {
+            return svgString;
+        }
+
+        // Check if darkerColour is defined
+        if (colours) {
+            // Replace fill:none with darkerColour
+            let darkerSVG = svgString.replace(/stroke:#000000/g, `stroke:${colours.darker}`);
+            // Replace st0 with the specified styleName
+            darkerSVG = darkerSVG.replace(/st0/g, styleName + '0');
+            darkerSVG = darkerSVG.replace(/st1/g, styleName + '1');
+            darkerSVG = darkerSVG.replace(/st2/g, styleName + '2');
+            return darkerSVG;
+        } else {
+            // If darkerColour is not available, return the SVG string as is
+            return svgString;
+        }
     };
 
     const combineSVGs = () => {
-        // Remove non-SVG tags from each SVG string
-        const sanitizedBodySVG = removeNonSVGTags(monsterParts.bodySVG);
-        const sanitizedFeetSVG = removeNonSVGTags(monsterParts.feetSVG);
-        const sanitizedEyesSVG = removeNonSVGTags(monsterParts.eyesSVG);
-        const sanitizedMouthSVG = removeNonSVGTags(monsterParts.mouthSVG);
-        const sanitizedBackSVG = removeNonSVGTags(monsterParts.backSVG);
-        const sanitizedTailSVG = removeNonSVGTags(monsterParts.tailSVG);
+        // Add color to each SVG part
+        const colourBodySVG = addColour(monsterParts.bodySVG, 'body');
+        const colourFeetSVG = addColour(monsterParts.feetSVG, 'feet');
+        const colourArmsSVG = addColour(monsterParts.armsSVG, 'arms');
+        const colourArmsTextureSVG = addDarkerColour(monsterParts.armsTextureSVG, 'armstexture');
+        const colourBackSVG = addColour(monsterParts.backSVG, 'back');
+        const colourTailSVG = addColour(monsterParts.tailSVG, 'tail');
 
-        // Combine sanitized SVG strings into one sprite
-        const combinedSVG = `
-        <?xml version="1.0" encoding="UTF-8"?>
-        <svg xmlns="http://www.w3.org/2000/svg">
-            <!-- Body SVG -->
-            <g id="body">
-                ${sanitizedBodySVG}
-            </g>
-            <!-- Feet SVG -->
-            <g id="feet">
-                ${sanitizedFeetSVG}
-            </g>
-            <!-- Eyes SVG -->
-            <g id="eyes">
-                ${sanitizedEyesSVG}
-            </g>
-            <!-- Mouth SVG -->
-            <g id="mouth">
-                ${sanitizedMouthSVG}
-            </g>
-            <!-- Back SVG -->
-            <g id="back">
-                ${sanitizedBackSVG}
-            </g>
-            <!-- Tail SVG -->
-            <g id="tail">
-                ${sanitizedTailSVG}
-            </g>
+        // Combine SVG parts into one SVG
+        const combinedSVG = `<?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1728 1296" style="enable-background:new 0 0 1728 1296;" xml:space="preserve">
+                ${colourBodySVG}
+                ${colourFeetSVG}
+                ${colourArmsSVG}
+                ${colourArmsTextureSVG}
+                ${monsterParts.mouthSVG}
+                ${colourBackSVG}
+                ${colourTailSVG}
+                ${monsterParts.eyesSVG}
+                
         </svg>
     `;
         return combinedSVG;
     };
+
 
 
 
@@ -189,7 +229,6 @@ function MonsterMaker() {
         <div className="monster-container">
             {/* Display monster name */}
             <h1 className="monster-name">{monsterName}</h1>
-
             {/* Render the combined SVG */}
             <svg className="combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
 

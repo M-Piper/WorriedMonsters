@@ -3,34 +3,6 @@ import { connection } from './database.js';
 import jwt from 'jsonwebtoken';
 
 
-
-
-
-// Function to generate a random color ID and fetch hex codes from the database
-function randomColourGenerator(callback) {
-    const randomColourNumber = Math.floor(Math.random() * 47) + 1;
-    const colourQuery = 'SELECT main, darker, contrast FROM colours WHERE coloursID = ?';
-
-    connection.query(colourQuery, [randomColourNumber], (err, colourResults) => {
-        if (err) {
-            console.error('Error fetching random color from database:', err);
-            callback(err, null);
-            return;
-        }
-
-        if (colourResults.length === 0) {
-            callback(new Error('Color not found in the database'), null);
-            return;
-        }
-
-        // Extract hex codes from the database results
-        const { main, darker, contrast } = colourResults[0];
-        callback(null, { main, darker, contrast });
-    });
-}
-
-
-
 // Function to set up endpoints
 export default function setupEndpoints(app) {
     // Route for user login (POST request)
@@ -45,86 +17,99 @@ export default function setupEndpoints(app) {
         connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
             if (err) {
                 console.error('Error fetching user:', err);
-                res.status(500).json({ message: 'Internal server error' });
+                res.status(500).json({message: 'Internal server error'});
                 return;
             }
 
             if (results.length === 0) {
-                res.status(404).json({ message: 'User not found' });
+                res.status(404).json({message: 'User not found'});
                 return;
             }
 
             const user = results[0]; // Assuming there's only one user with the given username
-            res.json({ ...user, username }); // Send retrieved user data as a response
+            res.json({...user, username}); // Send retrieved user data as a response
         });
     });
 
 
     app.get('/api/body', (req, res) => {
-        console.log('Colours Main:', colours.main);
 
-        //generate random number for selecting body SVG file by ID
-            //const randomBodyNumber = Math.floor(Math.random() * 5) + 1;
-            const bodyQuery = 'SELECT mainsvg FROM body WHERE bodyID = 1';
+        const bodyQuery = 'SELECT mainsvg FROM body WHERE bodyID = 1';
 
-            //Connect to database and make query
-            //connection.query(bodyQuery, [randomBodyNumber], (err, bodyResults) => {
-            connection.query(bodyQuery, (err, bodyResults) => {
-                if (err) {
-                    console.error('Error fetching random body svg file:', err);
-                    res.status(500).json({message: 'Internal server error'});
-                    return;
-                }
-
-                if (bodyResults.length === 0) {
-                    res.status(404).json({message: 'body svg not found'});
-                    return;
-                }
-                const bodySVG = bodyResults[0].mainsvg;
-
-                res.json({bodySVG});
-            });
-        });
-
-    // Route to fetch feet SVG
-    app.get('/api/feet', (req, res) => {
-        randomColourGenerator((err, colours) => {
+        //Connect to database and make query
+        connection.query(bodyQuery, (err, bodyResults) => {
             if (err) {
-                res.status(500).json({ message: 'Internal server error' });
+                console.error('Error fetching random body svg file:', err);
+                res.status(500).json({message: 'Internal server error'});
                 return;
             }
 
-            const feetQuery = `
-                SELECT REPLACE(
-                    mainsvg,
-                    'fill:none',
-                    CONCAT('fill:', '${colours.main}')
-                ) AS mainsvg
-                FROM feet
-                WHERE mainsvg LIKE '%fill:none%' AND feetID = 2;
-            `;
+            if (bodyResults.length === 0) {
+                res.status(404).json({message: 'body svg not found'});
+                return;
+            }
+            const bodySVG = bodyResults[0].mainsvg;
 
-            connection.query(feetQuery, (err, feetResults) => {
-                if (err) {
-                    console.error('Error fetching random feet svg file:', err);
-                    res.status(500).json({ message: 'Internal server error' });
-                    return;
-                }
-
-                if (feetResults.length === 0) {
-                    res.status(404).json({ message: 'Feet svg not found' });
-                    return;
-                }
-
-                const feetSVG = feetResults[0].mainsvg;
-                res.json({ feetSVG });
-            });
+            res.json({bodySVG});
         });
     });
 
+    // Route to fetch feet SVG
+    app.get('/api/feet', (req, res) => {
+
+        // Generate random number for selecting 'feet' SVG file by ID
+        const randomFeetNumber = Math.floor(Math.random() * 4) + 1;
+
+        const feetQuery = `SELECT mainsvg FROM feet WHERE feetID = ${randomFeetNumber}`;
+
+        connection.query(feetQuery, (err, feetResults) => {
+            if (err) {
+                console.error('Error fetching random feet svg file:', err);
+                res.status(500).json({message: 'Internal server error'});
+                return;
+            }
+
+            if (feetResults.length === 0) {
+                res.status(404).json({message: 'Feet svg not found'});
+                return;
+            }
+
+            const feetSVG = feetResults[0].mainsvg;
+            res.json({feetSVG});
+        });
+    });
+
+    // Route to fetch arms SVG
+    app.get('/api/arms', (req, res) => {
+        //generate random number for selecting Arms SVG file by ID
+        const randomArmsNumber = Math.floor(Math.random() * 3) + 5;
+
+        const armsQuery = `SELECT mainsvg, texturesvg FROM arms WHERE armsID = ${randomArmsNumber}`;
+
+        connection.query(armsQuery, (err, armsResults) => {
+            if (err) {
+                console.error('Error fetching random arms svg file:', err);
+                res.status(500).json({message: 'Internal server error'});
+                return;
+            }
+
+            if (armsResults.length === 0) {
+                res.status(404).json({message: 'Arms svg not found'});
+                return;
+            }
+
+            const armsSVG = armsResults[0].mainsvg;
+            const armsTextureSVG = armsResults[0].texturesvg;
+
+            res.json({armsSVG, armsTextureSVG });
+        });
+    });
 
     app.get('/api/mouth', (req, res) => {
-        const mouthQuery = 'SELECT mainsvg FROM mouth WHERE mouthID = 1';
+        const randomMouthNumber = Math.floor(Math.random() * 11) + 11;
+
+        const mouthQuery = `SELECT mainsvg FROM mouth WHERE mouthID = ${randomMouthNumber}`;
+
 
         // Connect to database and make query
         connection.query(mouthQuery, (err, mouthResults) => {
@@ -141,32 +126,6 @@ export default function setupEndpoints(app) {
             const mouthSVG = mouthResults[0].mainsvg;
 
             res.json({mouthSVG});
-        });
-    });
-
-
-// Endpoint for a randomized selection of the SVG text for the monster's arms and a texture overlay
-    // Select between 1 and 5 options
-    app.get('/api/arms', (req, res) => {
-        // Query to select mainsvg and texturesvg for arms based on the given ID
-        // Temporarily hardcoded to retrieve 1 during debugging
-        const armsQuery = 'SELECT mainsvg, texturesvg FROM arms WHERE armsID = 1';
-
-        // Connect to database and make query
-        connection.query(armsQuery, (err, armsResults) => {
-            if (err) {
-                console.error('Error fetching random arms svg file:', err);
-                res.status(500).json({message: 'Internal server error'});
-                return;
-            }
-
-            if (armsResults.length === 0) {
-                res.status(404).json({message: 'Arms svg not found'});
-                return;
-            }
-            const armsSVG = armsResults[0].mainsvg;
-
-            res.json({armsSVG});
         });
     });
 
@@ -198,9 +157,11 @@ export default function setupEndpoints(app) {
 // Endpoint for a randomized selection of the SVG text for the monster's back and a texture overlay
     // Select between 1 and 5 options
     app.get('/api/back', (req, res) => {
-        // Query to select mainsvg and texturesvg for back based on the given ID
-        // Temporarily hardcoded to retrieve 1 during debugging
-        const backQuery = 'SELECT mainsvg FROM back WHERE backID = 1';
+        // Generate random number for selecting 'back' SVG file by ID
+        const randomBackNumber = Math.floor(Math.random() * 13) + 1;
+
+        const backQuery = `SELECT mainsvg FROM back WHERE backID = ${randomBackNumber}`;
+
 
         // Connect to database and make query
         connection.query(backQuery, (err, backResults) => {
@@ -220,9 +181,60 @@ export default function setupEndpoints(app) {
         });
     });
 
+    app.get('/api/eyes', (req, res) => {
+        // Generate random number for selecting 'eyes' SVG file by ID
+        const randomEyesNumber= Math.floor(Math.random() * 6) + 9;
+
+        const eyesQuery = `SELECT mainsvg FROM eyes WHERE eyesID = ${randomEyesNumber}`;
 
 
-            // Endpoint to select a random name and corresponding adjective
+        // Connect to database and make query
+        connection.query(eyesQuery, (err, eyesResults) => {
+            if (err) {
+                console.error('Error fetching eyes svg file:', err);
+                res.status(500).json({message: 'Internal server error'});
+                return;
+            }
+
+            if (eyesResults.length === 0) {
+                res.status(404).json({message: 'Eyes svg not found'});
+                return;
+            }
+            const eyesSVG = eyesResults[0].mainsvg;
+
+            res.json({eyesSVG});
+        });
+    });
+
+
+    app.get('/api/colours', (req, res) => {
+        const randomColourNumber = Math.floor(Math.random() * 47) + 1;
+        const colourQuery = 'SELECT main, darker, contrast FROM colours WHERE coloursID = ?';
+
+        connection.query(colourQuery, [randomColourNumber], (err, colourResults) => {
+            if (err) {
+                console.error('Error fetching random color from database:', err);
+                res.status(500).json({message: 'Internal server error'});
+                return;
+            }
+
+            if (colourResults.length === 0) {
+                res.status(404).json({message: 'Color not found in the database'});
+                return;
+            }
+
+            // Extract hex codes from the database results
+            const { main } = colourResults[0];
+            const { darker } = colourResults[0];
+            const { contrast } = colourResults[0];
+            res.json({ main, darker, contrast });
+
+        });
+    });
+
+
+
+    // Endpoint to select a random name and corresponding adjective
     app.get('/api/randomname', (req, res) => {
         // Generate a random number between 1 and 100 for names
         const randomNameNumber = Math.floor(Math.random() * 99) + 1;
