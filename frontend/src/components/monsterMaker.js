@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
+import refresh from '../images/refresh.svg';
+import plus from '../images/plus.svg';
+import download from '../images/download.svg'
+import './monsterMaker.css';
 
 function MonsterMaker() {
     const [monsterParts, setMonsterParts] = useState({
@@ -225,15 +229,41 @@ function MonsterMaker() {
         URL.revokeObjectURL(url);
     };
 
+    // Function to handle page refresh
+    const handleRefresh = () => {
+        window.location.reload();
+    };
+
+    const handleAddToLibrary = () =>{
+
+    }
+
     return (
         <div className="monster-container">
+            {/* Refresh button */}
+            <button onClick={handleRefresh} className="refresh-btn">
+                <img src={refresh} alt="refresh" className="refresh-img" />
+            </button>
+
             {/* Display monster name */}
-            <h1 className="monster-name">{monsterName}</h1>
+            <h1 className="monster-name">
+                <span style={{ fontFamily: 'Varela Round, sans-serif' }}>{monsterName.split(' ')[0]}</span>{' '}
+                <span style={{ fontFamily: 'Lobster, cursive' }}>{monsterName.split(' ')[1]}</span>{' '}
+                <span style={{ fontFamily: 'Madimi One, cursive' }}>{monsterName.split(' ')[2]}</span>
+            </h1>
             {/* Render the combined SVG */}
             <svg className="combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
 
             {/* Download button */}
-            <button onClick={handleDownload}>Download Monster</button>
+            <button onClick={handleDownload} className="download-btn">
+                <img src={download} alt="download" className="download-img" />
+                <span className="button-label">Download Monster</span>
+            </button>
+            {/* Add to library button */}
+            <button onClick={handleAddToLibrary} className="add-to-library-btn">
+                <img src={plus} alt="plus" className="plus-img" />
+                <span className="button-label">Add to Library</span>
+            </button>
         </div>
     );
 }
