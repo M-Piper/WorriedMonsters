@@ -5,9 +5,16 @@ import jwt from 'jsonwebtoken';
 
 // Function to set up endpoints
 export default function setupEndpoints(app) {
-    // Route for user login (POST request)
-    app.post('/api/login', loginUser);
+// Route for user login (POST request)
+app.post('/api/login', loginUser);
 
+// Route for user to add monster to their library (POST request)
+app.post('api/library/add', monsterName, combinedSVG, userID);
+
+//Route to get a user's monster library for viewing (GET request)
+    app.get('api/library/:username'), (req, res)=>{
+
+    }
 
 // Route to get a specific user by username (GET request)
     app.get('/api/users/:username', (req, res) => {
@@ -81,6 +88,7 @@ export default function setupEndpoints(app) {
 
     // Route to fetch arms SVG
     app.get('/api/arms', (req, res) => {
+
         //generate random number for selecting Arms SVG file by ID
         const randomArmsNumber = Math.floor(Math.random() * 3) + 5;
 
@@ -129,12 +137,14 @@ export default function setupEndpoints(app) {
         });
     });
 
-// Endpoint for a randomized selection of the SVG text for the monster's tail and a texture overlay
-    // Select between 1 and 5 options
+    // Endpoint for a randomized selection of the SVG text for the monster's tail
     app.get('/api/tail', (req, res) => {
-        // Query to select mainsvg and texturesvg for tail based on the given ID
-        // Temporarily hardcoded to retrieve 1 during debugging
-        const tailQuery = 'SELECT mainsvg FROM tail WHERE tailID = 1';
+
+        // Generate a random number between 1 and 3 (inclusive)
+        const randomTailNumber = Math.floor(Math.random() * 3) + 1;
+
+        // Replace tailID with the random number
+        const tailQuery = 'SELECT mainsvg FROM tail WHERE tailID = ${randomTailNumber}';
 
         // Connect to database and make query
         connection.query(tailQuery, (err, tailResults) => {
