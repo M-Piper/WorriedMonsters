@@ -267,15 +267,15 @@ function MonsterMaker() {
             <Menu handleHome={handleHome} handleLibrary={handleLibrary} />
             {/* Display monster name */}
             <h1 className="monster-name">
-                <span style={{ fontFamily: 'Varela Round, sans-serif' }}>{monsterName.split(' ')[0]}</span>{' '}
-                <span style={{ fontFamily: 'Lobster, cursive' }}>{monsterName.split(' ')[1]}</span>{' '}
-                <span style={{ fontFamily: 'Madimi One, cursive' }}>{monsterName.split(' ')[2]}</span>
+                <span style={{ fontFamily: 'Varela Round, sans-serif', paddingRight: '0.75rem'}}>{monsterName.split(' ')[0]}</span>
+                <span style={{ fontFamily: 'Lobster, cursive', margin: '0 0.5rem', paddingTop:'2rem' }}>{monsterName.split(' ')[1]}</span>
+                <span style={{ fontFamily: 'Madimi One, cursive', paddingLeft: '0.75rem', paddingTop: '5 rem' }}>{monsterName.split(' ')[2]}</span>
             </h1>
 
             {/* SVG container */}
-            <div className="combined-svg-container">
+            <div className="monstermaker-combined-svg-container">
                 {/* Render the combined SVG */}
-                <svg className="combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
+                <svg className="monstermaker-combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
             </div>
 
             <div className="buttons-container">
@@ -284,15 +284,17 @@ function MonsterMaker() {
                     <img src={refresh} alt="refresh" className="refresh-img" />
                     <span className="button-label">Generate New Monster</span>
                 </button>
-                {/* Download button */}
-                <button onClick={handleDownload} className="download-btn">
-                    <img src={download} alt="download" className="download-img" />
-                    <span className="button-label">Download Monster</span>
-                </button>
+
                 {/* Add to library button */}
                 <button onClick={handleAddToLibrary} className="add-to-library-btn">
                     <img src={plus} alt="plus" className="plus-img" />
                     <span className="button-label">Add to Library</span>
+                </button>
+
+                {/* Download button */}
+                <button onClick={handleDownload} className="download-btn">
+                    <img src={download} alt="download" className="download-img" />
+                    <span className="button-label">Download Monster</span>
                 </button>
             </div>
         </div>

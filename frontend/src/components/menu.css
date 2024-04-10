@@ -26,19 +26,20 @@
 
 .home-button {
     order: 1;
-    width: 10vw;
+    width: 6vw;
 }
 
 .home-img{
-    width:10vw;
+    width:6vw;
 }
 
 .library-img{
-    width:10vw;
+    width:6vw;
 }
 
 .library-button {
     order: 2;
+    width: 6vw;
 }
 
 .button-label {

@@ -62,15 +62,17 @@ function Home() {
                     }
                 </div>
                 <div className="top-right">
+                    <div className="button-container">
                     {isLoggedIn && user ?
                         <>
 
-                            <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleLogout} className="logout-button">Logout</button>
                             <div className="welcome-note">Welcome,</div>
                             <div className="username">{user.name}</div>
                         </> :
-                        <Link to="/login">Login</Link>
+                        <Link to="/login" className="login-button">Login</Link>
                     }
+                </div>
                 </div>
             </div>
 

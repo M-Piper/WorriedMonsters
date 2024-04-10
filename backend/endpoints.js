@@ -9,12 +9,12 @@ export default function setupEndpoints(app) {
 app.post('/api/login', loginUser);
 
 // Route for user to add monster to their library (POST request)
-app.post('api/library/add', monsterName, combinedSVG, userID);
+//app.post('api/library/add', monsterName, combinedSVG, userID);
 
 //Route to get a user's monster library for viewing (GET request)
-    app.get('api/library/:username'), (req, res)=>{
+  //  app.get('api/library/:username'), (req, res)=>{
 
-    }
+  //  }
 
 // Route to get a specific user by username (GET request)
     app.get('/api/users/:username', (req, res) => {
@@ -144,7 +144,7 @@ app.post('api/library/add', monsterName, combinedSVG, userID);
         const randomTailNumber = Math.floor(Math.random() * 3) + 1;
 
         // Replace tailID with the random number
-        const tailQuery = 'SELECT mainsvg FROM tail WHERE tailID = ${randomTailNumber}';
+        const tailQuery = `SELECT mainsvg FROM tail WHERE tailID = ${randomTailNumber}`;
 
         // Connect to database and make query
         connection.query(tailQuery, (err, tailResults) => {

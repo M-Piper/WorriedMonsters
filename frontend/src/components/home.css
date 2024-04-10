@@ -40,6 +40,7 @@
 
 .homepage-library-img {
     margin-right: 5px;
+    width: 8vw;
 }
 .homepage-button-label {
     font-family: "Madimi One"; /* Use the same font as the menu */
@@ -60,7 +61,7 @@
 }
 
 .top-right {
-    font-family: 'Varela Round', sans-serif;
+    font-family: "Madimi One";
     text-align: right;
 }
 
@@ -71,7 +72,8 @@
 .username {
     font-weight: bold; /* Optionally, make the username bold */
 }
-.top-right button {
+.login-button {
+    font-family: "Madimi One";
     font-size: 16px;
     padding: 10px 20px;
     border-radius: 5px;
@@ -80,8 +82,14 @@
     text-decoration: none;
 }
 
-.top-right button:hover {
-    background-color: #2980b9;
+.logout-button {
+    font-family: "Madimi One";
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #db344d;
+    color: #fff;
+    text-decoration: none;
 }
 
 .header {
