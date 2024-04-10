@@ -1,0 +1,39 @@
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px; /* Adjusted height for larger icon and padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3vh 15vw; /* Added padding at the top and sides */
+}
+
+.menu button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column; /* Display label underneath the image */
+    align-items: center; /* Center the content */
+}
+
+.menu button:hover {
+    background-color: #555;
+    font-family: "Madimi One";
+}
+
+.home-button {
+    order: 1;
+    padding: 5px; /* Add padding around the icon */
+}
+
+.library-button {
+    order: 2;
+    padding: 5px; /* Add padding around the icon */
+}
+
+.button-label {
+    margin-top: 5px; /* Adjust the space between image and label */
+}
