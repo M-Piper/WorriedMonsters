@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './home.css';
 import homeImage from '../images/sample.png';
 import axios from "axios";
+import library from "../images/library.svg";
 
 const baseURL = process.env.NODE_ENV === 'production' ? 'http://your-production-url/api' : 'http://localhost:5000/api';
 
@@ -13,7 +14,7 @@ const instance = axios.create({
 function Home() {
     const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const location = useLocation(); // Hook to get current URL
+    const location = useLocation();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -32,15 +33,13 @@ function Home() {
                 });
         }
 
-        // Extract username from URL query parameters
         const searchParams = new URLSearchParams(location.search);
         const usernameFromURL = searchParams.get('username');
         if (usernameFromURL) {
-            // Update state with the username from URL
             setUser({ name: usernameFromURL });
             setIsLoggedIn(true);
         }
-    }, [location.search]); // Listen for changes to location.search
+    }, [location.search]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -50,34 +49,42 @@ function Home() {
 
     return (
         <div className="container">
-            <div>
-                {isLoggedIn && user ?
-                    <h1>Welcome, {user.name}!</h1> :
-                    <h1>Welcome!</h1>
-                }
-                {isLoggedIn &&
-                    <button onClick={handleLogout}>Logout</button>
-                }
-                {isLoggedIn &&
-                    <Link to="/library" className="library-button">Library</Link>
-                }
-                {!isLoggedIn &&
-                    <Link to="/login" className="login-button">Login</Link>
-                }
+            <div className="top-bar">
+                <div className="top-left">
+                    {isLoggedIn ?
+                        <Link to="/library" className={`library-link ${!isLoggedIn ? 'disabled' : ''}`}><img src={library} alt="library" className="library-img" />
+                            <span className="button-label">My Library</span>
+                        </Link> :
+                        <div className={`library-link disabled`}>
+                            <img src={library} alt="library" className="homepage-library-img" />
+                            <span className="homepage-button-label">My Library</span>
+                        </div>
+                    }
+                </div>
+                <div className="top-right">
+                    {isLoggedIn && user ?
+                        <>
+
+                            <button onClick={handleLogout}>Logout</button>
+                            <div className="welcome-note">Welcome,</div>
+                            <div className="username">{user.name}</div>
+                        </> :
+                        <Link to="/login">Login</Link>
+                    }
+                </div>
             </div>
 
-            <div className="left-section">
-                <div className="content">
-                    <h1>Header</h1>
-                </div>
+            <div className="header">
+                <h1>Worried</h1>
+                <h2>Monsters</h2>
+                <p>by Margaret Piper</p>
+            </div>
+
+            <div className="image-container">
                 <img src={homeImage} alt="Image" />
-                <div className="content">
-                    <p>Tagline</p>
-                </div>
             </div>
-            <div className="right-section">
-                <Link to="/monsterMaker" className="big-button">Make a Monster</Link>
-            </div>
+
+            <Link to="/monsterMaker" className="big-button">Make a Monster</Link>
         </div>
     );
 }

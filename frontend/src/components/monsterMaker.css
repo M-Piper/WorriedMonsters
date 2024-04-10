@@ -1,48 +1,63 @@
+/* styles.css */
+.lobster-regular {
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.madimi-one-regular {
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.varela-round-regular {
+    font-family: "Varela Round", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Set container width to be narrower */
 .monster-container {
-    position: relative;
-    text-align: center;
-    margin-top: 5%; /* Adjust margin as needed */
+    max-width: 80vw; /* Set the maximum width of the container */
+    margin: auto; /* Center the container horizontally */
+    display: flex; /* Use flex display */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center items along the main axis (vertically) */
 }
 
-.combined-svg {
-    /* Add styles for monster image size and other properties */
-    width: 80vw; /* Set the width of the monster image */
-    max-height: 70vh; /* Limit the maximum height of the monster image */
-    margin: auto; /* Center the image horizontally */
-}
-
+/* Style the h1 header */
 .monster-name {
-    font-size: 4vw; /* Adjust font size as needed */
-    position: absolute;
-    top: 2%; /* Adjust top position as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    color: #333; /* Adjust font color as needed */
+    font-size: 5vw; /* Adjust font size to be 5% of the viewport width */
+    margin-top: 10vh; /* Set margin-top to create space between header and SVG */
+    display: flex; /* Use flex display */
+    justify-content: center; /* Center text horizontally */
+}
+/* monsterMaker.css */
+/* Add a container to hold the buttons */
+.buttons-container {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    margin-top: 20px; /* Add margin at the top */
 }
 
-.download-button {
-    position: absolute;
-    bottom: 5%; /* Adjust bottom position as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 3% 5%; /* Adjust padding as needed */
-    font-size: 3vw; /* Adjust font size as needed */
-    background-color: #007bff; /* Adjust button background color as needed */
-    color: #fff; /* Adjust button text color as needed */
-    border: none;
-    border-radius: 2vw; /* Adjust border radius as needed */
+/* Style the download, refresh, and add to library buttons */
+.refresh-btn,
+.download-btn,
+.add-to-library-btn {
     cursor: pointer;
+    background: none;
+    border: none;
+    width: 8vw; /* Set the width of the buttons */
+    height: auto; /* Auto height to maintain aspect ratio */
+    margin: 0 10px; /* Add margin between buttons */
 }
 
-.login-button {
-    position: absolute;
-    top: 2%; /* Adjust top position as needed */
-    right: 5%; /* Adjust right position as needed */
-    padding: 3% 5%; /* Adjust padding as needed */
-    font-size: 3vw; /* Adjust font size as needed */
-    background-color: #28a745; /* Adjust button background color as needed */
-    color: #fff; /* Adjust button text color as needed */
-    border: none;
-    border-radius: 2vw; /* Adjust border radius as needed */
-    cursor: pointer;
+
+/* Style the plus button image */
+.plus-img, .download-img {
+    width: 100%; /* Set width to 100% */
+    height: auto; /* Auto height to maintain aspect ratio */
+}
+
+.button-label {
+    margin-top: 0.5rem; /* Add margin between button image and label */
 }

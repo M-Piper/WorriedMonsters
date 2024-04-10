@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
+import refresh from '../images/refresh.svg';
+import plus from '../images/plus.svg';
+import download from '../images/download.svg';
+import Menu from './menu.js';
+import './monsterMaker.css';
 
 function MonsterMaker() {
+    /*{isLoggedIn, userID}*/
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
         feetSVG: '',
@@ -225,17 +231,73 @@ function MonsterMaker() {
         URL.revokeObjectURL(url);
     };
 
+    // Function to handle page refresh
+    const handleRefresh = () => {
+        window.location.reload();
+    };
+
+    const handleAddToLibrary = () =>{
+        /*  if (!isLoggedIn) {
+              setError('You must register to create a monster library');
+              return;
+          }
+
+          axios.post('/api/library/add', {
+              monsterName: monsterName,
+              combinedSVG: combinedSVG,
+              userID: userID
+          })
+              .then(response => {
+                  // Handle success
+                  console.log('Monster added to library successfully');
+              })
+              .catch(error => {
+                  // Handle error
+                  console.error('Error adding monster to library:', error);
+                  setError('Failed to add monster to library');
+              });*/
+    }
+    const handleHome = () =>{
+    }
+    const handleLibrary = () =>{
+    }
+
     return (
         <div className="monster-container">
+            <Menu handleHome={handleHome} handleLibrary={handleLibrary} />
             {/* Display monster name */}
-            <h1 className="monster-name">{monsterName}</h1>
-            {/* Render the combined SVG */}
-            <svg className="combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
+            <h1 className="monster-name">
+                <span style={{ fontFamily: 'Varela Round, sans-serif' }}>{monsterName.split(' ')[0]}</span>{' '}
+                <span style={{ fontFamily: 'Lobster, cursive' }}>{monsterName.split(' ')[1]}</span>{' '}
+                <span style={{ fontFamily: 'Madimi One, cursive' }}>{monsterName.split(' ')[2]}</span>
+            </h1>
 
-            {/* Download button */}
-            <button onClick={handleDownload}>Download Monster</button>
+            {/* SVG container */}
+            <div className="combined-svg-container">
+                {/* Render the combined SVG */}
+                <svg className="combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
+            </div>
+
+            <div className="buttons-container">
+                {/* Refresh button */}
+                <button onClick={handleRefresh} className="refresh-btn">
+                    <img src={refresh} alt="refresh" className="refresh-img" />
+                    <span className="button-label">Generate New Monster</span>
+                </button>
+                {/* Download button */}
+                <button onClick={handleDownload} className="download-btn">
+                    <img src={download} alt="download" className="download-img" />
+                    <span className="button-label">Download Monster</span>
+                </button>
+                {/* Add to library button */}
+                <button onClick={handleAddToLibrary} className="add-to-library-btn">
+                    <img src={plus} alt="plus" className="plus-img" />
+                    <span className="button-label">Add to Library</span>
+                </button>
+            </div>
         </div>
     );
 }
 
 export default MonsterMaker;
+
