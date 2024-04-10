@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link component
+import {Link, useNavigate} from 'react-router-dom'; // Import Link component
 import './loginForm.css';
+import home from "../images/home.svg";
 
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
     const handleLogin = async (e) => {
         e.preventDefault();
 
@@ -36,27 +38,37 @@ function LoginForm() {
             setError('Invalid username or password.'); // Update error state
         }
     };
-
+    const handleHome = () => {
+        navigate('/');
+    };
     return (
-        <div>
+        <div className="container">
+            {/* Home button */}
+            <button onClick={handleHome} className="home-button">
+                <img src={home} alt="home" className="home-img" />
+                <span className="button-label">Home</span>
+            </button>
             <h2>Login</h2>
-            {error && <div className="error">{error}</div>} {/* Render error message */}
+            {error && <div className="error">{error}</div>}
             <form onSubmit={handleLogin}>
-                <label>
-                    Username:
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </label>
-                <br />
-                <label>
-                    Password:
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </label>
-                <br />
+                <div className="form-group">
+                    <label>
+                        Username:
+                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    </label>
+                </div>
+                <div className="form-group">
+                    <label>
+                        Password:
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    </label>
+                </div>
                 <button type="submit">Login</button>
             </form>
-            <Link to="/register">Don't have an account? Register here.</Link> {/* Link to registration page */}
+            <Link to="/register">Don't have an account? Register here.</Link>
         </div>
     );
+
 }
 
 export default LoginForm;
