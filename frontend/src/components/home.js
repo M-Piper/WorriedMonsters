@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import './home.module.css';
+import './home.css';
 import homeImage from '../images/sample.png';
 import axios from "axios";
 import library from "../images/library.svg";
@@ -56,8 +56,8 @@ function Home() {
                             <span className="button-label">My Library</span>
                         </Link> :
                         <div className={`library-link disabled`}>
-                            <img src={library} alt="library" className="library-img" />
-                            <span className="button-label">My Library</span>
+                            <img src={library} alt="library" className="homepage-library-img" />
+                            <span className="homepage-button-label">My Library</span>
                         </div>
                     }
                 </div>

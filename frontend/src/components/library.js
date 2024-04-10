@@ -1,5 +1,5 @@
 import React from 'react';
-import './library.module.css';
+import './library.css';
 import sample1 from '../images/sample.png'; // Sample image imports
 import sample2 from '../images/sample2.png';
 import sample3 from '../images/sample3.png';

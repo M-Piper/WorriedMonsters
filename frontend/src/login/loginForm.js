@@ -44,8 +44,8 @@ function LoginForm() {
     return (
         <div className="container">
             {/* Home button */}
-            <button onClick={handleHome} className="home-button">
-                <img src={home} alt="home" className="home-img" />
+            <button onClick={handleHome} className="login-home-button">
+                <img src={home} alt="home" className="login-home-img" />
                 <span className="button-label">Home</span>
             </button>
             <h2>Login</h2>

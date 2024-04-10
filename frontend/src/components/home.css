@@ -1,53 +1,134 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 .container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    border: 1px solid #ccc;
     padding: 20px;
+    width: 80%;
+    margin: 0 auto;
 }
 
-.left-section {
-    flex: 1;
-    padding-right: 20px;
-}
-
-.left-section img {
-    max-width: 100%;
-}
-
-.right-section {
-    flex: 1;
-    text-align: center;
-}
-
-.big-button {
-    display: inline-block;
-    background-color: #3498db;
-    color: #fff;
-    padding: 15px 30px;
-    font-size: 20px;
-    text-decoration: none;
-    border-radius: 5px;
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     margin-bottom: 20px;
 }
 
-.small-button {
-    display: inline-block;
-    background-color: #2ecc71;
-    color: #fff;
-    padding: 10px 20px;
+.top-left {
+    font-family: 'Varela Round', sans-serif;
+}
+
+.library-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff; /* Adjust the color for reduced brightness */
+    position: relative;
+}
+
+.library-link:hover {
+    background-color: #555;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.homepage-library-img {
+    margin-right: 5px;
+}
+.homepage-button-label {
+    font-family: "Madimi One"; /* Use the same font as the menu */
+}
+
+.disabled {
+    opacity: 0.5; /* Adjust the opacity for reduced brightness */
+    pointer-events: none; /* Disable pointer events */
+}
+
+.disabled span {
+    /* Adjust label color when disabled */
+}
+
+.library-link.disabled:hover {
+    background-color: #555;
+    font-family: "Madimi One";
+}
+
+.top-right {
+    font-family: 'Varela Round', sans-serif;
+    text-align: right;
+}
+
+.welcome-note {
+    margin-bottom: 5px; /* Add some spacing between the welcome message and username */
+}
+
+.username {
+    font-weight: bold; /* Optionally, make the username bold */
+}
+.top-right button {
     font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+}
+
+.top-right button:hover {
+    background-color: #2980b9;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-family: 'Lobster', cursive;
+    font-size: 48px;
+    margin-bottom: 5px;
+}
+
+.header h2 {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 36px;
+    margin-top: 0;
+}
+
+.header p {
+    font-family: 'Madimi One', cursive;
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.image-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.image-container img {
+    max-width: 25vw;
+    height: auto;
+}
+
+.big-button {
+    font-family: 'Varela Round', sans-serif;
+    display: inline-block;
+    background-color: #3498db;
+    color: #fff;
+    padding: 15px 50px;
+    font-size: 24px;
     text-decoration: none;
     border-radius: 5px;
 }
 
-.content {
-    margin-top: 20px;
+.big-button:hover {
+    background-color: #2980b9;
 }
 
-h1 {
-    font-size: 36px;
-}
-
-p {
-    font-size: 24px;
-}

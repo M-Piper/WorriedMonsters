@@ -27,7 +27,7 @@ button {
     font-size: medium;
 }
 
-.home-button {
+.login-home-button {
     position: absolute; /* Position the home button */
     top: 10vh; /* Adjust top position */
     left: 10vw; /* Adjust left position */
@@ -38,7 +38,7 @@ button {
     align-items: center;
 }
 
-.home-img {
+.login-home-img {
     width: 8vw;
     height: 8vh;
     margin-right: 5px;
@@ -46,8 +46,4 @@ button {
 button:hover {
     background-color: #555;
     font-family: "Madimi One";
-}
-.button-label {
-    font-size: 16px;
-    display: block;
 }

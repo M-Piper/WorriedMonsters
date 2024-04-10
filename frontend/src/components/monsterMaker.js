@@ -4,9 +4,10 @@ import refresh from '../images/refresh.svg';
 import plus from '../images/plus.svg';
 import download from '../images/download.svg';
 import Menu from './menu.js';
-import './monsterMaker.module.css';
+import './monsterMaker.css';
 
 function MonsterMaker() {
+    /*{isLoggedIn, userID}*/
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
         feetSVG: '',
