@@ -6,8 +6,7 @@ import download from '../images/download.svg';
 import Menu from './menu.js';
 import './monsterMaker.css';
 
-function MonsterMaker() {
-    /*{isLoggedIn, userID}*/
+function MonsterMaker({ isLoggedIn, username }) {
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
         feetSVG: '',
@@ -20,9 +19,9 @@ function MonsterMaker() {
     });
 
     const [colours, setColours] = useState({
-        main: '', // Initialize main colour
-        darker: '', // Initialize darker colour
-        contrast: '', // Initialize contrast colour
+        main: '',
+        darker: '',
+        contrast: '',
     });
 
     const [monsterName, setMonsterName] = useState('');
@@ -236,12 +235,32 @@ function MonsterMaker() {
         window.location.reload();
     };
 
-    const handleAddToLibrary = () =>{
-        /*  if (!isLoggedIn) {
-              setError('You must register to create a monster library');
-              return;
-          }
+    const handleAddToLibrary = async (combinedSVG, name) => {
+        if (!isLoggedIn) {
+            throw new Error('You must register to create a monster library');
+            return;
+        }
+        try {
+            // Make API call to save combined SVG to the library
+            const response = await fetch('http://localhost:5000/api/saveToLibrary', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userID: 'user_id_here', combinedSVG, name }),
+            });
 
+            if (!response.ok) {
+                throw new Error('Failed to save combined SVG to library');
+            }
+
+            // Combined SVG saved successfully
+            console.log('Combined SVG saved to library successfully');
+        } catch (error) {
+            console.error('Error saving combined SVG to library:', error.message);
+        }
+    };
+        /*
           axios.post('/api/library/add', {
               monsterName: monsterName,
               combinedSVG: combinedSVG,
@@ -256,7 +275,7 @@ function MonsterMaker() {
                   console.error('Error adding monster to library:', error);
                   setError('Failed to add monster to library');
               });*/
-    }
+
     const handleHome = () =>{
     }
     const handleLibrary = () =>{

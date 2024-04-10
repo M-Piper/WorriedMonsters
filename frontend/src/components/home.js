@@ -4,6 +4,7 @@ import './home.css';
 import homeImage from '../images/sample.png';
 import axios from "axios";
 import library from "../images/library.svg";
+import monsterMaker from "./monsterMaker.js";
 
 const baseURL = process.env.NODE_ENV === 'production' ? 'http://your-production-url/api' : 'http://localhost:5000/api';
 
@@ -85,8 +86,16 @@ function Home() {
             <div className="image-container">
                 <img src={homeImage} alt="Image" />
             </div>
+            <Link
+                to={{
+                    pathname: "/monsterMaker",
+                    search: `?isLoggedIn=${isLoggedIn}&username=${user ? user.username : ''}`,
+                }}
+                className="big-button"
+            >
+                Make a Monster
+            </Link>
 
-            <Link to="/monsterMaker" className="big-button">Make a Monster</Link>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import loginUser from './login.js'; // Import loginUser function
+import { loginUser, registerUser } from './login.js';
 import { connection } from './database.js';
 import jwt from 'jsonwebtoken';
 
@@ -8,8 +8,47 @@ export default function setupEndpoints(app) {
 // Route for user login (POST request)
 app.post('/api/login', loginUser);
 
-// Route for user to add monster to their library (POST request)
-//app.post('api/library/add', monsterName, combinedSVG, userID);
+
+// Route for user registration (POST request)
+app.post('/api/register', registerUser);
+
+
+// Endpoint to handle saving combined SVG to the library
+    export function saveToLibrary(req, res) {
+        const { username, combinedSVG, name } = req.body;
+
+        // Query to retrieve the user ID based on the username
+        const getUserIDQuery = 'SELECT id FROM users WHERE username = ?';
+
+        // Execute the query to retrieve the user ID
+        connection.query(getUserIDQuery, [username], (err, userResults) => {
+            if (err) {
+                console.error('Error retrieving user ID:', err);
+                res.status(500).json({ message: 'Internal server error' });
+                return;
+            }
+
+            if (userResults.length === 0) {
+                res.status(404).json({ message: 'User not found' });
+                return;
+            }
+
+            // User found, extract the user ID
+            const userID = userResults[0].id;
+
+            // Insert the combined SVG into the database along with the user ID
+            const insertQuery = 'INSERT INTO monsters (userID, combinedSVG, name) VALUES (?, ?, ?)';
+            connection.query(insertQuery, [userID, combinedSVG, name], (err, results) => {
+                if (err) {
+                    console.error('Error saving to library:', err);
+                    res.status(500).json({ message: 'Internal server error' });
+                    return;
+                }
+
+                res.status(201).json({ message: 'Combined SVG saved to library successfully' });
+            });
+        });
+    }
 
 //Route to get a user's monster library for viewing (GET request)
   //  app.get('api/library/:username'), (req, res)=>{

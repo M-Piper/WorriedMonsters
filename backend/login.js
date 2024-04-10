@@ -1,8 +1,19 @@
-// loginForm.js
-
 import jwt from 'jsonwebtoken';
 import { connection } from './database.js';
+export function registerUser(req, res) {
+    const { username, password } = req.body;
+    // Insert the new user into the database
+    connection.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (err, results) => {
+        if (err) {
+            console.error('Error registering user:', err);
+            res.status(500).json({ message: 'Internal server error' });
+            return;
+        }
 
+        // Registration successful
+        res.status(201).json({ message: 'User registered successfully' });
+    });
+}
 
 
 // Function to handle user login
@@ -37,5 +48,3 @@ export function loginUser(req, res) {
         }
     });
 }
-
-export default loginUser;
