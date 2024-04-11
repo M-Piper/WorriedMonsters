@@ -15,7 +15,7 @@ function LoginForm() {
         try {
             console.log('trying to post in front end');
             console.log('stringifying username and password:', username, password);
-            const response = await fetch('http://localhost:5000/api/login', { // Specify port 5000
+            const response = await fetch('http://localhost:5000/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,11 +35,24 @@ function LoginForm() {
             localStorage.setItem('token', data.token);
             console.log('LoginForm successful. Token:', data.token);
 
-            // store userID
-            const userID = data.userID;
+            // Fetch user details including userID
+            const userDetailsResponse = await fetch(`http://localhost:5000/api/users/${username}`, {
+                headers: {
+                    Authorization: `Bearer ${data.token}`, // Include the JWT token in the request headers for authentication
+                },
+            });
+
+            if (!userDetailsResponse.ok) {
+                throw new Error('Failed to fetch user details');
+            }
+
+            const userDetailsData = await userDetailsResponse.json();
+
+            // Extract userID from userDetailsData
+            const usersID = userDetailsData.usersID;
 
             // Redirect to home page after successful login with username and userID
-            window.location = `/?username=${username}&userID=${userID}`;
+            window.location = `/?username=${username}&userID=${usersID}`;
         } catch (error) {
             console.error('LoginForm error:', error.message);
             setError('Invalid username or password.'); // Update error state

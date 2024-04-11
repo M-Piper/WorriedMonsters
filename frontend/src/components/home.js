@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {createSearchParams, Link, useLocation} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './home.css';
 import homeImage from '../images/sample.png';
 import axios from "axios";
 import library from "../images/library.svg";
-//import monsterMaker from "./monsterMaker.js";
 
 const baseURL = process.env.NODE_ENV === 'production' ? 'http://your-production-url/api' : 'http://localhost:5000/api';
 
@@ -18,39 +17,35 @@ function Home() {
     const location = useLocation();
 
     useEffect(() => {
-        const token = localStorage.getItem('token'); //line 20
+        const token = localStorage.getItem('token');
         if (token) {
-            instance.get(`/api/users/${user}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-                .then(response => {
-                    // Assuming the response.data structure includes username and userID
-                    const { username, userID } = response.data;
-                    setUser({ name: username, id: userID }); // Set the user state with username and userID
-                    setIsLoggedIn(true);
+            const searchParams = new URLSearchParams(location.search);
+            const usernameFromURL = searchParams.get('username');
+            if (usernameFromURL) {
+                instance.get(`/users/${usernameFromURL}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 })
-                .catch(error => {
-                    console.error('Error fetching user details:', error); //this is line 35
-                });
-        }
-
-        const searchParams = new URLSearchParams(location.search);
-        const usernameFromURL = searchParams.get('username');
-        const userIDFromURL = searchParams.get('userID');
-        if (usernameFromURL) {
-            setUser({ name: usernameFromURL, userIDFromURL });
-            setIsLoggedIn(true);
+                    .then(response => {
+                        const { username, usersID } = response.data;
+                        setUser({ name: username, usersID });
+                        setIsLoggedIn(true);
+                        console.log(username, usersID);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user details:', error);
+                    });
+            }
         }
     }, [location.search]);
-
 
     const handleLogout = () => {
         localStorage.removeItem('token');
         setIsLoggedIn(false);
         setUser(null);
     };
+
 
     return (
         <div className="container">
@@ -93,8 +88,8 @@ function Home() {
             <Link
                 to={{
                     pathname: "/monsterMaker",
-                    search: `?isLoggedIn=${isLoggedIn}&username=${user ? user.name : ''}&userID=${user ? user.userID : ''}`,
-                    state: { isLoggedIn : isLoggedIn , username: user ? user.name : '', userID: user ? user.userID : '' }
+                    search: `?isLoggedIn=${isLoggedIn}&username=${user ? user.name : ''}&usersID=${user ? user.usersID : ''}`,
+                    state: { isLoggedIn : isLoggedIn , username: user ? user.name : '', usersID: user ? user.usersID : '' }
                 }}
 
                 className="big-button"

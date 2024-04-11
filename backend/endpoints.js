@@ -2,6 +2,7 @@ import { loginUser, registerUser } from './login.js';
 import { connection } from './database.js';
 
 
+
 // Function to set up endpoints
 export default function setupEndpoints(app) {
 // Route for user login (POST request)
