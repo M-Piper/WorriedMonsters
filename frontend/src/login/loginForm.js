@@ -5,6 +5,7 @@ import home from "../images/home.svg";
 
 function LoginForm() {
     const [username, setUsername] = useState('');
+
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -28,11 +29,17 @@ function LoginForm() {
             }
 
             const data = await response.json();
+
             // Handle successful login
+            //store token
             localStorage.setItem('token', data.token);
             console.log('LoginForm successful. Token:', data.token);
-            // Redirect to home page after successful login
-            window.location = `/?username=${username}`; // Redirect to home page with username
+
+            // store userID
+            const userID = data.userID;
+
+            // Redirect to home page after successful login with username and userID
+            window.location = `/?username=${username}&userID=${userID}`;
         } catch (error) {
             console.error('LoginForm error:', error.message);
             setError('Invalid username or password.'); // Update error state

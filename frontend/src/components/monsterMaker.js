@@ -6,7 +6,11 @@ import download from '../images/download.svg';
 import Menu from './menu.js';
 import './monsterMaker.css';
 
-function MonsterMaker({ isLoggedIn, username }) {
+function MonsterMaker({ location }) {
+    const searchParams = new URLSearchParams(location.search);
+    const isLoggedIn = searchParams.get('isLoggedIn') === 'true';
+    const username = searchParams.get('username');
+    const userID = searchParams.get('userID');
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
         feetSVG: '',
@@ -212,10 +216,6 @@ function MonsterMaker({ isLoggedIn, username }) {
         return combinedSVG;
     };
 
-
-
-
-
     // Function to handle download
     const handleDownload = () => {
         const combinedSVG = combineSVGs();
@@ -223,19 +223,20 @@ function MonsterMaker({ isLoggedIn, username }) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'monster.svg';
+        a.download = `${monsterName}.svg`; // Corrected the download filename
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     };
 
+
     // Function to handle page refresh
     const handleRefresh = () => {
         window.location.reload();
     };
 
-    const handleAddToLibrary = async (combinedSVG, name) => {
+    const handleAddToLibrary = async (userID, combinedSVG, name) => {
         if (!isLoggedIn) {
             throw new Error('You must register to create a monster library');
             return;
@@ -247,7 +248,7 @@ function MonsterMaker({ isLoggedIn, username }) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userID: 'user_id_here', combinedSVG, name }),
+                body: JSON.stringify({ userID, combinedSVG, name }),
             });
 
             if (!response.ok) {
