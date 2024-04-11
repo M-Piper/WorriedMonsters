@@ -48,7 +48,7 @@ function Home() {
 
 
     return (
-        <div className="container">
+        <div className="home-container">
             <div className="top-bar">
                 <div className="top-left">
                     {isLoggedIn ?

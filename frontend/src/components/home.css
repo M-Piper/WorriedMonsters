@@ -3,12 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-.container {
+.home-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 1px solid #ccc;
-    padding: 20px;
+    padding: 2rem;
     width: 80%;
     margin: 0 auto;
 }
@@ -17,7 +17,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom:-4rem;
 }
 
 .top-left {
@@ -28,14 +28,14 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #ffffff; /* Adjust the color for reduced brightness */
+    flex-direction: column;
+    color: #5e0909;
     position: relative;
 }
 
 .library-link:hover {
     background-color: #555;
     border-radius: 5px;
-    padding: 10px;
 }
 
 .homepage-library-img {
@@ -99,19 +99,19 @@
 
 .header h1 {
     font-family: 'Lobster', cursive;
-    font-size: 48px;
+    font-size: 6rem;
     margin-bottom: 5px;
 }
 
 .header h2 {
     font-family: 'Varela Round', sans-serif;
-    font-size: 36px;
+    font-size: 6rem;
     margin-top: 0;
 }
 
 .header p {
     font-family: 'Madimi One', cursive;
-    font-size: 18px;
+    font-size: 2rem;
     margin-top: 5px;
 }
 
@@ -128,10 +128,10 @@
 .big-button {
     font-family: 'Varela Round', sans-serif;
     display: inline-block;
-    background-color: #3498db;
+    background-color: #003e65;
     color: #fff;
-    padding: 15px 50px;
-    font-size: 24px;
+    padding: 2rem 3rem;
+    font-size: 2rem;
     text-decoration: none;
     border-radius: 5px;
 }

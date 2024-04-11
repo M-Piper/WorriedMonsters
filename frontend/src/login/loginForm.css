@@ -1,6 +1,7 @@
-.container {
+.login-container {
     max-width: 80%; /* Adjust max-width to a percentage */
-    margin: 50px auto;
+    width: 20rem;
+    margin: 10rem auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -16,21 +17,22 @@ input[type="password"] {
 }
 
 button {
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 20vw; /* Adjust button width to a percentage */
+    width: 19rem; /* Adjust button width to a percentage */
+    margin-bottom: 2rem;
     font-family: "Madimi One";
     font-size: medium;
 }
 
 .login-home-button {
     position: absolute; /* Position the home button */
-    top: 10vh; /* Adjust top position */
-    left: 10vw; /* Adjust left position */
+    top: 2rem; /* Adjust top position */
+    right: 30rem; /* Adjust left position */
     background: none;
     border: none;
     cursor: pointer;

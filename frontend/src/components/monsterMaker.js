@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from 'axios';
 import refresh from '../images/refresh.svg';
 import plus from '../images/plus.svg';
 import download from '../images/download.svg';
@@ -7,10 +7,11 @@ import Menu from './menu.js';
 import './monsterMaker.css';
 
 function MonsterMaker({ location }) {
-    const searchParams = new URLSearchParams(location.search);
+    const searchParams = new URLSearchParams(location?.search || '');
     const isLoggedIn = searchParams.get('isLoggedIn') === 'true';
     const username = searchParams.get('username');
-    const userID = searchParams.get('userID');
+    const usersID = searchParams.get('usersID');
+    const [errorMessage, setErrorMessage] = useState('');
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
         feetSVG: '',
@@ -233,22 +234,32 @@ function MonsterMaker({ location }) {
 
     // Function to handle page refresh
     const handleRefresh = () => {
+        // Reset the error message when generating a new monster
+        setErrorMessage('');
         window.location.reload();
     };
 
-    const handleAddToLibrary = async (userID, combinedSVG, name) => {
+    useEffect(() => {
+        // If user is logged in and username and usersID are provided, redirect to library page
+        if (isLoggedIn && username && usersID) {
+            window.location.href = `/library?username=${username}&usersID=${usersID}`;
+        }
+    }, [isLoggedIn, username, usersID]);
+
+    const handleAddToLibrary = async () => {
         if (!isLoggedIn) {
-            throw new Error('You must register to create a monster library');
+            setErrorMessage('You must register to create a monster library');
             return;
         }
         try {
+            const combinedSVG = combineSVGs();
             // Make API call to save combined SVG to the library
             const response = await fetch('http://localhost:5000/api/saveToLibrary', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userID, combinedSVG, name }),
+                body: JSON.stringify({ usersID, combinedSVG, name: monsterName }),
             });
 
             if (!response.ok) {
@@ -259,13 +270,15 @@ function MonsterMaker({ location }) {
             console.log('Combined SVG saved to library successfully');
         } catch (error) {
             console.error('Error saving combined SVG to library:', error.message);
+            setErrorMessage('Failed to add monster to library');
         }
     };
+
         /*
           axios.post('/api/library/add', {
               monsterName: monsterName,
               combinedSVG: combinedSVG,
-              userID: userID
+              usersID: usersID
           })
               .then(response => {
                   // Handle success
@@ -285,6 +298,10 @@ function MonsterMaker({ location }) {
     return (
         <div className="monster-container">
             <Menu handleHome={handleHome} handleLibrary={handleLibrary} />
+
+            {/* Display error message if user is not logged in */}
+            {!isLoggedIn && <div style={{ color: 'red' }} className="errorMessage">{errorMessage}</div>}
+
             {/* Display monster name */}
             <h1 className="monster-name">
                 <span style={{ fontFamily: 'Varela Round, sans-serif', paddingRight: '0.75rem'}}>{monsterName.split(' ')[0]}</span>

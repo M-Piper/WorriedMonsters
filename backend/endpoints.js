@@ -12,13 +12,27 @@ app.post('/api/login', loginUser);
 // Route for user registration (POST request)
 app.post('/api/register', registerUser);
 
+    //Route to get a user's monster library for viewing (GET request)
+app.get('/api/library', (req, res) => {
+     const usersID = req.query.usersID;
 
+        // Fetch monsters from the database based on usersID
+        connection.query('SELECT * FROM monsters WHERE usersID = ?', [usersID], (err, results) => {
+            if (err) {
+                console.error('Error fetching user library:', err);
+                res.status(500).json({ message: 'Internal server error' });
+                return;
+            }
 
+            if (results.length === 0) {
+                res.status(404).json({ message: 'Library is empty' });
+                return;
+            }
 
-//Route to get a user's monster library for viewing (GET request)
-  //  app.get('api/library/:username'), (req, res)=>{
-
-  //  }
+            // Send retrieved monsters data as a response
+            res.json(results);
+        });
+    });
 
 // Route to get a specific user by username (GET request)
     app.get('/api/users/:username', (req, res) => {

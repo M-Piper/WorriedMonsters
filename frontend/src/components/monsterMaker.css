@@ -69,3 +69,9 @@
     width:20vw;
     height: 40vh;
 }
+
+.errorMessage{
+    font-family: "Madimi One";
+    color: red;
+    font-size: 2rem;
+}

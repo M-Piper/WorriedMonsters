@@ -52,7 +52,7 @@ function LoginForm() {
             const usersID = userDetailsData.usersID;
 
             // Redirect to home page after successful login with username and userID
-            window.location = `/?username=${username}&userID=${usersID}`;
+            window.location = `/?username=${username}&usersID=${usersID}`;
         } catch (error) {
             console.error('LoginForm error:', error.message);
             setError('Invalid username or password.'); // Update error state
@@ -62,7 +62,7 @@ function LoginForm() {
         navigate('/');
     };
     return (
-        <div className="container">
+        <div className="login-container">
             {/* Home button */}
             <button onClick={handleHome} className="login-home-button">
                 <img src={home} alt="home" className="login-home-img" />
