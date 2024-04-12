@@ -18,26 +18,38 @@ export default function setupEndpoints(app) {
     app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
 
 
-//Route to get a user's monster library for viewing (GET request)
-app.get('/api/library', authenticateUser, (req, res) => {
-    const usersID = req.query.usersID;
+// Route to get a user's monster library for viewing (GET request)
+    app.get('/api/library', authenticateUser, (req, res) => {
+        const token = req.headers.authorization.split(' ')[1]; // Extract JWT token from Authorization header
 
-        // Fetch monsters from the database based on usersID
-        connection.query('SELECT * FROM monsters WHERE usersID = ?', [usersID], (err, results) => {
-            if (err) {
-                console.error('Error fetching user library:', err);
-                res.status(500).json({ message: 'Internal server error' });
-                return;
-            }
+        try {
+            // Verify JWT token
+            const decoded = jwt.verify(token, jwtSecret);
 
-            if (results.length === 0) {
-                res.status(404).json({ message: 'Library is empty' });
-                return;
-            }
+            // Extract user information from decoded token
+            const { usersID } = decoded;
 
-            // Send retrieved monsters data as a response
-            res.json(results);
-        });
+            // Fetch user data from the database based on user ID
+            connection.query('SELECT * FROM monsters WHERE usersID = ?', [usersID], (err, results) => {
+                if (err) {
+                    console.error('Error fetching library:', err);
+                    res.status(500).json({ message: 'Internal server error' });
+                    return;
+                }
+
+                if (results.length === 0) {
+                    res.status(404).json({ message: 'library not found' });
+                    return;
+                }
+
+                const monsters = results;
+                //console.log('length is ', monsters[10]);
+                res.json(monsters); // Send retrieved user data as a response
+            });
+        } catch (error) {
+            console.error('Error decoding JWT token:', error);
+            res.status(401).json({ message: 'Invalid token' });
+        }
     });
 
 // Route to get user details based on JWT token

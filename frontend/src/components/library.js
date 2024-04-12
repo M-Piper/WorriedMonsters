@@ -30,7 +30,7 @@ function Library() {
             } catch (error) {
                 console.error('Error fetching monsters:', error);
                 // Handle error or redirect to login page if unauthorized
-                navigate('/login');
+                //navigate('/login');
             }
         };
 
@@ -38,24 +38,18 @@ function Library() {
         fetchMonsters();
     }, [navigate]);
 
-    const handleHome = () => {
-        navigate('/');
-    }
-
-    const handleLibrary = () => {
-        // No need to navigate here since we're already on the library page
-    }
 
     return (
         <div className="library">
-            <Menu handleHome={handleHome} handleLibrary={handleLibrary} />
+            <Menu />
             <h1>My Monsters</h1>
             <div className="container">
-                {monsters.map(monster => (
-                    <div key={monster.id} className="sample-container">
-                        <button className="close-button">X</button>
-                        <img src={monster.image} alt={monster.title} />
-                        <h2>{monster.title}</h2>
+                {monsters.map(monsters => (
+                    <div key={monsters.name} className="monster-container">
+                        <div className="combined-svg-container">
+                        <div className="combined-svg" dangerouslySetInnerHTML={{ __html: monsters.combinedsvg }} />
+                        <h2>{monsters.name}</h2>
+                        </div>
                     </div>
                 ))}
             </div>

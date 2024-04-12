@@ -48,3 +48,13 @@
 h2 {
     text-align: center;
 }
+
+
+.combined-svg-container{
+    height:30vh;
+}
+
+.combined-svg{
+    width:20vw;
+    height: 40vh;
+}
