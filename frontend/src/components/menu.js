@@ -46,7 +46,8 @@ const Menu = () => {
 
 
     return (
-        <div className="menu">
+        <div className="menu-container">
+            <div className="mainmenu">
             {/* Home icon and title */}
             <button onClick={handleHome} className="home-button">
                 <img src={home} alt="home" className="home-img" />
@@ -55,23 +56,27 @@ const Menu = () => {
             {/* Library button */}
             <button onClick={handleLibrary} className={`library-button ${isLoggedIn ? '' : 'disabled'}`}>
                 <img src={library} alt="library" className="library-img" />
-                <span className="button-label">My Library</span>
+                <span className="button-label">Library</span>
             </button>
 
             <button className="blank-button"></button>
 
             {/* Conditional rendering based on login status */}
             {isLoggedIn ? (
-                <>
-                <span className="welcome-message">Welcome, {username}</span>
                 <button onClick={handleLogout} className="logout-button">Logout</button>
-                </>
+
             ) : (
                 <button onClick={handleLogin} className="login-button">Login</button>
             )}
 
             {/* Register button */}
             <button onClick={handleRegister} className="register-button">Register</button>
+        </div>
+            {isLoggedIn && (
+                <div className="welcome-message-container">
+                    <span className="welcome-message">Welcome, {username}</span>
+                </div>
+            )}
         </div>
     );
 };

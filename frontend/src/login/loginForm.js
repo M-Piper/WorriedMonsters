@@ -29,6 +29,11 @@ function LoginForm() {
             const data = await response.json();
 
             localStorage.setItem('token', data.token);
+
+            localStorage.setItem('username', data.username);
+
+            localStorage.setItem('usersID', data.usersID);
+
             console.log('token: ', data.token);
             console.log(data.usersID, data.username);
             console.log(localStorage);
