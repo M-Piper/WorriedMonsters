@@ -8,22 +8,19 @@ import { authenticateUser } from './middleware.js';
 
 // Function to set up endpoints
 export default function setupEndpoints(app) {
-// Route for user login (POST request)
-app.post('/api/login', loginUser);
+    // Route for user login (POST request)
+    app.post('/api/login', loginUser);
 
-// Route for user registration (POST request)
-app.post('/api/register', registerUser);
+    // Route for user registration (POST request)
+    app.post('/api/register', registerUser);
 
-// Route for saving to library (POST request)
-app.post('/api/savetolibrary', saveToLibrary);
-
-// Middleware for authentication
-app.use(authenticateUser);
+    // Route for saving to library (POST request)
+    app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
 
 
 //Route to get a user's monster library for viewing (GET request)
-app.get('/api/library', (req, res) => {
-     const usersID = req.query.usersID;
+app.get('/api/library', authenticateUser, (req, res) => {
+    const usersID = req.query.usersID;
 
         // Fetch monsters from the database based on usersID
         connection.query('SELECT * FROM monsters WHERE usersID = ?', [usersID], (err, results) => {
@@ -42,8 +39,9 @@ app.get('/api/library', (req, res) => {
             res.json(results);
         });
     });
+
 // Route to get user details based on JWT token
-    app.get('/api/users', (req, res) => {
+    app.get('/api/users', authenticateUser, (req, res) => {
         const token = req.headers.authorization.split(' ')[1]; // Extract JWT token from Authorization header
 
         try {

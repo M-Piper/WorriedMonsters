@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './menu.css';
 import home from '../images/home.svg';
 import library from '../images/library.svg';
@@ -8,17 +8,15 @@ const Menu = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
 
-
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
             // Retrieve the username from local storage if the user is logged in
             const storedUsername = localStorage.getItem('username');
             setUsername(storedUsername);
-        } else {
-            navigate('/login'); // Redirect to login page if token is not present
         }
     }, [navigate]);
+
 
     const handleHome = () => {
         navigate('/');

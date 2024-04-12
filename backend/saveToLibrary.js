@@ -1,14 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { connection } from "./database.js";
-
+import { jwtSecret } from './config.js';
 export function saveToLibrary(req, res) {
-    const isLoggedIn= localStorage.getItem('isLoggedIn');
-    const usersID = localStorage.getItem('usersID');
     const token = req.headers.authorization.split(' ')[1]; // Extract JWT token from Authorization header
 
     try {
         // Verify JWT token
-        const decoded = jwt.verify(token, 'abcdef');
+        const decoded = jwt.verify(token, jwtSecret);
 
         // Extract userID from decoded JWT token
         const { usersID } = decoded;

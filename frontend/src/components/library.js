@@ -4,7 +4,6 @@ import Menu from "./menu.js";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const usersID = localStorage.getItem('usersID');
 function Library() {
     const [monsters, setMonsters] = useState([]);
     const navigate = useNavigate();
@@ -20,7 +19,7 @@ function Library() {
                 }
 
                 // Make authenticated API call to fetch monsters using JWT
-                const response = await axios.get('/api/library', {
+                const response = await axios.get('http://localhost:5000/api/library', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import refresh from '../images/refresh.svg';
 import plus from '../images/plus.svg';
 import download from '../images/download.svg';
 import Menu from './menu.js';
 import './monsterMaker.css';
-import { useParams } from 'react-router-dom';
 
 function MonsterMaker({ location }) {
-    const searchParams = new URLSearchParams(location?.search || '');
-    const isLoggedIn = searchParams.get('isLoggedIn') === 'true';
-    const username = searchParams.get('username');
-    const usersID = searchParams.get('usersID');
     const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
         feetSVG: '',
@@ -240,56 +238,52 @@ function MonsterMaker({ location }) {
         window.location.reload();
     };
 
-    useEffect(() => {
-        // If user is logged in and username and usersID are provided, redirect to library page
-        if (isLoggedIn && username && usersID) {
-            window.location.href = `/library?username=${username}&usersID=${usersID}`;
+  /*  useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            // User is logged in, navigate to the library page
+            navigate('/library');
+        } else {
+            // User is not logged in, display error message
+            setErrorMessage('You must be logged in to create and access a library');
         }
-    }, [isLoggedIn, username, usersID]);
-
+    }, [navigate]);*/
     const handleAddToLibrary = async () => {
-        if (!isLoggedIn) {
-            setErrorMessage('You must register to create a monster library');
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setErrorMessage('You must be logged in to save a monster library');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 1000);
             return;
         }
+
         try {
             const combinedSVG = combineSVGs();
-            // Make API call to save combined SVG to the library
-            const response = await fetch('http://localhost:5000/api/saveToLibrary', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ usersID, combinedSVG, name: monsterName }),
-            });
+            const response = await axios.post(
+                'http://localhost:5000/api/saveToLibrary',
+                { combinedSVG, name: monsterName },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
 
-            if (!response.ok) {
+            if (response.status === 201) {
+                console.log('Combined SVG saved to library successfully');
+                setSuccessMessage('Monster added!')
+                setTimeout(() => {
+                    setSuccessMessage('');
+                }, 1000);
+            } else {
                 throw new Error('Failed to save combined SVG to library');
             }
-
-            // Combined SVG saved successfully
-            console.log('Combined SVG saved to library successfully');
         } catch (error) {
             console.error('Error saving combined SVG to library:', error.message);
             setErrorMessage('Failed to add monster to library');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 1000);
         }
     };
 
-        /*
-          axios.post('/api/library/add', {
-              monsterName: monsterName,
-              combinedSVG: combinedSVG,
-              usersID: usersID
-          })
-              .then(response => {
-                  // Handle success
-                  console.log('Monster added to library successfully');
-              })
-              .catch(error => {
-                  // Handle error
-                  console.error('Error adding monster to library:', error);
-                  setError('Failed to add monster to library');
-              });*/
 
     const handleHome = () =>{
     }
@@ -301,8 +295,8 @@ function MonsterMaker({ location }) {
             <Menu handleHome={handleHome} handleLibrary={handleLibrary} />
 
             {/* Display error message if user is not logged in */}
-            {!isLoggedIn && <div style={{ color: 'red' }} className="errorMessage">{errorMessage}</div>}
-
+            {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+            {successMessage && <div className="successMessage">{successMessage}</div>}
             {/* Display monster name */}
             <h1 className="monster-name">
                 <span style={{ fontFamily: 'Varela Round, sans-serif', paddingRight: '0.75rem'}}>{monsterName.split(' ')[0]}</span>

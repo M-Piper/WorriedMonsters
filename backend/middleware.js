@@ -1,9 +1,14 @@
 import jwt from 'jsonwebtoken';
 import { jwtSecret } from './config.js';
-export function authenticateUser(req, res, next) {
-    const token = req.headers.authorization.split(' ')[1];
 
-    if (!token) return res.status(401).send('Access denied. No token provided.');
+export function authenticateUser(req, res, next) {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).send('Access denied. No token provided.');
+    }
+
+    const token = authHeader.split(' ')[1];
 
     try {
         const decoded = jwt.verify(token, jwtSecret);
