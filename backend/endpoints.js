@@ -1,18 +1,27 @@
 import { loginUser, registerUser } from './login.js';
 import { connection } from './database.js';
-
-
+import {saveToLibrary} from "./saveToLibrary.js";
+import { jwtSecret } from './config.js';
+import jwt from 'jsonwebtoken';
+// Import middleware function for authentication
+import { authenticateUser } from './middleware.js';
 
 // Function to set up endpoints
 export default function setupEndpoints(app) {
 // Route for user login (POST request)
 app.post('/api/login', loginUser);
 
-
 // Route for user registration (POST request)
 app.post('/api/register', registerUser);
 
-    //Route to get a user's monster library for viewing (GET request)
+// Route for saving to library (POST request)
+app.post('/api/savetolibrary', saveToLibrary);
+
+// Middleware for authentication
+app.use(authenticateUser);
+
+
+//Route to get a user's monster library for viewing (GET request)
 app.get('/api/library', (req, res) => {
      const usersID = req.query.usersID;
 
@@ -33,27 +42,37 @@ app.get('/api/library', (req, res) => {
             res.json(results);
         });
     });
+// Route to get user details based on JWT token
+    app.get('/api/users', (req, res) => {
+        const token = req.headers.authorization.split(' ')[1]; // Extract JWT token from Authorization header
 
-// Route to get a specific user by username (GET request)
-    app.get('/api/users/:username', (req, res) => {
-        const username = req.params.username;
+        try {
+            // Verify JWT token
+            const decoded = jwt.verify(token, jwtSecret);
 
-        // Fetch user data from the database based on the username
-        connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
-            if (err) {
-                console.error('Error fetching user:', err);
-                res.status(500).json({message: 'Internal server error'});
-                return;
-            }
+            // Extract user information from decoded token
+            const { usersId } = decoded;
 
-            if (results.length === 0) {
-                res.status(404).json({message: 'User not found'});
-                return;
-            }
+            // Fetch user data from the database based on user ID
+            connection.query('SELECT * FROM users WHERE usersId = ?', [usersId], (err, results) => {
+                if (err) {
+                    console.error('Error fetching user:', err);
+                    res.status(500).json({ message: 'Internal server error' });
+                    return;
+                }
 
-            const user = results[0]; // Assuming there's only one user with the given username
-            res.json({...user, username}); // Send retrieved user data as a response
-        });
+                if (results.length === 0) {
+                    res.status(404).json({ message: 'User not found' });
+                    return;
+                }
+
+                const users = results[0];
+                res.json(users); // Send retrieved user data as a response
+            });
+        } catch (error) {
+            console.error('Error decoding JWT token:', error);
+            res.status(401).json({ message: 'Invalid token' });
+        }
     });
 
 

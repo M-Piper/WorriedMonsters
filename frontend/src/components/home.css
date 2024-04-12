@@ -4,6 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 .home-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,88 +14,31 @@
     margin: 0 auto;
 }
 
-.top-bar {
+.menu {
+    position: absolute; /* Position the menu absolutely within the container */
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20vh; /* Adjusted height for larger icon and padding */
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    margin-bottom:-4rem;
-}
-
-.top-left {
-    font-family: 'Varela Round', sans-serif;
-}
-
-.library-link {
-    display: flex;
     align-items: center;
-    text-decoration: none;
-    flex-direction: column;
-    color: #5e0909;
-    position: relative;
-}
-
-.library-link:hover {
-    background-color: #555;
-    border-radius: 5px;
-}
-
-.homepage-library-img {
-    margin-right: 5px;
-    width: 8vw;
-}
-.homepage-button-label {
-    font-family: "Madimi One"; /* Use the same font as the menu */
-}
-
-.disabled {
-    opacity: 0.5; /* Adjust the opacity for reduced brightness */
-    pointer-events: none; /* Disable pointer events */
-}
-
-.disabled span {
-    /* Adjust label color when disabled */
-}
-
-.library-link.disabled:hover {
-    background-color: #555;
-    font-family: "Madimi One";
-}
-
-.top-right {
-    font-family: "Madimi One";
-    text-align: right;
+    padding: 3vh 10vw; /* Added padding at the top and sides */
 }
 
 .welcome-note {
     margin-bottom: 5px; /* Add some spacing between the welcome message and username */
+    font-size: 2rem;
+    color: black;
 }
 
 .username {
     font-weight: bold; /* Optionally, make the username bold */
 }
-.login-button {
-    font-family: "Madimi One";
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #3498db;
-    color: #fff;
-    text-decoration: none;
-}
-
-.logout-button {
-    font-family: "Madimi One";
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #db344d;
-    color: #fff;
-    text-decoration: none;
-}
 
 .header {
-    text-align: center;
-    margin-bottom: 20px;
+    margin-top: 20vh; /* Set margin-top to push the header below the menu */
+    text-align: center; /* Center align the header */
 }
 
 .header h1 {

@@ -5,6 +5,7 @@ import plus from '../images/plus.svg';
 import download from '../images/download.svg';
 import Menu from './menu.js';
 import './monsterMaker.css';
+import { useParams } from 'react-router-dom';
 
 function MonsterMaker({ location }) {
     const searchParams = new URLSearchParams(location?.search || '');

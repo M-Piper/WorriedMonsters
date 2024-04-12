@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom'; // Import Link component
+import { Link, useNavigate } from 'react-router-dom';
 import './loginForm.css';
-import home from "../images/home.svg";
+import menu from '../components/menu.js';
+import Menu from "../components/menu.js";
 
 function LoginForm() {
     const [username, setUsername] = useState('');
-
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
     const handleLogin = async (e) => {
         e.preventDefault();
 
         try {
-            console.log('trying to post in front end');
-            console.log('stringifying username and password:', username, password);
             const response = await fetch('http://localhost:5000/api/login', {
                 method: 'POST',
                 headers: {
@@ -25,49 +24,51 @@ function LoginForm() {
 
             if (!response.ok) {
                 throw new Error('LoginForm failed');
-                console.log('loginForm failed');
             }
 
             const data = await response.json();
 
-            // Handle successful login
-            //store token
             localStorage.setItem('token', data.token);
-            console.log('LoginForm successful. Token:', data.token);
-
-            // Fetch user details including userID
-            const userDetailsResponse = await fetch(`http://localhost:5000/api/users/${username}`, {
+            console.log('token: ', data.token);
+            console.log(data.usersID, data.username);
+            console.log(localStorage);
+            // Fetch user details using the JWT token
+            const userDetailsResponse = await fetch('http://localhost:5000/api/users/', {
                 headers: {
-                    Authorization: `Bearer ${data.token}`, // Include the JWT token in the request headers for authentication
-                },
+                    'Authorization': `Bearer ${data.token}`
+                }
             });
 
             if (!userDetailsResponse.ok) {
                 throw new Error('Failed to fetch user details');
             }
 
-            const userDetailsData = await userDetailsResponse.json();
+            const userDetails = await userDetailsResponse.json();
 
-            // Extract userID from userDetailsData
-            const usersID = userDetailsData.usersID;
+            // Store user details in local storage
+            localStorage.setItem('usersID', userDetails.usersID);
+            localStorage.setItem('username', userDetails.username);
 
-            // Redirect to home page after successful login with username and userID
-            window.location = `/?username=${username}&usersID=${usersID}`;
+            navigate('/'); // Redirect to the home page
         } catch (error) {
             console.error('LoginForm error:', error.message);
-            setError('Invalid username or password.'); // Update error state
+            setError('Invalid username or password.');
         }
     };
-    const handleHome = () => {
-        navigate('/');
-    };
+
+          /*  localStorage.setItem('username', data.username);
+            localStorage.setItem('userID', data.userID);
+            localStorage.setItem('isLoggedIn', 'true')
+            navigate('/'); // Redirect to the home page
+        } catch (error) {
+            console.error('LoginForm error:', error.message);
+            setError('Invalid username or password.');
+        }
+    };*/
+
     return (
         <div className="login-container">
-            {/* Home button */}
-            <button onClick={handleHome} className="login-home-button">
-                <img src={home} alt="home" className="login-home-img" />
-                <span className="button-label">Home</span>
-            </button>
+            <Menu/>
             <h2>Login</h2>
             {error && <div className="error">{error}</div>}
             <form onSubmit={handleLogin}>
@@ -88,7 +89,6 @@ function LoginForm() {
             <Link to="/register">Don't have an account? Register here.</Link>
         </div>
     );
-
 }
 
 export default LoginForm;

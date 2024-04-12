@@ -16,6 +16,17 @@ input[type="password"] {
     margin-bottom: 20px;
 }
 
+.menu {
+    position: absolute; /* Position the menu absolutely within the container */
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20vh; /* Adjusted height for larger icon and padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3vh 10vw; /* Added padding at the top and sides */
+}
 button {
     padding: 1rem 2rem;
     background-color: #007bff;
@@ -29,22 +40,6 @@ button {
     font-size: medium;
 }
 
-.login-home-button {
-    position: absolute; /* Position the home button */
-    top: 2rem; /* Adjust top position */
-    right: 30rem; /* Adjust left position */
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-
-.login-home-img {
-    width: 8vw;
-    height: 8vh;
-    margin-right: 5px;
-}
 button:hover {
     background-color: #555;
     font-family: "Madimi One";

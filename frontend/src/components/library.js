@@ -2,28 +2,42 @@ import React, { useState, useEffect } from 'react';
 import './library.css';
 import Menu from "./menu.js";
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+const usersID = localStorage.getItem('usersID');
 function Library() {
     const [monsters, setMonsters] = useState([]);
     const navigate = useNavigate();
-    const { usersID } = useParams();
 
     useEffect(() => {
-        if (!usersID) {
-            console.error('User ID not found in URL');
-            return;
-        }
+        // Function to fetch monsters from the API using JWT
+        const fetchMonsters = async () => {
+            try {
+                // Get JWT token from local storage
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('JWT token not found');
+                }
 
-        // Fetch monsters from the API based on userID
-        axios.get(`/api/library/${usersID}`)
-            .then(response => {
+                // Make authenticated API call to fetch monsters using JWT
+                const response = await axios.get('/api/library', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                // Set monsters state with the fetched data
                 setMonsters(response.data);
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error fetching monsters:', error);
-            });
-    }, [usersID]);
+                // Handle error or redirect to login page if unauthorized
+                navigate('/login');
+            }
+        };
+
+        // Call the fetchMonsters function
+        fetchMonsters();
+    }, [navigate]);
 
     const handleHome = () => {
         navigate('/');
@@ -49,5 +63,4 @@ function Library() {
         </div>
     );
 }
-
 export default Library;
