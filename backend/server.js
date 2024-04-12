@@ -12,7 +12,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 
 // Use middleware to parse incoming request bodies
-app.use(bodyParser.json());
+// Increase the limit to 50MB (or any desired limit)
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Initialize database connection and start server
 startDatabase()

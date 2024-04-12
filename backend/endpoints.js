@@ -1,41 +1,76 @@
-import loginUser from './login.js'; // Import loginUser function
+import { loginUser, registerUser } from './login.js';
 import { connection } from './database.js';
+import {saveToLibrary} from "./saveToLibrary.js";
+import { jwtSecret } from './config.js';
 import jwt from 'jsonwebtoken';
-
+// Import middleware function for authentication
+import { authenticateUser } from './middleware.js';
 
 // Function to set up endpoints
 export default function setupEndpoints(app) {
-// Route for user login (POST request)
-app.post('/api/login', loginUser);
+    // Route for user login (POST request)
+    app.post('/api/login', loginUser);
 
-// Route for user to add monster to their library (POST request)
-app.post('api/library/add', monsterName, combinedSVG, userID);
+    // Route for user registration (POST request)
+    app.post('/api/register', registerUser);
+
+    // Route for saving to library (POST request)
+    app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
+
 
 //Route to get a user's monster library for viewing (GET request)
-    app.get('api/library/:username'), (req, res)=>{
+app.get('/api/library', authenticateUser, (req, res) => {
+    const usersID = req.query.usersID;
 
-    }
-
-// Route to get a specific user by username (GET request)
-    app.get('/api/users/:username', (req, res) => {
-        const username = req.params.username;
-
-        // Fetch user data from the database based on the username
-        connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
+        // Fetch monsters from the database based on usersID
+        connection.query('SELECT * FROM monsters WHERE usersID = ?', [usersID], (err, results) => {
             if (err) {
-                console.error('Error fetching user:', err);
-                res.status(500).json({message: 'Internal server error'});
+                console.error('Error fetching user library:', err);
+                res.status(500).json({ message: 'Internal server error' });
                 return;
             }
 
             if (results.length === 0) {
-                res.status(404).json({message: 'User not found'});
+                res.status(404).json({ message: 'Library is empty' });
                 return;
             }
 
-            const user = results[0]; // Assuming there's only one user with the given username
-            res.json({...user, username}); // Send retrieved user data as a response
+            // Send retrieved monsters data as a response
+            res.json(results);
         });
+    });
+
+// Route to get user details based on JWT token
+    app.get('/api/users', authenticateUser, (req, res) => {
+        const token = req.headers.authorization.split(' ')[1]; // Extract JWT token from Authorization header
+
+        try {
+            // Verify JWT token
+            const decoded = jwt.verify(token, jwtSecret);
+
+            // Extract user information from decoded token
+            const { usersId } = decoded;
+
+            // Fetch user data from the database based on user ID
+            connection.query('SELECT * FROM users WHERE usersId = ?', [usersId], (err, results) => {
+                if (err) {
+                    console.error('Error fetching user:', err);
+                    res.status(500).json({ message: 'Internal server error' });
+                    return;
+                }
+
+                if (results.length === 0) {
+                    res.status(404).json({ message: 'User not found' });
+                    return;
+                }
+
+                const users = results[0];
+                res.json(users); // Send retrieved user data as a response
+            });
+        } catch (error) {
+            console.error('Error decoding JWT token:', error);
+            res.status(401).json({ message: 'Invalid token' });
+        }
     });
 
 
@@ -144,7 +179,7 @@ app.post('api/library/add', monsterName, combinedSVG, userID);
         const randomTailNumber = Math.floor(Math.random() * 3) + 1;
 
         // Replace tailID with the random number
-        const tailQuery = 'SELECT mainsvg FROM tail WHERE tailID = ${randomTailNumber}';
+        const tailQuery = `SELECT mainsvg FROM tail WHERE tailID = ${randomTailNumber}`;
 
         // Connect to database and make query
         connection.query(tailQuery, (err, tailResults) => {

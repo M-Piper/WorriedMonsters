@@ -1,4 +1,3 @@
-/* styles.css */
 .lobster-regular {
     font-family: "Lobster", sans-serif;
     font-weight: 400;
@@ -48,7 +47,7 @@
     border: none;
     width: 8vw; /* Set the width of the buttons */
     height: auto; /* Auto height to maintain aspect ratio */
-    margin: 0 10px; /* Add margin between buttons */
+    margin: 0 3vw; /* Add margin between buttons */
 }
 
 
@@ -61,3 +60,25 @@
 .button-label {
     margin-top: 0.5rem; /* Add margin between button image and label */
 }
+
+.monstermaker-combined-svg-container{
+    height:30vh;
+}
+
+.monstermaker-combined-svg{
+    width:20vw;
+    height: 40vh;
+}
+
+.errorMessage{
+    font-family: "Madimi One";
+    color: red;
+    font-size: 2rem;
+}
+
+.successMessage{
+    font-family: "Madimi One";
+    color: green;
+    font-size: 2rem;
+}
+

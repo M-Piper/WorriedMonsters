@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios for making HTTP requests
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import refresh from '../images/refresh.svg';
 import plus from '../images/plus.svg';
 import download from '../images/download.svg';
 import Menu from './menu.js';
 import './monsterMaker.css';
 
-function MonsterMaker() {
-    /*{isLoggedIn, userID}*/
+function MonsterMaker({ location }) {
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
         feetSVG: '',
@@ -20,9 +23,9 @@ function MonsterMaker() {
     });
 
     const [colours, setColours] = useState({
-        main: '', // Initialize main colour
-        darker: '', // Initialize darker colour
-        contrast: '', // Initialize contrast colour
+        main: '',
+        darker: '',
+        contrast: '',
     });
 
     const [monsterName, setMonsterName] = useState('');
@@ -213,10 +216,6 @@ function MonsterMaker() {
         return combinedSVG;
     };
 
-
-
-
-
     // Function to handle download
     const handleDownload = () => {
         const combinedSVG = combineSVGs();
@@ -224,58 +223,77 @@ function MonsterMaker() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'monster.svg';
+        a.download = `${monsterName}.svg`; // Corrected the download filename
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     };
 
+
     // Function to handle page refresh
     const handleRefresh = () => {
+        // Reset the error message when generating a new monster
+        setErrorMessage('');
         window.location.reload();
     };
 
-    const handleAddToLibrary = () =>{
-        /*  if (!isLoggedIn) {
-              setError('You must register to create a monster library');
-              return;
-          }
+    const handleAddToLibrary = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setErrorMessage('You must be logged in to save a monster library');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
+            return;
+        }
 
-          axios.post('/api/library/add', {
-              monsterName: monsterName,
-              combinedSVG: combinedSVG,
-              userID: userID
-          })
-              .then(response => {
-                  // Handle success
-                  console.log('Monster added to library successfully');
-              })
-              .catch(error => {
-                  // Handle error
-                  console.error('Error adding monster to library:', error);
-                  setError('Failed to add monster to library');
-              });*/
-    }
-    const handleHome = () =>{
-    }
-    const handleLibrary = () =>{
-    }
+        try {
+            const combinedSVG = combineSVGs();
+            const response = await axios.post(
+                'http://localhost:5000/api/saveToLibrary',
+                { combinedSVG, name: monsterName },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            if (response.status === 201) {
+                console.log('Combined SVG saved to library successfully');
+                setSuccessMessage('Monster added!')
+                setTimeout(() => {
+                    setSuccessMessage('');
+                }, 3000);
+            } else {
+                throw new Error('Failed to save combined SVG to library');
+            }
+        } catch (error) {
+            console.error('Error saving combined SVG to library:', error.message);
+            setErrorMessage('Failed to add monster to library');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
+        }
+    };
+
 
     return (
         <div className="monster-container">
-            <Menu handleHome={handleHome} handleLibrary={handleLibrary} />
-            {/* Display monster name */}
-            <h1 className="monster-name">
-                <span style={{ fontFamily: 'Varela Round, sans-serif' }}>{monsterName.split(' ')[0]}</span>{' '}
-                <span style={{ fontFamily: 'Lobster, cursive' }}>{monsterName.split(' ')[1]}</span>{' '}
-                <span style={{ fontFamily: 'Madimi One, cursive' }}>{monsterName.split(' ')[2]}</span>
-            </h1>
+            <Menu />
 
+            <h1 className="monster-name">
+                <span style={{ fontFamily: 'Varela Round, sans-serif', paddingRight: '0.75rem'}}>{monsterName.split(' ')[0]}</span>
+                <span style={{ fontFamily: 'Lobster, cursive', margin: '0 0.5rem', paddingTop:'2rem' }}>{monsterName.split(' ')[1]}</span>
+                <span style={{ fontFamily: 'Madimi One, cursive', paddingLeft: '0.75rem', paddingTop: '5 rem' }}>{monsterName.split(' ')[2]}</span>
+
+            </h1>
+            {/* Display error message if user is not logged in */}
+            {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+            {successMessage && <div className="successMessage">{successMessage}</div>}
+            {/* Display monster name */}
             {/* SVG container */}
-            <div className="combined-svg-container">
+
+            <div className="monstermaker-combined-svg-container">
                 {/* Render the combined SVG */}
-                <svg className="combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
+                <svg className="monstermaker-combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
             </div>
 
             <div className="buttons-container">
@@ -284,15 +302,17 @@ function MonsterMaker() {
                     <img src={refresh} alt="refresh" className="refresh-img" />
                     <span className="button-label">Generate New Monster</span>
                 </button>
-                {/* Download button */}
-                <button onClick={handleDownload} className="download-btn">
-                    <img src={download} alt="download" className="download-img" />
-                    <span className="button-label">Download Monster</span>
-                </button>
+
                 {/* Add to library button */}
                 <button onClick={handleAddToLibrary} className="add-to-library-btn">
                     <img src={plus} alt="plus" className="plus-img" />
                     <span className="button-label">Add to Library</span>
+                </button>
+
+                {/* Download button */}
+                <button onClick={handleDownload} className="download-btn">
+                    <img src={download} alt="download" className="download-img" />
+                    <span className="button-label">Download Monster</span>
                 </button>
             </div>
         </div>

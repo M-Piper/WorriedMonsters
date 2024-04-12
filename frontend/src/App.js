@@ -4,6 +4,7 @@ import Home from './components/home.js';
 import LoginForm from './login/loginForm.js';
 import MonsterMaker from './components/monsterMaker.js';
 import Library from './components/library.js';
+import RegisterForm from "./login/registerForm.js";
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             <Routes> {/* Use Routes instead of Switch */}
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<LoginForm />} />
+                <Route path="/register" element={<RegisterForm />} />
                 <Route path="/monsterMaker" element={<MonsterMaker />} />
                 <Route path="/library" element={<Library />} />
             </Routes>

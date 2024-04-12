@@ -1,46 +1,126 @@
-.menu {
+.menu-container{
+}
+
+.mainmenu {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 20vh; /* Adjusted height for larger icon and padding */
+    height: 20vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 3vh 15vw; /* Added padding at the top and sides */
+    padding: 3vh 10vw;
 }
 
-.menu button {
+.mainmenu button {
     background: none;
     border: none;
     cursor: pointer;
     display: flex;
-    flex-direction: column; /* Display label underneath the image */
-    align-items: center; /* Center the content */
+    flex-direction: column;
+    align-items: center;
+}
+.mainmenu button.login-button {
+    font-family: "Madimi One";
+    font-size: 2rem;
+    padding: 3vh 3vw;
+    border-radius: 25px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
 }
 
-.menu button:hover {
-    background-color: #555;
+.mainmenu button.logout-button {
     font-family: "Madimi One";
+    font-size: 2rem;
+    padding: 3vh 3vw;
+    border-radius: 25px;
+    background-color: #db344d;
+    color: #fff;
+    text-decoration: none;
+}
+
+.mainmenu button.register-button {
+    font-family: "Madimi One";
+    font-size: 2rem;
+    padding: 3vh 3vw;
+    border-radius: 25px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+}
+
+.register-button:hover,
+.login-button:hover,
+.logout-button:hover{
+    background-color: #ffbdbd;
+    color: black;
+}
+
+.mainmenu button:hover {
+    background-color: #ffbdbd;
 }
 
 .home-button {
     order: 1;
-    width: 10vw;
+    width: 6vw;
 }
 
-.home-img{
-    width:10vw;
-}
-
-.library-img{
-    width:10vw;
+.home-img {
+    width: 6vw;
 }
 
 .library-button {
     order: 2;
+    width: 6vw;
+    border-radius: 25px;
+
+}
+
+.library-img {
+    margin-right: 5px;
+    width: 8vw;
+}
+
+.blank-button {
+    order: 3;
+    width: 10vw;
+    visibility: hidden;
+}
+
+.login-button {
+    order: 4;
+}
+
+.logout-button {
+    order: 5;
+}
+
+.register-button {
+    order: 6;
 }
 
 .button-label {
-    margin-top: 5px; /* Adjust the space between image and label */
+    font-family: "Madimi One";
+    font-size: 1.5rem;
+    color: black;
 }
+
+.disabled {
+    opacity: 0.5; /* Example styling */
+    pointer-events: none; /* Example styling */
+}
+
+.welcome-message-container {
+    display: flex;
+    align-items: center;
+}
+
+.welcome-message {
+    font-family: "Madimi One";
+    font-size: 1.5rem;
+    margin-left: 60vw; /* Pushes the message to the right */
+    margin-top: 15vh;
+}
+

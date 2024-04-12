@@ -1,6 +1,7 @@
-.container {
+.login-container {
     max-width: 80%; /* Adjust max-width to a percentage */
-    margin: 50px auto;
+    width: 20rem;
+    margin: 10rem auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -15,34 +16,30 @@ input[type="password"] {
     margin-bottom: 20px;
 }
 
+.menu {
+    position: absolute; /* Position the menu absolutely within the container */
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20vh; /* Adjusted height for larger icon and padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3vh 10vw; /* Added padding at the top and sides */
+}
 button {
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 20vw; /* Adjust button width to a percentage */
+    width: 19rem; /* Adjust button width to a percentage */
+    margin-bottom: 2rem;
     font-family: "Madimi One";
     font-size: medium;
 }
 
-.login-home-button {
-    position: absolute; /* Position the home button */
-    top: 10vh; /* Adjust top position */
-    left: 10vw; /* Adjust left position */
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-
-.login-home-img {
-    width: 8vw;
-    height: 8vh;
-    margin-right: 5px;
-}
 button:hover {
     background-color: #555;
     font-family: "Madimi One";
