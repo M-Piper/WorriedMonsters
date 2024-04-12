@@ -75,3 +75,10 @@
     color: red;
     font-size: 2rem;
 }
+
+.successMessage{
+    font-family: "Madimi One";
+    color: green;
+    font-size: 2rem;
+}
+

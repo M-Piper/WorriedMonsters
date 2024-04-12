@@ -238,23 +238,13 @@ function MonsterMaker({ location }) {
         window.location.reload();
     };
 
-  /*  useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            // User is logged in, navigate to the library page
-            navigate('/library');
-        } else {
-            // User is not logged in, display error message
-            setErrorMessage('You must be logged in to create and access a library');
-        }
-    }, [navigate]);*/
     const handleAddToLibrary = async () => {
         const token = localStorage.getItem('token');
         if (!token) {
             setErrorMessage('You must be logged in to save a monster library');
             setTimeout(() => {
                 setErrorMessage('');
-            }, 1000);
+            }, 3000);
             return;
         }
 
@@ -271,7 +261,7 @@ function MonsterMaker({ location }) {
                 setSuccessMessage('Monster added!')
                 setTimeout(() => {
                     setSuccessMessage('');
-                }, 1000);
+                }, 3000);
             } else {
                 throw new Error('Failed to save combined SVG to library');
             }
@@ -280,31 +270,27 @@ function MonsterMaker({ location }) {
             setErrorMessage('Failed to add monster to library');
             setTimeout(() => {
                 setErrorMessage('');
-            }, 1000);
+            }, 3000);
         }
     };
 
 
-    const handleHome = () =>{
-    }
-    const handleLibrary = () =>{
-    }
-
     return (
         <div className="monster-container">
-            <Menu handleHome={handleHome} handleLibrary={handleLibrary} />
+            <Menu />
 
-            {/* Display error message if user is not logged in */}
-            {errorMessage && <div className="errorMessage">{errorMessage}</div>}
-            {successMessage && <div className="successMessage">{successMessage}</div>}
-            {/* Display monster name */}
             <h1 className="monster-name">
                 <span style={{ fontFamily: 'Varela Round, sans-serif', paddingRight: '0.75rem'}}>{monsterName.split(' ')[0]}</span>
                 <span style={{ fontFamily: 'Lobster, cursive', margin: '0 0.5rem', paddingTop:'2rem' }}>{monsterName.split(' ')[1]}</span>
                 <span style={{ fontFamily: 'Madimi One, cursive', paddingLeft: '0.75rem', paddingTop: '5 rem' }}>{monsterName.split(' ')[2]}</span>
-            </h1>
 
+            </h1>
+            {/* Display error message if user is not logged in */}
+            {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+            {successMessage && <div className="successMessage">{successMessage}</div>}
+            {/* Display monster name */}
             {/* SVG container */}
+
             <div className="monstermaker-combined-svg-container">
                 {/* Render the combined SVG */}
                 <svg className="monstermaker-combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
