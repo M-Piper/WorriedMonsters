@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './registerForm.css';
 import home from "../images/home.svg";
+import Menu from "../components/menu.js";
 
 function RegisterForm() {
     const [username, setUsername] = useState('');
@@ -43,6 +44,10 @@ function RegisterForm() {
         } catch (error) {
             console.error('Registration failed:', error.message);
             setError('Something went wrong.');
+            setTimeout(() => {
+                // Reload the page
+                window.location.reload();
+            }, 3000);
         }
     };
 
@@ -52,11 +57,7 @@ function RegisterForm() {
 
     return (
         <div className="register-container">
-            {/* Home button */}
-            <button onClick={handleHome} className="register-home-button">
-                <img src={home} alt="home" className="register-home-img" />
-                <span className="register-button-label">Home</span>
-            </button>
+            <Menu/>
             <h2>Register</h2>
             {error && <div className="registration-error">{error}</div>}
             <form onSubmit={handleRegister}>

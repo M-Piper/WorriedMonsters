@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
@@ -6,81 +5,91 @@
 .home-container {
     position: relative;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid #ccc;
+    flex-direction: row;
+    align-items: end;
     padding: 2rem;
-    width: 80%;
+    width: 80%; /* Adjusted width for responsiveness */
     margin: 0 auto;
 }
 
 .menu {
-    position: absolute; /* Position the menu absolutely within the container */
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 20vh; /* Adjusted height for larger icon and padding */
+    height: 20vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 3vh 10vw; /* Added padding at the top and sides */
-}
-
-.welcome-note {
-    margin-bottom: 5px; /* Add some spacing between the welcome message and username */
-    font-size: 2rem;
-    color: black;
-}
-
-.username {
-    font-weight: bold; /* Optionally, make the username bold */
+    padding: 3vh 10vw;
 }
 
 .header {
-    margin-top: 20vh; /* Set margin-top to push the header below the menu */
-    text-align: center; /* Center align the header */
+    margin-top: 25vh;
+    text-align: center;
+    vertical-align: top;
 }
 
 .header h1 {
     font-family: 'Lobster', cursive;
-    font-size: 6rem;
+    font-size: 6vw; /* Adjusted font size for responsiveness */
     margin-bottom: 5px;
 }
 
 .header h2 {
     font-family: 'Varela Round', sans-serif;
-    font-size: 6rem;
+    font-size: 6vw;
     margin-top: 0;
 }
 
 .header p {
     font-family: 'Madimi One', cursive;
-    font-size: 2rem;
+    font-size: 2vw;
     margin-top: 5px;
 }
 
 .image-container {
     text-align: center;
-    margin-bottom: 20px;
+
 }
 
 .image-container img {
     max-width: 25vw;
     height: auto;
+    margin-left:2rem;
 }
 
-.big-button {
+.description p, ul, li{
+    align-content: start;
+    width:25vw;
     font-family: 'Varela Round', sans-serif;
-    display: inline-block;
-    background-color: #003e65;
-    color: #fff;
-    padding: 2rem 3rem;
-    font-size: 2rem;
-    text-decoration: none;
-    border-radius: 5px;
+    font-size: 1vw;
+    margin-top: 0;
+    line-height:1.2;
 }
 
-.big-button:hover {
-    background-color: #2980b9;
-}
+/* Media query for smaller screens */
+@media only screen and (max-width: 768px) {
+    .home-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem; /* Adjusted padding for smaller screens */
+    }
 
+    .header {
+        margin-top: 2rem;
+    }
+
+    .header h1 {
+        font-size: 8vw; /* Adjusted font size for smaller screens */
+    }
+
+    .header h2 {
+        font-size: 8vw;
+    }
+
+    .header p {
+        font-size: 3vw; /* Adjusted font size for smaller screens */
+    }
+
+}

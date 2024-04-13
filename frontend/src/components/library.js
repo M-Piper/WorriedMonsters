@@ -38,7 +38,28 @@ function Library() {
         fetchMonsters();
     }, [navigate]);
 
+    const removeFromLibrary = async (monstersID) => {
+        try {
+            // Get JWT token from local storage
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('JWT token not found');
+            }
 
+            // Make authenticated API call to remove monster from library using JWT
+            await axios.delete(`http://localhost:5000/api/library/${monstersID}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // Remove the deleted monster from the state
+            setMonsters(monsters.filter(monsters => monsters.monstersID !== monstersID));
+        } catch (error) {
+            console.error('Error removing monster:', error);
+            // Handle error
+        }
+    };
     return (
         <div className="library">
             <Menu />
@@ -47,8 +68,9 @@ function Library() {
                 {monsters.map(monsters => (
                     <div key={monsters.name} className="monster-container">
                         <div className="combined-svg-container">
+                         <button className="closebutton" onClick={() => removeFromLibrary(monsters.monstersID)}>X</button>
                         <div className="combined-svg" dangerouslySetInnerHTML={{ __html: monsters.combinedsvg }} />
-                        <h2>{monsters.name}</h2>
+                        <h2 className="monster-name">{monsters.name}</h2>
                         </div>
                     </div>
                 ))}

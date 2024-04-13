@@ -34,6 +34,15 @@ const Menu = () => {
         navigate('/register');
     }
 
+    const handleMakeMonster = () =>{
+        navigate('/monsterMaker');
+    }
+
+    const handleAbout = () =>{
+        navigate('/about');
+    }
+
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/');
@@ -54,8 +63,20 @@ const Menu = () => {
             {/* Library button */}
             <button onClick={handleLibrary} className={`library-button ${isLoggedIn ? '' : 'disabled'}`}>
                 <img src={library} alt="library" className="library-img" />
-                <span className="button-label">Library</span>
+                <span className="button-label">Monster Library</span>
             </button>
+
+                {/* Make a Monster button */}
+                <button onClick={handleMakeMonster} className={"makemonster-button"}>
+                    <img src={library} alt="library" className="library-img" />
+                    <span className="button-label">Make a Monster!</span>
+                </button>
+
+                {/* About button */}
+                <button onClick={handleAbout} className={"about-button"}>
+                    <img src={library} alt="library" className="library-img" />
+                    <span className="button-label">About Us</span>
+                </button>
 
             <button className="blank-button"></button>
 

@@ -5,6 +5,7 @@ import { jwtSecret } from './config.js';
 import jwt from 'jsonwebtoken';
 // Import middleware function for authentication
 import { authenticateUser } from './middleware.js';
+import {removeFromLibrary} from "./removeFromLibrary.js";
 
 // Function to set up endpoints
 export default function setupEndpoints(app) {
@@ -16,6 +17,9 @@ export default function setupEndpoints(app) {
 
     // Route for saving to library (POST request)
     app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
+
+//Route to delete from library (POST request)
+    app.post('/api/removeFromLibrary', authenticateUser, removeFromLibrary);
 
 
 // Route to get a user's monster library for viewing (GET request)

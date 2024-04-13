@@ -17,7 +17,7 @@
 /* Set container width to be narrower */
 .monster-container {
     max-width: 80vw; /* Set the maximum width of the container */
-    margin: auto; /* Center the container horizontally */
+    margin: 20vh auto;
     display: flex; /* Use flex display */
     flex-direction: column; /* Stack elements vertically */
     align-items: center; /* Center items along the main axis (vertically) */

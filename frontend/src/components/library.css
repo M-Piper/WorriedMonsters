@@ -18,25 +18,11 @@
 }
 
 .sample-container {
-    border: 1px solid #ccc;
-    margin: 10px;
-    padding: 10px;
+    border: 1px solid #700000;
+    margin: 10rem;
+    padding: 10rem;
     position: relative;
     max-width: 200px; /* Adjust as needed */
-}
-
-.close-button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.close-button:hover {
-    color: red;
 }
 
 .sample-container img {
@@ -45,16 +31,27 @@
     display: block;
 }
 
-h2 {
+.monster-name {
+    vertical-align:bottom;
     text-align: center;
+    font-size: 3vh;
 }
 
 
 .combined-svg-container{
+    border-radius:15px;
     height:30vh;
+    width: 20vw;
+    padding:2rem;
+
+}
+
+.combined-svg-container:hover {
+    background-color: #ffbdbd;
+    border-radius: 15px;
 }
 
 .combined-svg{
     width:20vw;
-    height: 40vh;
+    height: 20vh;
 }

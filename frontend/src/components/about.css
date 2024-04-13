@@ -1,0 +1,65 @@
+.menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3vh 10vw;
+}
+
+.about-container {
+    text-align: center;
+    position: relative;
+    padding: 2rem;
+    width: 80%; /* Adjusted width for responsiveness */
+    margin: 25vh auto 0; /* Margin top adjusted to position below menu */
+}
+
+.text-container {
+    text-align: left; /* Align text to the left */
+}
+
+.long-text {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1.5rem;
+    margin-top: 5px;
+    line-height: 1.6;
+}
+
+.long-text-emph {
+    font-family: 'Madimi One', cursive;
+    font-size: 2rem;
+    margin-top: 5px;
+    line-height: 1.6; /* Removed 'px' from line-height value */
+    color: green;
+    text-align: center;
+}
+
+.long-text-italic {
+    font-family: 'Madimi One', cursive;
+    font-style: italic;
+    font-size: 1.5rem;
+    margin-top: 5px;
+    line-height: 1.6; /* Removed 'px' from line-height value */
+}
+
+.oxford-definition {
+    margin-left: 2rem; /* Adjusted left margin for smaller devices */
+    margin-right: 2rem; /* Adjusted right margin for smaller devices */
+}
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 768px) {
+    .about-container {
+        width: 90%; /* Adjusted width for smaller screens */
+        margin-top: 15vh; /* Adjusted margin top for smaller screens */
+    }
+
+    .oxford-definition {
+        margin-left: 1rem; /* Further adjusted left margin for smaller devices */
+        margin-right: 1rem; /* Further adjusted right margin for smaller devices */
+    }
+}
