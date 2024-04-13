@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Library() {
+    const [errorMessage, setErrorMessage] = useState('');
     const [monsters, setMonsters] = useState([]);
     const navigate = useNavigate();
 
@@ -39,24 +40,28 @@ function Library() {
     }, [navigate]);
 
     const removeFromLibrary = async (monstersID) => {
-        try {
-            // Get JWT token from local storage
-            const token = localStorage.getItem('token');
-            if (!token) {
-                throw new Error('JWT token not found');
-            }
-
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setErrorMessage('Hmmm something went wrong. Refresh your library and try again.');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
+            return;
+        }
+        try
+        {
             // Make authenticated API call to remove monster from library using JWT
-            await axios.delete(`http://localhost:5000/api/library/${monstersID}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+            await axios.delete('http://localhost:5000/api/removeFromLibrary',
+            {monstersID}, {headers: {
+                    Authorization: `Bearer ${token}`}
             });
 
+            console.error('made it paste await axios', monstersID);
             // Remove the deleted monster from the state
             setMonsters(monsters.filter(monsters => monsters.monstersID !== monstersID));
         } catch (error) {
             console.error('Error removing monster:', error);
+            console.error(monstersID);
             // Handle error
         }
     };
@@ -64,7 +69,7 @@ function Library() {
         <div className="library">
             <Menu />
             <h1>My Monsters</h1>
-            <div className="container">
+            <div className="gridcontainer">
                 {monsters.map(monsters => (
                     <div key={monsters.name} className="monster-container">
                         <div className="combined-svg-container">

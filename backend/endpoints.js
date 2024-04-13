@@ -18,8 +18,8 @@ export default function setupEndpoints(app) {
     // Route for saving to library (POST request)
     app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
 
-//Route to delete from library (POST request)
-    app.post('/api/removeFromLibrary', authenticateUser, removeFromLibrary);
+//Route to delete from library
+    app.delete('/api/removeFromLibrary', authenticateUser, removeFromLibrary);
 
 
 // Route to get a user's monster library for viewing (GET request)

@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { connection } from "./database.js";
 import { jwtSecret } from './config.js';
 
+// Update the removeFromLibrary function to handle DELETE requests and get ID from params
 export function removeFromLibrary(req, res) {
     const token = req.headers.authorization.split(' ')[1]; // Extract JWT token from Authorization header
 
@@ -12,10 +13,12 @@ export function removeFromLibrary(req, res) {
         // Extract userID from decoded JWT token
         const { usersID } = decoded;
 
-        // Check if all required parameters are provided
-        const { combinedSVG, name, monstersID } = req.body;
-        if (!combinedSVG || !name || !monstersID) {
-            res.status(400).json({ message: 'Missing parameters: combinedSVG, name, or monstersID' });
+        // Get monstersID from URL parameters
+        //const { monstersID } = req.params;
+
+        const { monstersID } = req.body;
+        if (!monstersID) {
+            res.status(400).json({ message: 'Missing monstersID' });
             return;
         }
 

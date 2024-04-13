@@ -9,7 +9,7 @@ const About = () => {
             <Menu />
                 <div className="text-container">
                     <p className="long-text-italic oxford-definition">
-                        NOUN 1.a. c1375– Originally: a mythical creature which is part animal and part human, or combines elements of two or more animal forms, and is frequently of great size and ferocious appearance. Later, more generally: any imaginary creature that is large, ugly, and frightening. - Oxford Dictionary of English
+                        NOUN 1.a. c1375– Originally: a mythical creature which is part animal and part human, or combines elements of two or more animal forms, and is frequently of great size and ferocious appearance. Later, more generally: any imaginary creature that is large, ugly, and frightening. - Oxford English Dictionary
                     </p>
 
                     <p className="long-text">
