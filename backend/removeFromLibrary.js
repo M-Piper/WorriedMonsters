@@ -14,9 +14,8 @@ export function removeFromLibrary(req, res) {
         const { usersID } = decoded;
 
         // Get monstersID from URL parameters
-        //const { monstersID } = req.params;
+       const { monstersID } = req.params;
 
-        const { monstersID } = req.body;
         if (!monstersID) {
             res.status(400).json({ message: 'Missing monstersID' });
             return;

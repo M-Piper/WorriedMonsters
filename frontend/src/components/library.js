@@ -40,6 +40,7 @@ function Library() {
     }, [navigate]);
 
     const removeFromLibrary = async (monstersID) => {
+
         const token = localStorage.getItem('token');
         if (!token) {
             setErrorMessage('Hmmm something went wrong. Refresh your library and try again.');
@@ -51,12 +52,11 @@ function Library() {
         try
         {
             // Make authenticated API call to remove monster from library using JWT
-            await axios.delete('http://localhost:5000/api/removeFromLibrary',
-            {monstersID}, {headers: {
+            await axios.delete(`http://localhost:5000/api/removeFromLibrary/$(monstersID)`,{headers: {
                     Authorization: `Bearer ${token}`}
             });
 
-            console.error('made it paste await axios', monstersID);
+            console.error('made it past await axios', monstersID);
             // Remove the deleted monster from the state
             setMonsters(monsters.filter(monsters => monsters.monstersID !== monstersID));
         } catch (error) {

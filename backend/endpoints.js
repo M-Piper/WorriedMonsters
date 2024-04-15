@@ -92,7 +92,7 @@ export default function setupEndpoints(app) {
 
     app.get('/api/body', (req, res) => {
 
-        const bodyQuery = 'SELECT mainsvg FROM body WHERE bodyID = 1';
+        const bodyQuery = 'SELECT mainsvg, texturesvg FROM body WHERE bodyID = 2';
 
         //Connect to database and make query
         connection.query(bodyQuery, (err, bodyResults) => {
@@ -107,8 +107,8 @@ export default function setupEndpoints(app) {
                 return;
             }
             const bodySVG = bodyResults[0].mainsvg;
-
-            res.json({bodySVG});
+            const bodyTextureSVG = bodyResults[0].texturesvg;
+            res.json({bodySVG, bodyTextureSVG});
         });
     });
 
@@ -116,9 +116,9 @@ export default function setupEndpoints(app) {
     app.get('/api/feet', (req, res) => {
 
         // Generate random number for selecting 'feet' SVG file by ID
-        const randomFeetNumber = Math.floor(Math.random() * 4) + 1;
+        let randomFeetNumber = Math.floor(Math.random() * 4) + 7;
 
-        const feetQuery = `SELECT mainsvg FROM feet WHERE feetID = ${randomFeetNumber}`;
+        const feetQuery = `SELECT mainsvg, texturesvg FROM feet WHERE feetID = ${randomFeetNumber}`;
 
         connection.query(feetQuery, (err, feetResults) => {
             if (err) {
@@ -133,7 +133,8 @@ export default function setupEndpoints(app) {
             }
 
             const feetSVG = feetResults[0].mainsvg;
-            res.json({feetSVG});
+            const feetTextureSVG = feetResults[0].texturesvg;
+            res.json({feetSVG, feetTextureSVG});
         });
     });
 
@@ -141,7 +142,7 @@ export default function setupEndpoints(app) {
     app.get('/api/arms', (req, res) => {
 
         //generate random number for selecting Arms SVG file by ID
-        const randomArmsNumber = Math.floor(Math.random() * 3) + 5;
+        const randomArmsNumber = Math.floor(Math.random() * 4) + 11;
 
         const armsQuery = `SELECT mainsvg, texturesvg FROM arms WHERE armsID = ${randomArmsNumber}`;
 
@@ -165,9 +166,9 @@ export default function setupEndpoints(app) {
     });
 
     app.get('/api/mouth', (req, res) => {
-        const randomMouthNumber = Math.floor(Math.random() * 11) + 11;
+        const randomMouthNumber = Math.floor(Math.random() * 6) + 24;
 
-        const mouthQuery = `SELECT mainsvg FROM mouth WHERE mouthID = ${randomMouthNumber}`;
+        const mouthQuery = `SELECT mainsvg, texturesvg FROM mouth WHERE mouthID = ${randomMouthNumber}`;
 
 
         // Connect to database and make query
@@ -183,19 +184,20 @@ export default function setupEndpoints(app) {
                 return;
             }
             const mouthSVG = mouthResults[0].mainsvg;
+            const mouthTextureSVG = mouthResults[0].texturesvg;
 
-            res.json({mouthSVG});
+            res.json({mouthSVG, mouthTextureSVG});
         });
     });
 
     // Endpoint for a randomized selection of the SVG text for the monster's tail
     app.get('/api/tail', (req, res) => {
 
-        // Generate a random number between 1 and 3 (inclusive)
-        const randomTailNumber = Math.floor(Math.random() * 3) + 1;
+        // Generate a random number between 6 and 9 (inclusive)
+        let randomTailNumber = Math.floor(Math.random() * 4) + 6;
 
         // Replace tailID with the random number
-        const tailQuery = `SELECT mainsvg FROM tail WHERE tailID = ${randomTailNumber}`;
+        const tailQuery = `SELECT mainsvg, texturesvg FROM tail WHERE tailID = ${randomTailNumber}`;
 
         // Connect to database and make query
         connection.query(tailQuery, (err, tailResults) => {
@@ -210,18 +212,17 @@ export default function setupEndpoints(app) {
                 return;
             }
             const tailSVG = tailResults[0].mainsvg;
-
-            res.json({tailSVG});
+            const tailTextureSVG = tailResults[0].texturesvg;
+            res.json({tailSVG, tailTextureSVG});
         });
     });
 
 // Endpoint for a randomized selection of the SVG text for the monster's back and a texture overlay
-    // Select between 1 and 5 options
     app.get('/api/back', (req, res) => {
         // Generate random number for selecting 'back' SVG file by ID
-        const randomBackNumber = Math.floor(Math.random() * 13) + 1;
+        const randomBackNumber = Math.floor(Math.random() * 5) + 18;
 
-        const backQuery = `SELECT mainsvg FROM back WHERE backID = ${randomBackNumber}`;
+        const backQuery = `SELECT mainsvg, texturesvg FROM back WHERE backID = ${randomBackNumber}`;
 
 
         // Connect to database and make query
@@ -237,14 +238,14 @@ export default function setupEndpoints(app) {
                 return;
             }
             const backSVG = backResults[0].mainsvg;
-
-            res.json({backSVG});
+            const backTextureSVG = backResults[0].texturesvg;
+            res.json({backSVG, backTextureSVG});
         });
     });
 
     app.get('/api/eyes', (req, res) => {
         // Generate random number for selecting 'eyes' SVG file by ID
-        const randomEyesNumber= Math.floor(Math.random() * 6) + 9;
+        const randomEyesNumber= Math.floor(Math.random() * 7) + 9;
 
         const eyesQuery = `SELECT mainsvg FROM eyes WHERE eyesID = ${randomEyesNumber}`;
 

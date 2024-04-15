@@ -13,7 +13,7 @@ const About = () => {
                     </p>
 
                     <p className="long-text">
-                        Admittedly, it is universally known that a monster in possession of an appetite must be in want of a crowd of villagers to eat. Fair enough. The monster community doesn't deny this fact of life. That being said, have you ever stopped to consider that a monster might have problems too? The monster community is sick and tired of these baseless (well, to be fair, sometimes very well-founded) claims and want to make it known that many of them have fears and anxieties of their own. </p>
+                        Admittedly, it is a truth universally acknowledged that a monster in possession of an appetite must be in want of a crowd of villagers to eat. Fair enough. The monster community doesn't deny this fact of life. That being said, have you ever stopped to consider that a monster might have problems too? The monster community is sick and tired of these baseless (well, to be fair, sometimes very well-founded) claims and want to make it known that many of them have fears and anxieties of their own. </p>
                     <p className="long-text">
                         They will concede that a large contingent of monsters do, in fact, regularly rampage, maul, and pillage. But that's not what we're here to talk about.</p>
                     <p className="long-text">
