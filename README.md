@@ -1,1 +1,1 @@
-![Wynne The Uncertain](src/images/WynneTheUncertain.png)
+![Wynne The Uncertain](frontend/src/images/WynneTheUncertain.png)
