@@ -5,7 +5,7 @@ import LoginForm from './login/loginForm.js';
 import MonsterMaker from './components/monsterMaker.js';
 import Library from './components/library.js';
 import RegisterForm from "./login/registerForm.js";
-
+import About from "./components/about.js";
 function App() {
     return (
         <Router>
@@ -15,6 +15,7 @@ function App() {
                 <Route path="/register" element={<RegisterForm />} />
                 <Route path="/monsterMaker" element={<MonsterMaker />} />
                 <Route path="/library" element={<Library />} />
+                <Route path="/about" element={<About />} />
             </Routes>
         </Router>
     );

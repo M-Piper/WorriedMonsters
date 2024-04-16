@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './menu.css';
 import home from '../images/home.svg';
-import library from '../images/library.svg';
+import library from '../images/maybelibrary.svg';
+import monster from '../images/library.svg';
+import about from '../images/about.svg';
 
 const Menu = () => {
     const navigate = useNavigate();
@@ -34,6 +36,15 @@ const Menu = () => {
         navigate('/register');
     }
 
+    const handleMakeMonster = () =>{
+        navigate('/monsterMaker');
+    }
+
+    const handleAbout = () =>{
+        navigate('/about');
+    }
+
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/');
@@ -54,8 +65,20 @@ const Menu = () => {
             {/* Library button */}
             <button onClick={handleLibrary} className={`library-button ${isLoggedIn ? '' : 'disabled'}`}>
                 <img src={library} alt="library" className="library-img" />
-                <span className="button-label">Library</span>
+                <span className="button-label">Monster Library</span>
             </button>
+
+                {/* Make a Monster button */}
+                <button onClick={handleMakeMonster} className={"makemonster-button"}>
+                    <img src={monster} alt="monster" className="library-img" />
+                    <span className="button-label">Make a Monster!</span>
+                </button>
+
+                {/* About button */}
+                <button onClick={handleAbout} className={"about-button"}>
+                    <img src={about} alt="about" className="library-img" />
+                    <span className="button-label">About Us</span>
+                </button>
 
             <button className="blank-button"></button>
 

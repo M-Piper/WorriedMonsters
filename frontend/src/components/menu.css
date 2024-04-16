@@ -1,6 +1,37 @@
-.menu-container{
+.menu-container {
+    position: relative; /* Make this container relatively positioned */
 }
 
+.mainmenu {
+    /*background-color: rgba(255, 255, 255, 0.9);*/
+    position: fixed; /* Fixed position to keep it fixed on the screen */
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3vh 10vw;
+}
+
+.welcome-message-container {
+    position: fixed; /* Fixed position to keep it fixed on the screen */
+    top: 15vh; /* Adjust top position as needed */
+    right: 0; /* Adjust right position as needed */
+    height: 5vh; /* Same height as the mainmenu container */
+    display: flex;
+    align-items: center;
+    padding-right: 10vw; /* Match the padding of mainmenu */
+    /*background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+}
+
+.welcome-message {
+    font-family: "Madimi One";
+    font-size: 1.75rem;
+    margin-right: 10px; /* Add some spacing */
+    color: black;
+}
 .mainmenu {
     position: fixed;
     top: 0;
@@ -23,9 +54,11 @@
 }
 .mainmenu button.login-button {
     font-family: "Madimi One";
-    font-size: 2rem;
-    padding: 3vh 3vw;
+    font-size: 1.5rem;
+    padding: 1rem 1rem;
     border-radius: 25px;
+    width: 10vw;
+    width: 10vw;
     background-color: #3498db;
     color: #fff;
     text-decoration: none;
@@ -33,8 +66,9 @@
 
 .mainmenu button.logout-button {
     font-family: "Madimi One";
-    font-size: 2rem;
-    padding: 3vh 3vw;
+    font-size: 1.5rem;
+    padding: 1rem 1rem;
+    width: 10vw;
     border-radius: 25px;
     background-color: #db344d;
     color: #fff;
@@ -43,19 +77,13 @@
 
 .mainmenu button.register-button {
     font-family: "Madimi One";
-    font-size: 2rem;
-    padding: 3vh 3vw;
+    font-size: 1.5rem;
+    padding: 1rem 1rem;
     border-radius: 25px;
     background-color: #3498db;
+    width: 10vw;
     color: #fff;
     text-decoration: none;
-}
-
-.register-button:hover,
-.login-button:hover,
-.logout-button:hover{
-    background-color: #ffbdbd;
-    color: black;
 }
 
 .mainmenu button:hover {
@@ -64,41 +92,63 @@
 
 .home-button {
     order: 1;
-    width: 6vw;
+    width: 5vw;
 }
 
 .home-img {
-    width: 6vw;
+    width: 5vw;
 }
 
 .library-button {
     order: 2;
-    width: 6vw;
+    width: 5vw;
     border-radius: 25px;
 
 }
 
 .library-img {
     margin-right: 5px;
-    width: 8vw;
+    width: 5vw;
+}
+
+.makemonster-button{
+    order: 3;
+    width: 5vw;
+    border-radius: 25px;
+}
+
+.makemonster-img{
+    margin-right: 5px;
+    width: 5vw;
+}
+
+.about-button{
+    order: 4;
+    width: 5vw;
+    border-radius: 25px;
+}
+
+.about-img{
+    margin-right: 5px;
+    width: 5vw;
 }
 
 .blank-button {
-    order: 3;
-    width: 10vw;
+    order: 5;
+    width: 20vw;
     visibility: hidden;
 }
 
 .login-button {
-    order: 4;
+    order: 6;
 }
 
 .logout-button {
-    order: 5;
+    order: 6;
 }
 
 .register-button {
-    order: 6;
+    order: 7;
 }
 
 .button-label {
@@ -112,15 +162,9 @@
     pointer-events: none; /* Example styling */
 }
 
-.welcome-message-container {
-    display: flex;
-    align-items: center;
+/* Adjusted font size for smaller screens */
+@media only screen and (max-width: 768px) {
+    .mainmenu button {
+        font-size: 1rem;
+    }
 }
-
-.welcome-message {
-    font-family: "Madimi One";
-    font-size: 1.5rem;
-    margin-left: 60vw; /* Pushes the message to the right */
-    margin-top: 15vh;
-}
-

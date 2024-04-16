@@ -13,13 +13,18 @@ function MonsterMaker({ location }) {
     const navigate = useNavigate();
     const [monsterParts, setMonsterParts] = useState({
         bodySVG: '',
+        bodyTextureSVG:'',
         feetSVG: '',
+        feetTextureSVG:'',
         armsSVG: '',
         armsTextureSVG: '',
         eyesSVG: '',
         mouthSVG: '',
+        mouthTextureSVG:'',
         tailSVG: '',
+        tailTextureSVG:'',
         backSVG: '',
+        backTextureSVG:'',
     });
 
     const [colours, setColours] = useState({
@@ -27,16 +32,33 @@ function MonsterMaker({ location }) {
         darker: '',
         contrast: '',
     });
-
+    console.log('Colours:', colours); // Log the colours state
     const [monsterName, setMonsterName] = useState('');
 
     useEffect(() => {
+
+        // Fetch random colour scheme
+        axios.get('http://localhost:5000/api/colours')
+            .then(response => {
+                setColours(prevState => ({
+                    ...prevState,
+                    main : response.data.main,
+                    darker : response.data.darker,
+                    contrast : response.data.contrast,
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching colour scheme:', error);
+            });
+
+
         // Fetch body SVG from the database
         axios.get('http://localhost:5000/api/body')
             .then(response => {
                 setMonsterParts(prevState => ({
                     ...prevState,
                     bodySVG: response.data.bodySVG,
+                    bodyTextureSVG: response.data.bodyTextureSVG,
                 }));
             })
             .catch(error => {
@@ -49,6 +71,7 @@ function MonsterMaker({ location }) {
                 setMonsterParts(prevState => ({
                     ...prevState,
                     feetSVG: response.data.feetSVG,
+                    feetTextureSVG: response.data.feetTextureSVG,
                 }));
             })
             .catch(error => {
@@ -76,6 +99,7 @@ function MonsterMaker({ location }) {
                 setMonsterParts(prevState => ({
                     ...prevState,
                     mouthSVG: response.data.mouthSVG,
+                    mouthTextureSVG: response.data.mouthTextureSVG,
                 }));
             })
             .catch(error => {
@@ -101,6 +125,7 @@ function MonsterMaker({ location }) {
                 setMonsterParts(prevState => ({
                     ...prevState,
                     tailSVG: response.data.tailSVG,
+                    tailTextureSVG: response.data.tailTextureSVG,
                 }));
             })
             .catch(error => {
@@ -132,37 +157,17 @@ function MonsterMaker({ location }) {
                 console.error('Error fetching random name:', error);
             });
 
-        // Fetch random colour scheme
-        axios.get('http://localhost:5000/api/colours')
-            .then(response => {
-                setColours(prevState => ({
-                    ...prevState,
-                    main : response.data.main,
-                    darker : response.data.darker,
-                    contrast : response.data.contrast,
-                }));
-            })
-            .catch(error => {
-                console.error('Error fetching colour scheme:', error);
-            });
-
     }, []); // Empty dependency array ensures this effect runs only once after the initial render
 
-
-    const addColour = (svgString, styleName) => {
+    const addColour = (svgString) => {
         // Check if svgString is defined
         if (!svgString) {
             return svgString;
         }
-
         // Check if colours state is available
         if (colours) {
-            // Replace fill:none with colour
-            let filledSVG = svgString.replace(/fill:none/g, `fill:${colours.main}`);
-            // Replace st0 with the specified styleName
-            filledSVG = filledSVG.replace(/st0/g, styleName + '0');
-            filledSVG = filledSVG.replace(/st1/g, styleName + '1');
-            filledSVG = filledSVG.replace(/st2/g, styleName + '2');
+            var regex = /fill:\s*none\s*;/g;
+            var filledSVG = svgString.replace(regex, `fill:${colours.main};`);
             return filledSVG;
         } else {
             // If colours state is not available, return the SVG string as is
@@ -170,7 +175,22 @@ function MonsterMaker({ location }) {
         }
     };
 
-    const addDarkerColour = (svgString, styleName) => {
+    const addDarkerTextureColour = (svgString) => {
+        // Check if svgString is defined
+        if (!svgString) {
+            return svgString;
+        }
+        // Check if darkerColour is defined
+        if (colours) {
+            var regex = /stroke:\s*#000\s*;/g;
+            var darkerSVG = svgString.replace(regex, `stroke:${colours.darker};`);
+            return darkerSVG;
+        } else {
+            // If darkerColour is not available, return the SVG string as is
+            return svgString;
+        }
+    };
+    const addDarkerColour = (svgString) => {
         // Check if svgString is defined
         if (!svgString) {
             return svgString;
@@ -178,12 +198,10 @@ function MonsterMaker({ location }) {
 
         // Check if darkerColour is defined
         if (colours) {
-            // Replace fill:none with darkerColour
-            let darkerSVG = svgString.replace(/stroke:#000000/g, `stroke:${colours.darker}`);
-            // Replace st0 with the specified styleName
-            darkerSVG = darkerSVG.replace(/st0/g, styleName + '0');
-            darkerSVG = darkerSVG.replace(/st1/g, styleName + '1');
-            darkerSVG = darkerSVG.replace(/st2/g, styleName + '2');
+            var regex = /fill:\s*none\s*;/g;
+            // Replace "fill:none" with "fill:[colourvariablehere]" using colours.main
+            var darkerSVG = svgString.replace(regex, `fill:${colours.darker};`);
+
             return darkerSVG;
         } else {
             // If darkerColour is not available, return the SVG string as is
@@ -191,24 +209,52 @@ function MonsterMaker({ location }) {
         }
     };
 
+    const addContrastColour = (svgString) => {
+        // Check if svgString is defined
+        if (!svgString) {
+            return svgString;
+        }
+        // Check if contrastColour is defined
+        if (colours) {
+            // Replace fill:none with darkerColour
+            var regex = /fill:\s*none\s*;/g;
+            // Replace "fill:none" with "fill:[colourvariablehere]" using colours.main
+            var contrastSVG = svgString.replace(regex, `fill:${colours.contrast};`);
+            return contrastSVG;
+        } else {
+            // If contrastColour is not available, return the SVG string as is
+            return svgString;
+        }
+    };
+
+
     const combineSVGs = () => {
         // Add color to each SVG part
-        const colourBodySVG = addColour(monsterParts.bodySVG, 'body');
-        const colourFeetSVG = addColour(monsterParts.feetSVG, 'feet');
-        const colourArmsSVG = addColour(monsterParts.armsSVG, 'arms');
-        const colourArmsTextureSVG = addDarkerColour(monsterParts.armsTextureSVG, 'armstexture');
-        const colourBackSVG = addColour(monsterParts.backSVG, 'back');
-        const colourTailSVG = addColour(monsterParts.tailSVG, 'tail');
+        const colourBodySVG = addColour(monsterParts.bodySVG);
+        const colourBodyTextureSVG = addDarkerTextureColour(monsterParts.bodyTextureSVG);
+        const colourFeetSVG = addColour(monsterParts.feetSVG);
+        const colourFeetTextureSVG = addDarkerTextureColour(monsterParts.feetTextureSVG);
+        const colourArmsSVG = addColour(monsterParts.armsSVG);
+        const colourArmsTextureSVG = addDarkerTextureColour(monsterParts.armsTextureSVG);
+        const colourBackSVG = addContrastColour(monsterParts.backSVG);
+        const colourTailSVG = addContrastColour(monsterParts.tailSVG);
+        const colourTailTextureSVG = addDarkerTextureColour(monsterParts.tailTextureSVG);
+        const colourMouthSVG = addColour(monsterParts.mouthSVG);
+        const colourMouthTextureSVG = addDarkerTextureColour(monsterParts.mouthTextureSVG);
 
         // Combine SVG parts into one SVG
         const combinedSVG = `<?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1728 1296" style="enable-background:new 0 0 1728 1296;" xml:space="preserve">
                 ${colourBodySVG}
+                ${colourBodyTextureSVG}
                 ${colourFeetSVG}
+                ${colourFeetTextureSVG}
                 ${colourArmsSVG}
                 ${colourArmsTextureSVG}
-                ${monsterParts.mouthSVG}
+                ${colourMouthSVG}
+                ${colourMouthTextureSVG}
                 ${colourBackSVG}
                 ${colourTailSVG}
+                ${colourTailTextureSVG}
                 ${monsterParts.eyesSVG}
                 
         </svg>
@@ -235,6 +281,19 @@ function MonsterMaker({ location }) {
     const handleRefresh = () => {
         // Reset the error message when generating a new monster
         setErrorMessage('');
+        // Fetch new colours
+        axios.get('http://localhost:5000/api/colours')
+            .then(response => {
+                setColours(prevState => ({
+                    ...prevState,
+                    main: response.data.main,
+                    darker: response.data.darker,
+                    contrast: response.data.contrast,
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching colour scheme after refresh:', error);
+            });
         window.location.reload();
     };
 

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Library() {
+    const [errorMessage, setErrorMessage] = useState('');
     const [monsters, setMonsters] = useState([]);
     const navigate = useNavigate();
 
@@ -30,32 +31,55 @@ function Library() {
             } catch (error) {
                 console.error('Error fetching monsters:', error);
                 // Handle error or redirect to login page if unauthorized
-                navigate('/login');
+                //navigate('/login');
             }
         };
 
         // Call the fetchMonsters function
         fetchMonsters();
     }, [navigate]);
+    // Function to remove a monster from the library
+    const removeFromLibrary = async (monstersID) => {
+        try {
+            // Get JWT token from local storage
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('JWT token not found');
+            }
 
-    const handleHome = () => {
-        navigate('/');
-    }
+            // Make API call to remove the monster from the library
+            await axios.delete(`http://localhost:5000/api/removeFromLibrary/${monstersID}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-    const handleLibrary = () => {
-        // No need to navigate here since we're already on the library page
-    }
+            // Remove the deleted monster from the state
+            setMonsters(monsters.filter(monster => monster.monstersID !== monstersID));
+        } catch (error) {
+            console.error('Error removing monster:', error);
+            // Handle error
+            setErrorMessage('Failed to remove monster from library');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
+        }
+    };
+
+
 
     return (
         <div className="library">
-            <Menu handleHome={handleHome} handleLibrary={handleLibrary} />
+            <Menu />
             <h1>My Monsters</h1>
-            <div className="container">
-                {monsters.map(monster => (
-                    <div key={monster.id} className="sample-container">
-                        <button className="close-button">X</button>
-                        <img src={monster.image} alt={monster.title} />
-                        <h2>{monster.title}</h2>
+            <div className="gridcontainer">
+                {monsters.map(monsters => (
+                    <div key={monsters.name} className="monster-container">
+                        <div className="combined-svg-container">
+                         <button className="closebutton" onClick={() => removeFromLibrary(monsters.monstersID)}>X</button>
+                        <div className="combined-svg" dangerouslySetInnerHTML={{ __html: monsters.combinedsvg }} />
+                        <h2 className="monster-name">{monsters.name}</h2>
+                        </div>
                     </div>
                 ))}
             </div>

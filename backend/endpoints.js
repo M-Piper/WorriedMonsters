@@ -5,6 +5,7 @@ import { jwtSecret } from './config.js';
 import jwt from 'jsonwebtoken';
 // Import middleware function for authentication
 import { authenticateUser } from './middleware.js';
+import {removeFromLibrary} from "./removeFromLibrary.js";
 
 // Function to set up endpoints
 export default function setupEndpoints(app) {
@@ -17,27 +18,80 @@ export default function setupEndpoints(app) {
     // Route for saving to library (POST request)
     app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
 
+    // Route to delete a monster from the library
+    app.delete('/api/removeFromLibrary/:monstersID', (req, res) => {
+        // Extract the monstersID from the request parameters
+        const { monstersID } = req.params;
 
-//Route to get a user's monster library for viewing (GET request)
-app.get('/api/library', authenticateUser, (req, res) => {
-    const usersID = req.query.usersID;
+        // Ensure monstersID is a valid integer
+        const monstersIDInt = parseInt(monstersID);
+        if (isNaN(monstersIDInt)) {
+            return res.status(400).json({ message: 'Invalid monstersID' });
+        }
 
-        // Fetch monsters from the database based on usersID
-        connection.query('SELECT * FROM monsters WHERE usersID = ?', [usersID], (err, results) => {
-            if (err) {
-                console.error('Error fetching user library:', err);
-                res.status(500).json({ message: 'Internal server error' });
-                return;
-            }
+        // Get user ID from JWT token
+        const token = req.headers.authorization.split(' ')[1]; // Extract JWT token from Authorization header
+        try {
+            // Verify JWT token
+            const decoded = jwt.verify(token, jwtSecret);
 
-            if (results.length === 0) {
-                res.status(404).json({ message: 'Library is empty' });
-                return;
-            }
+            // Extract user ID from decoded token
+            const { usersID } = decoded;
 
-            // Send retrieved monsters data as a response
-            res.json(results);
-        });
+            // Perform database query to delete the monster
+            connection.query('DELETE FROM monsters WHERE usersID = ? AND monstersID = ?', [usersID, monstersIDInt], (err, results) => {
+                if (err) {
+                    console.error('Error removing monster:', err);
+                    return res.status(500).json({ message: 'Internal server error' });
+                }
+
+                if (results.affectedRows === 0) {
+                    // No rows affected, monster not found
+                    return res.status(404).json({ message: 'Monster not found or not owned by user' });
+                }
+
+                // Monster successfully deleted
+                res.status(200).json({ message: 'Monster removed successfully' });
+            });
+        } catch (error) {
+            console.error('Error decoding JWT token:', error);
+            res.status(401).json({ message: 'Invalid token' });
+        }
+    });
+
+
+// Route to get a user's monster library for viewing (GET request)
+    app.get('/api/library', authenticateUser, (req, res) => {
+        const token = req.headers.authorization.split(' ')[1]; // Extract JWT token from Authorization header
+
+        try {
+            // Verify JWT token
+            const decoded = jwt.verify(token, jwtSecret);
+
+            // Extract user information from decoded token
+            const { usersID } = decoded;
+
+            // Fetch user data from the database based on user ID
+            connection.query('SELECT * FROM monsters WHERE usersID = ?', [usersID], (err, results) => {
+                if (err) {
+                    console.error('Error fetching library:', err);
+                    res.status(500).json({ message: 'Internal server error' });
+                    return;
+                }
+
+                if (results.length === 0) {
+                    res.status(404).json({ message: 'library not found' });
+                    return;
+                }
+
+                const monsters = results;
+                //console.log('length is ', monsters[10]);
+                res.json(monsters); // Send retrieved user data as a response
+            });
+        } catch (error) {
+            console.error('Error decoding JWT token:', error);
+            res.status(401).json({ message: 'Invalid token' });
+        }
     });
 
 // Route to get user details based on JWT token
@@ -76,7 +130,7 @@ app.get('/api/library', authenticateUser, (req, res) => {
 
     app.get('/api/body', (req, res) => {
 
-        const bodyQuery = 'SELECT mainsvg FROM body WHERE bodyID = 1';
+        const bodyQuery = 'SELECT mainsvg, texturesvg FROM body WHERE bodyID = 2';
 
         //Connect to database and make query
         connection.query(bodyQuery, (err, bodyResults) => {
@@ -91,8 +145,8 @@ app.get('/api/library', authenticateUser, (req, res) => {
                 return;
             }
             const bodySVG = bodyResults[0].mainsvg;
-
-            res.json({bodySVG});
+            const bodyTextureSVG = bodyResults[0].texturesvg;
+            res.json({bodySVG, bodyTextureSVG});
         });
     });
 
@@ -100,9 +154,9 @@ app.get('/api/library', authenticateUser, (req, res) => {
     app.get('/api/feet', (req, res) => {
 
         // Generate random number for selecting 'feet' SVG file by ID
-        const randomFeetNumber = Math.floor(Math.random() * 4) + 1;
+        let randomFeetNumber = Math.floor(Math.random() * 4) + 7;
 
-        const feetQuery = `SELECT mainsvg FROM feet WHERE feetID = ${randomFeetNumber}`;
+        const feetQuery = `SELECT mainsvg, texturesvg FROM feet WHERE feetID = ${randomFeetNumber}`;
 
         connection.query(feetQuery, (err, feetResults) => {
             if (err) {
@@ -117,7 +171,8 @@ app.get('/api/library', authenticateUser, (req, res) => {
             }
 
             const feetSVG = feetResults[0].mainsvg;
-            res.json({feetSVG});
+            const feetTextureSVG = feetResults[0].texturesvg;
+            res.json({feetSVG, feetTextureSVG});
         });
     });
 
@@ -125,7 +180,7 @@ app.get('/api/library', authenticateUser, (req, res) => {
     app.get('/api/arms', (req, res) => {
 
         //generate random number for selecting Arms SVG file by ID
-        const randomArmsNumber = Math.floor(Math.random() * 3) + 5;
+        const randomArmsNumber = Math.floor(Math.random() * 6) + 11;
 
         const armsQuery = `SELECT mainsvg, texturesvg FROM arms WHERE armsID = ${randomArmsNumber}`;
 
@@ -149,9 +204,9 @@ app.get('/api/library', authenticateUser, (req, res) => {
     });
 
     app.get('/api/mouth', (req, res) => {
-        const randomMouthNumber = Math.floor(Math.random() * 11) + 11;
+        const randomMouthNumber = Math.floor(Math.random() * 10) + 24;
 
-        const mouthQuery = `SELECT mainsvg FROM mouth WHERE mouthID = ${randomMouthNumber}`;
+        const mouthQuery = `SELECT mainsvg, texturesvg FROM mouth WHERE mouthID = ${randomMouthNumber}`;
 
 
         // Connect to database and make query
@@ -167,19 +222,20 @@ app.get('/api/library', authenticateUser, (req, res) => {
                 return;
             }
             const mouthSVG = mouthResults[0].mainsvg;
+            const mouthTextureSVG = mouthResults[0].texturesvg;
 
-            res.json({mouthSVG});
+            res.json({mouthSVG, mouthTextureSVG});
         });
     });
 
     // Endpoint for a randomized selection of the SVG text for the monster's tail
     app.get('/api/tail', (req, res) => {
 
-        // Generate a random number between 1 and 3 (inclusive)
-        const randomTailNumber = Math.floor(Math.random() * 3) + 1;
+        // Generate a random number between 6 and 9 (inclusive)
+        let randomTailNumber = Math.floor(Math.random() * 4) + 6;
 
         // Replace tailID with the random number
-        const tailQuery = `SELECT mainsvg FROM tail WHERE tailID = ${randomTailNumber}`;
+        const tailQuery = `SELECT mainsvg, texturesvg FROM tail WHERE tailID = ${randomTailNumber}`;
 
         // Connect to database and make query
         connection.query(tailQuery, (err, tailResults) => {
@@ -194,18 +250,17 @@ app.get('/api/library', authenticateUser, (req, res) => {
                 return;
             }
             const tailSVG = tailResults[0].mainsvg;
-
-            res.json({tailSVG});
+            const tailTextureSVG = tailResults[0].texturesvg;
+            res.json({tailSVG, tailTextureSVG});
         });
     });
 
 // Endpoint for a randomized selection of the SVG text for the monster's back and a texture overlay
-    // Select between 1 and 5 options
     app.get('/api/back', (req, res) => {
         // Generate random number for selecting 'back' SVG file by ID
-        const randomBackNumber = Math.floor(Math.random() * 13) + 1;
+        const randomBackNumber = Math.floor(Math.random() * 5) + 18;
 
-        const backQuery = `SELECT mainsvg FROM back WHERE backID = ${randomBackNumber}`;
+        const backQuery = `SELECT mainsvg, texturesvg FROM back WHERE backID = ${randomBackNumber}`;
 
 
         // Connect to database and make query
@@ -221,14 +276,14 @@ app.get('/api/library', authenticateUser, (req, res) => {
                 return;
             }
             const backSVG = backResults[0].mainsvg;
-
-            res.json({backSVG});
+            const backTextureSVG = backResults[0].texturesvg;
+            res.json({backSVG, backTextureSVG});
         });
     });
 
     app.get('/api/eyes', (req, res) => {
         // Generate random number for selecting 'eyes' SVG file by ID
-        const randomEyesNumber= Math.floor(Math.random() * 6) + 9;
+        const randomEyesNumber = Math.floor(Math.random() * 6) + 16;
 
         const eyesQuery = `SELECT mainsvg FROM eyes WHERE eyesID = ${randomEyesNumber}`;
 

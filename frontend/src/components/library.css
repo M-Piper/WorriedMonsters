@@ -1,5 +1,5 @@
 .library {
-    padding: 20px;
+    margin-top:25vh
 }
 
 .library h1 {
@@ -11,31 +11,36 @@
     justify-content: center; /* Center text horizontally */
 }
 
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+.gridcontainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust the width of each monster container as needed */
+    gap: 20px; /* Adjust the gap between grid items */
+    justify-content: center; /* Center the grid items horizontally */
 }
-
-.sample-container {
-    border: 1px solid #ccc;
-    margin: 10px;
-    padding: 10px;
+.monster-container {
+    border-radius:25px;
+    margin: 5rem;
+    padding: 2rem;
     position: relative;
-    max-width: 200px; /* Adjust as needed */
 }
 
-.close-button {
+.closebutton {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 0;
+    right: 0;
     background-color: transparent;
     border: none;
     cursor: pointer;
     font-size: 16px;
+    color: black;
+    width: 2rem; /* Adjust the width of the close button */
+    height: 2rem; /* Adjust the height of the close button */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.close-button:hover {
+.closebutton:hover {
     color: red;
 }
 
@@ -45,6 +50,31 @@
     display: block;
 }
 
-h2 {
+.monster-name {
+    vertical-align:bottom;
     text-align: center;
+    font-size: 3vh;
+}
+
+
+.combined-svg-container{
+    border-radius:15px;
+    height:30vh;
+    width: 20vw;
+    padding:2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.combined-svg-container:hover {
+    background-color: #ffbdbd;
+    border-radius: 15px;
+}
+
+.combined-svg{
+    width:20vw;
+    height: 20vh;
 }

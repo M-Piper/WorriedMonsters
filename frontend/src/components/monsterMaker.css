@@ -17,7 +17,7 @@
 /* Set container width to be narrower */
 .monster-container {
     max-width: 80vw; /* Set the maximum width of the container */
-    margin: auto; /* Center the container horizontally */
+    margin: 20vh auto;
     display: flex; /* Use flex display */
     flex-direction: column; /* Stack elements vertically */
     align-items: center; /* Center items along the main axis (vertically) */
@@ -26,7 +26,7 @@
 /* Style the h1 header */
 .monster-name {
     font-size: 5vw; /* Adjust font size to be 5% of the viewport width */
-    margin-top: 10vh; /* Set margin-top to create space between header and SVG */
+    margin-top: 25vh; /* Set margin-top to create space between header and SVG */
     display: flex; /* Use flex display */
     justify-content: center; /* Center text horizontally */
 }
