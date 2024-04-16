@@ -3,6 +3,8 @@ import './library.css';
 import Menu from "./menu.js";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import closeIcon from '../images/close.svg';
+import downloadIcon from '../images/download.svg';
 
 function Library() {
     const [errorMessage, setErrorMessage] = useState('');
@@ -66,19 +68,34 @@ function Library() {
         }
     };
 
+    const downloadSVG = (svgContent, fileName) => {
+        const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName + '.svg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
 
     return (
         <div className="library">
             <Menu />
             <h1>My Monsters</h1>
-            <div className="gridcontainer">
+            <div className="library-grid-container">
                 {monsters.map(monsters => (
-                    <div key={monsters.name} className="monster-container">
-                        <div className="combined-svg-container">
-                         <button className="closebutton" onClick={() => removeFromLibrary(monsters.monstersID)}>X</button>
-                        <div className="combined-svg" dangerouslySetInnerHTML={{ __html: monsters.combinedsvg }} />
-                        <h2 className="monster-name">{monsters.name}</h2>
+                    <div key={monsters.name} className="library-monster-container">
+                        <div className="library-combined-svg-container">
+                            <button className="library-close-button" onClick={() => removeFromLibrary(monsters.monstersID)}>
+                                <img src={closeIcon} alt="Close" />
+                            </button>
+                            <button className="library-download-button" onClick={() => downloadSVG(monsters.combinedsvg, monsters.name)}>
+                                <img src={downloadIcon} alt="Download" />
+                            </button>
+                        <div className="library-combined-svg" dangerouslySetInnerHTML={{ __html: monsters.combinedsvg }} />
+                        <h2 className="library-monster-name">{monsters.name}</h2>
                         </div>
                     </div>
                 ))}

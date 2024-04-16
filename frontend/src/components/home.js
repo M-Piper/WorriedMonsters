@@ -12,6 +12,7 @@ const Home = () => {
             <div className="header">
                 <h1>Worried</h1>
                 <h2>Monsters</h2>
+                <p className="long-text-emph">Monsters have worries too!</p>
                 <p>by Margaret Piper</p>
             </div>
 
@@ -36,7 +37,7 @@ const Home = () => {
             <li>MySQL Database</li>
             <li>Adobe Illustrator to create svg images and use snippets of that code to populate the database (the 'monster generator' creates a randomized aggregate of monster body parts)</li>
 </ul>
-    <p>            The source code is available on GitHub.</p>
+    <p>            The source code is available on <a href="https://github.com/M-Piper/WorriedMonsters">GitHub.</a></p>
             </div>
         </div>
     );

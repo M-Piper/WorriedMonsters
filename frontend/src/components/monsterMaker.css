@@ -15,16 +15,16 @@
 }
 
 /* Set container width to be narrower */
-.monster-container {
+.makemonster-container {
     max-width: 80vw; /* Set the maximum width of the container */
-    margin: 20vh auto;
+    margin: 10vh auto;
     display: flex; /* Use flex display */
     flex-direction: column; /* Stack elements vertically */
     align-items: center; /* Center items along the main axis (vertically) */
 }
 
 /* Style the h1 header */
-.monster-name {
+.makemonster-name {
     font-size: 5vw; /* Adjust font size to be 5% of the viewport width */
     margin-top: 25vh; /* Set margin-top to create space between header and SVG */
     display: flex; /* Use flex display */
@@ -32,16 +32,16 @@
 }
 /* monsterMaker.css */
 /* Add a container to hold the buttons */
-.buttons-container {
+.makemonster-buttons-container {
     display: flex;
     justify-content: center; /* Center the buttons horizontally */
     margin-top: 20px; /* Add margin at the top */
 }
 
 /* Style the download, refresh, and add to library buttons */
-.refresh-btn,
-.download-btn,
-.add-to-library-btn {
+.makemonster-refresh-btn,
+.makemonster-download-btn,
+.makemonster-add-to-library-btn {
     cursor: pointer;
     background: none;
     border: none;
@@ -52,12 +52,12 @@
 
 
 /* Style the plus button image */
-.plus-img, .download-img {
+.makemonster-plus-img, .makemonster-download-img {
     width: 100%; /* Set width to 100% */
     height: auto; /* Auto height to maintain aspect ratio */
 }
 
-.button-label {
+.makemonster-button-label {
     margin-top: 0.5rem; /* Add margin between button image and label */
 }
 
