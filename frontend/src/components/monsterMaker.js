@@ -184,8 +184,8 @@ function MonsterMaker({ location }) {
         }
         // Check if darkerColour is defined
         if (colours) {
-            // Replace fill:none with darkerColour
-            let darkerSVG = svgString.replace(/stroke:#000000/g, `stroke:${colours.darker}`);
+            var regex = /stroke:\s*#000\s*;/g;
+            var darkerSVG = svgString.replace(regex, `stroke:${colours.darker};`);
             return darkerSVG;
         } else {
             // If darkerColour is not available, return the SVG string as is
@@ -233,16 +233,16 @@ function MonsterMaker({ location }) {
     const combineSVGs = () => {
         // Add color to each SVG part
         const colourBodySVG = addColour(monsterParts.bodySVG);
-        const colourBodyTextureSVG = addDarkerColour(monsterParts.bodyTextureSVG);
+        const colourBodyTextureSVG = addDarkerTextureColour(monsterParts.bodyTextureSVG);
         const colourFeetSVG = addColour(monsterParts.feetSVG);
-        const colourFeetTextureSVG = addDarkerColour(monsterParts.feetTextureSVG);
+        const colourFeetTextureSVG = addDarkerTextureColour(monsterParts.feetTextureSVG);
         const colourArmsSVG = addColour(monsterParts.armsSVG);
-        const colourArmsTextureSVG = addDarkerColour(monsterParts.armsTextureSVG);
+        const colourArmsTextureSVG = addDarkerTextureColour(monsterParts.armsTextureSVG);
         const colourBackSVG = addContrastColour(monsterParts.backSVG);
-        const colourTailSVG = addColour(monsterParts.tailSVG);
-        const colourTailTextureSVG = addDarkerColour(monsterParts.tailTextureSVG);
+        const colourTailSVG = addContrastColour(monsterParts.tailSVG);
+        const colourTailTextureSVG = addDarkerTextureColour(monsterParts.tailTextureSVG);
         const colourMouthSVG = addColour(monsterParts.mouthSVG);
-        const colourMouthTextureSVG = addDarkerColour(monsterParts.mouthTextureSVG);
+        const colourMouthTextureSVG = addDarkerTextureColour(monsterParts.mouthTextureSVG);
 
         // Combine SVG parts into one SVG
         const combinedSVG = `<?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1728 1296" style="enable-background:new 0 0 1728 1296;" xml:space="preserve">

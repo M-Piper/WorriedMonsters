@@ -38,33 +38,34 @@ function Library() {
         // Call the fetchMonsters function
         fetchMonsters();
     }, [navigate]);
-
+    // Function to remove a monster from the library
     const removeFromLibrary = async (monstersID) => {
+        try {
+            // Get JWT token from local storage
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('JWT token not found');
+            }
 
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setErrorMessage('Hmmm something went wrong. Refresh your library and try again.');
+            // Make API call to remove the monster from the library
+            await axios.delete(`http://localhost:5000/api/removeFromLibrary/${monstersID}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // Remove the deleted monster from the state
+            setMonsters(monsters.filter(monster => monster.monstersID !== monstersID));
+        } catch (error) {
+            console.error('Error removing monster:', error);
+            // Handle error
+            setErrorMessage('Failed to remove monster from library');
             setTimeout(() => {
                 setErrorMessage('');
             }, 3000);
-            return;
-        }
-        try
-        {
-            // Make authenticated API call to remove monster from library using JWT
-            await axios.delete(`http://localhost:5000/api/removeFromLibrary/$(monstersID)`,{headers: {
-                    Authorization: `Bearer ${token}`}
-            });
-
-            console.error('made it past await axios', monstersID);
-            // Remove the deleted monster from the state
-            setMonsters(monsters.filter(monsters => monsters.monstersID !== monstersID));
-        } catch (error) {
-            console.error('Error removing monster:', error);
-            console.error(monstersID);
-            // Handle error
         }
     };
+
     return (
         <div className="library">
             <Menu />

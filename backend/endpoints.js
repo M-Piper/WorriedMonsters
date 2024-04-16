@@ -18,8 +18,46 @@ export default function setupEndpoints(app) {
     // Route for saving to library (POST request)
     app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
 
-//Route to delete from library
-    app.delete('/api/removeFromLibrary', authenticateUser, removeFromLibrary);
+    // Route to delete a monster from the library
+    app.delete('/api/removeFromLibrary/:monstersID', (req, res) => {
+        // Extract the monstersID from the request parameters
+        const { monstersID } = req.params;
+
+        // Ensure monstersID is a valid integer
+        const monstersIDInt = parseInt(monstersID);
+        if (isNaN(monstersIDInt)) {
+            return res.status(400).json({ message: 'Invalid monstersID' });
+        }
+
+        // Get user ID from JWT token
+        const token = req.headers.authorization.split(' ')[1]; // Extract JWT token from Authorization header
+        try {
+            // Verify JWT token
+            const decoded = jwt.verify(token, jwtSecret);
+
+            // Extract user ID from decoded token
+            const { usersID } = decoded;
+
+            // Perform database query to delete the monster
+            connection.query('DELETE FROM monsters WHERE usersID = ? AND monstersID = ?', [usersID, monstersIDInt], (err, results) => {
+                if (err) {
+                    console.error('Error removing monster:', err);
+                    return res.status(500).json({ message: 'Internal server error' });
+                }
+
+                if (results.affectedRows === 0) {
+                    // No rows affected, monster not found
+                    return res.status(404).json({ message: 'Monster not found or not owned by user' });
+                }
+
+                // Monster successfully deleted
+                res.status(200).json({ message: 'Monster removed successfully' });
+            });
+        } catch (error) {
+            console.error('Error decoding JWT token:', error);
+            res.status(401).json({ message: 'Invalid token' });
+        }
+    });
 
 
 // Route to get a user's monster library for viewing (GET request)
@@ -142,7 +180,7 @@ export default function setupEndpoints(app) {
     app.get('/api/arms', (req, res) => {
 
         //generate random number for selecting Arms SVG file by ID
-        const randomArmsNumber = Math.floor(Math.random() * 4) + 11;
+        const randomArmsNumber = Math.floor(Math.random() * 6) + 11;
 
         const armsQuery = `SELECT mainsvg, texturesvg FROM arms WHERE armsID = ${randomArmsNumber}`;
 
@@ -166,7 +204,7 @@ export default function setupEndpoints(app) {
     });
 
     app.get('/api/mouth', (req, res) => {
-        const randomMouthNumber = Math.floor(Math.random() * 6) + 24;
+        const randomMouthNumber = Math.floor(Math.random() * 10) + 24;
 
         const mouthQuery = `SELECT mainsvg, texturesvg FROM mouth WHERE mouthID = ${randomMouthNumber}`;
 
@@ -245,7 +283,7 @@ export default function setupEndpoints(app) {
 
     app.get('/api/eyes', (req, res) => {
         // Generate random number for selecting 'eyes' SVG file by ID
-        const randomEyesNumber= Math.floor(Math.random() * 7) + 9;
+        const randomEyesNumber = Math.floor(Math.random() * 6) + 16;
 
         const eyesQuery = `SELECT mainsvg FROM eyes WHERE eyesID = ${randomEyesNumber}`;
 
