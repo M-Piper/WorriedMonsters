@@ -12,6 +12,7 @@ const Home = () => {
             <div className="header">
                 <h1>Worried</h1>
                 <h2>Monsters</h2>
+                <p className="long-text-emph">Monsters have worries too!</p>
                 <p>by Margaret Piper</p>
             </div>
 

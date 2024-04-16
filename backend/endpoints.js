@@ -231,8 +231,8 @@ export default function setupEndpoints(app) {
     // Endpoint for a randomized selection of the SVG text for the monster's tail
     app.get('/api/tail', (req, res) => {
 
-        // Generate a random number between 6 and 9 (inclusive)
-        let randomTailNumber = Math.floor(Math.random() * 4) + 6;
+        // Generate a random number between 6 and 11 (inclusive)
+        let randomTailNumber = Math.floor(Math.random() * 6) + 6;
 
         // Replace tailID with the random number
         const tailQuery = `SELECT mainsvg, texturesvg FROM tail WHERE tailID = ${randomTailNumber}`;
@@ -258,7 +258,7 @@ export default function setupEndpoints(app) {
 // Endpoint for a randomized selection of the SVG text for the monster's back and a texture overlay
     app.get('/api/back', (req, res) => {
         // Generate random number for selecting 'back' SVG file by ID
-        const randomBackNumber = Math.floor(Math.random() * 5) + 18;
+        const randomBackNumber = Math.floor(Math.random() * 6) + 18;
 
         const backQuery = `SELECT mainsvg, texturesvg FROM back WHERE backID = ${randomBackNumber}`;
 

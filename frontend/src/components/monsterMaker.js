@@ -237,7 +237,7 @@ function MonsterMaker({ location }) {
         const colourArmsSVG = addColour(monsterParts.armsSVG);
         const colourArmsTextureSVG = addDarkerTextureColour(monsterParts.armsTextureSVG);
         const colourBackSVG = addContrastColour(monsterParts.backSVG);
-        const colourTailSVG = addContrastColour(monsterParts.tailSVG);
+        const colourTailSVG = addColour(monsterParts.tailSVG);
         const colourTailTextureSVG = addDarkerTextureColour(monsterParts.tailTextureSVG);
         const colourMouthSVG = addColour(monsterParts.mouthSVG);
         const colourMouthTextureSVG = addDarkerTextureColour(monsterParts.mouthTextureSVG);
@@ -335,10 +335,10 @@ function MonsterMaker({ location }) {
 
 
     return (
-        <div className="monster-container">
+        <div className="makemonster-container">
             <Menu />
 
-            <h1 className="monster-name">
+            <h1 className="makemonster-name">
                 <span style={{ fontFamily: 'Varela Round, sans-serif', paddingRight: '0.75rem'}}>{monsterName.split(' ')[0]}</span>
                 <span style={{ fontFamily: 'Lobster, cursive', margin: '0 0.5rem', paddingTop:'2rem' }}>{monsterName.split(' ')[1]}</span>
                 <span style={{ fontFamily: 'Madimi One, cursive', paddingLeft: '0.75rem', paddingTop: '5 rem' }}>{monsterName.split(' ')[2]}</span>
@@ -355,23 +355,23 @@ function MonsterMaker({ location }) {
                 <svg className="monstermaker-combined-svg" dangerouslySetInnerHTML={{ __html: combineSVGs() }} />
             </div>
 
-            <div className="buttons-container">
+            <div className="makemonster-buttons-container">
                 {/* Refresh button */}
-                <button onClick={handleRefresh} className="refresh-btn">
-                    <img src={refresh} alt="refresh" className="refresh-img" />
-                    <span className="button-label">Generate New Monster</span>
+                <button onClick={handleRefresh} className="makemonster-refresh-btn">
+                    <img src={refresh} alt="refresh" className="makemonster-refresh-img" />
+                    <span className="makemonster-button-label">Generate New Monster</span>
                 </button>
 
                 {/* Add to library button */}
-                <button onClick={handleAddToLibrary} className="add-to-library-btn">
-                    <img src={plus} alt="plus" className="plus-img" />
-                    <span className="button-label">Add to Library</span>
+                <button onClick={handleAddToLibrary} className="makemonster-add-to-library-btn">
+                    <img src={plus} alt="plus" className="makemonster-plus-img" />
+                    <span className="makemonster-button-label">Add to Library</span>
                 </button>
 
                 {/* Download button */}
-                <button onClick={handleDownload} className="download-btn">
-                    <img src={download} alt="download" className="download-img" />
-                    <span className="button-label">Download Monster</span>
+                <button onClick={handleDownload} className="makemonster-download-btn">
+                    <img src={download} alt="download" className="makemonster-download-img" />
+                    <span className="makemonster-button-label">Download Monster</span>
                 </button>
             </div>
         </div>
