@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './home.css';
-import homeImage from '../images/sample.png';
+import homeImage from '../images/WynneTheUncertain.png';
 import Menu from './menu.js';
 const username = localStorage.getItem('username');
 const userID = localStorage.getItem('userID');

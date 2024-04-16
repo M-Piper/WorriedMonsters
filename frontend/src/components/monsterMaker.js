@@ -166,9 +166,7 @@ function MonsterMaker({ location }) {
         }
         // Check if colours state is available
         if (colours) {
-            // Regular expression to match "fill:none" within a style attribute
             var regex = /fill:\s*none\s*;/g;
-            // Replace "fill:none" with "fill:[colourvariablehere]" using colours.main
             var filledSVG = svgString.replace(regex, `fill:${colours.main};`);
             return filledSVG;
         } else {

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './menu.css';
 import home from '../images/home.svg';
-import library from '../images/library.svg';
+import library from '../images/maybelibrary.svg';
+import monster from '../images/library.svg';
+import about from '../images/about.svg';
 
 const Menu = () => {
     const navigate = useNavigate();
@@ -68,13 +70,13 @@ const Menu = () => {
 
                 {/* Make a Monster button */}
                 <button onClick={handleMakeMonster} className={"makemonster-button"}>
-                    <img src={library} alt="library" className="library-img" />
+                    <img src={monster} alt="monster" className="library-img" />
                     <span className="button-label">Make a Monster!</span>
                 </button>
 
                 {/* About button */}
                 <button onClick={handleAbout} className={"about-button"}>
-                    <img src={library} alt="library" className="library-img" />
+                    <img src={about} alt="about" className="library-img" />
                     <span className="button-label">About Us</span>
                 </button>
 

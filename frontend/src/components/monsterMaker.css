@@ -26,7 +26,7 @@
 /* Style the h1 header */
 .monster-name {
     font-size: 5vw; /* Adjust font size to be 5% of the viewport width */
-    margin-top: 10vh; /* Set margin-top to create space between header and SVG */
+    margin-top: 25vh; /* Set margin-top to create space between header and SVG */
     display: flex; /* Use flex display */
     justify-content: center; /* Center text horizontally */
 }
