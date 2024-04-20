@@ -5,20 +5,25 @@ import home from '../images/home.svg';
 import library from '../images/maybelibrary.svg';
 import monster from '../images/library.svg';
 import about from '../images/about.svg';
+import menuIcon from '../images/menuIcon.svg';
 
 const Menu = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const isMobile = window.innerWidth <= 768; // Check if it's a mobile device based on window width
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            // Retrieve the username from local storage if the user is logged in
             const storedUsername = localStorage.getItem('username');
             setUsername(storedUsername);
         }
     }, [navigate]);
 
+    const handleSidebarToggle = () => {
+        setSidebarOpen(!sidebarOpen);
+    };
 
     const handleHome = () => {
         navigate('/');
@@ -26,7 +31,7 @@ const Menu = () => {
 
     const handleLogin = () => {
         navigate('/login');
-    }
+    };
 
     const handleLibrary = () => {
         navigate('/library');
@@ -34,68 +39,98 @@ const Menu = () => {
 
     const handleRegister = () =>{
         navigate('/register');
-    }
+    };
 
     const handleMakeMonster = () =>{
         navigate('/monsterMaker');
-    }
+    };
 
     const handleAbout = () =>{
         navigate('/about');
-    }
-
+    };
 
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/');
     };
 
-    // Check if token exists in localStorage
     const isLoggedIn = !!localStorage.getItem('token');
-
 
     return (
         <div className="menu-container">
-            <div className="mainmenu">
-            {/* Home icon and title */}
-            <button onClick={handleHome} className="home-button">
-                <img src={home} alt="home" className="home-img" />
-                <span className="button-label">Home</span>
-            </button>
-            {/* Library button */}
-            <button onClick={handleLibrary} className={`library-button ${isLoggedIn ? '' : 'disabled'}`}>
-                <img src={library} alt="library" className="library-img" />
-                <span className="button-label">Monster Library</span>
-            </button>
-
-                {/* Make a Monster button */}
-                <button onClick={handleMakeMonster} className={"makemonster-button"}>
-                    <img src={monster} alt="monster" className="library-img" />
-                    <span className="button-label">Make a Monster!</span>
-                </button>
-
-                {/* About button */}
-                <button onClick={handleAbout} className={"about-button"}>
-                    <img src={about} alt="about" className="library-img" />
-                    <span className="button-label">About Us</span>
-                </button>
-
-            <button className="blank-button"></button>
-
-            {/* Conditional rendering based on login status */}
-            {isLoggedIn ? (
-                <button onClick={handleLogout} className="logout-button">Logout</button>
-
+            {/* Mobile View */}
+            {isMobile ? (
+                <div className={`mobile-sidebar ${sidebarOpen ? 'open' : ''}`}>
+                    <div className="sidebar">
+                        <button onClick={handleHome}>Home
+                        <img src={home} alt="home" className="home-img" />
+                        <span className="button-label">Home</span>
+                        </button>
+                        <button onClick={handleLibrary} className={`library-button ${isLoggedIn ? '' : 'disabled'}`}>
+                            <img src={library} alt="library" className="library-img" />
+                            <span className="button-label">Monster Library</span>
+                        </button>
+                        <button onClick={handleMakeMonster} className={"makemonster-button"}>
+                            <img src={monster} alt="monster" className="library-img" />
+                            <span className="button-label">Make a Monster!</span>
+                        </button>
+                        <button onClick={handleAbout} className={"about-button"}>
+                            <img src={about} alt="about" className="library-img" />
+                            <span className="button-label">About Us</span>
+                        </button>
+                        {isLoggedIn ? (
+                            <button onClick={handleLogout}>Logout</button>
+                        ) : (
+                            <button onClick={handleLogin}>Login</button>
+                        )}
+                        <button onClick={handleRegister}>Register</button>
+                        {isLoggedIn && (
+                            <div className="welcome-message-container">
+                                <span className="welcome-message">Welcome, {username}</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
             ) : (
-                <button onClick={handleLogin} className="login-button">Login</button>
+                // Desktop View
+                <div className="desktop-menu">
+                    <div className="mainmenu">
+                        <button onClick={handleHome} className="home-button">
+                            <img src={home} alt="home" className="home-img" />
+                            <span className="button-label">Home</span>
+                        </button>
+                        <button onClick={handleLibrary} className={`library-button ${isLoggedIn ? '' : 'disabled'}`}>
+                            <img src={library} alt="library" className="library-img" />
+                            <span className="button-label">Monster Library</span>
+                        </button>
+                        <button onClick={handleMakeMonster} className={"makemonster-button"}>
+                            <img src={monster} alt="monster" className="library-img" />
+                            <span className="button-label">Make a Monster!</span>
+                        </button>
+                        <button onClick={handleAbout} className={"about-button"}>
+                            <img src={about} alt="about" className="library-img" />
+                            <span className="button-label">About Us</span>
+                        </button>
+                        <button className="blank-button"></button>
+                        {isLoggedIn ? (
+                            <button onClick={handleLogout} className="logout-button">Logout</button>
+                        ) : (
+                            <button onClick={handleLogin} className="login-button">Login</button>
+                        )}
+                        <button onClick={handleRegister} className="register-button">Register</button>
+                    </div>
+                    {isLoggedIn && (
+                        <div className="welcome-message-container">
+                            <span className="welcome-message">Welcome, {username}</span>
+                        </div>
+                    )}
+                </div>
             )}
 
-            {/* Register button */}
-            <button onClick={handleRegister} className="register-button">Register</button>
-        </div>
-            {isLoggedIn && (
-                <div className="welcome-message-container">
-                    <span className="welcome-message">Welcome, {username}</span>
+            {/* Mobile Menu Toggle */}
+            {isMobile && (
+                <div className="mobile-menu-toggle" onClick={handleSidebarToggle}>
+                    <img src={menuIcon} alt="menu" className="menu-icon" />
                 </div>
             )}
         </div>

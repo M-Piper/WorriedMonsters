@@ -162,9 +162,42 @@
     pointer-events: none; /* Example styling */
 }
 
+
+
 /* Adjusted font size for smaller screens */
 @media only screen and (max-width: 768px) {
     .mainmenu button {
         font-size: 1rem;
+    }
+
+    /* Sidebar */
+    .mobile-sidebar {
+        position: fixed;
+        top: 0;
+        left: -300px; /* Initially hide the sidebar off-screen */
+        width: 250px;
+        height: 100vh;
+        background: #fff;
+        z-index: 998;
+        transition: left 0.3s ease;
+    }
+
+    .mobile-sidebar.open {
+        left: 0; /* Slide the sidebar into view */
+    }
+
+    /* Menu Toggle Icon */
+    .mobile-menu-toggle {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 999;
+        cursor: pointer;
+    }
+
+    .mobile-menu-toggle .menu-icon {
+        width: 30px;
+        height: 30px;
+        background: url('../images/menuIcon.svg') center/cover no-repeat;
     }
 }
