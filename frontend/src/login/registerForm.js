@@ -21,7 +21,7 @@ function RegisterForm() {
             }
 
             // Make API call to register user
-            const response = await fetch('http://localhost:5000/api/register', {
+            const response = await fetch('http://54.82.71.40:5000/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
