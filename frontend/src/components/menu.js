@@ -62,28 +62,24 @@ const Menu = () => {
             {isMobile ? (
                 <div className={`mobile-sidebar ${sidebarOpen ? 'open' : ''}`}>
                     <div className="sidebar">
-                        <button onClick={handleHome}>Home
-                        <img src={home} alt="home" className="home-img" />
-                        <span className="button-label">Home</span>
+                        <button onClick={handleHome} className="sidebar-menu-button">
+                            <img src={home} alt="home" className="menu-icon" />
                         </button>
-                        <button onClick={handleLibrary} className={`library-button ${isLoggedIn ? '' : 'disabled'}`}>
-                            <img src={library} alt="library" className="library-img" />
-                            <span className="button-label">Monster Library</span>
+                        <button onClick={handleLibrary} className={`sidebar-menu-button ${isLoggedIn ? '' : 'disabled'}`}>
+                            <img src={library} alt="library" className="menu-icon" />
                         </button>
-                        <button onClick={handleMakeMonster} className={"makemonster-button"}>
-                            <img src={monster} alt="monster" className="library-img" />
-                            <span className="button-label">Make a Monster!</span>
+                        <button onClick={handleMakeMonster} className="sidebar-menu-button">
+                            <img src={monster} alt="monster" className="menu-icon" />
                         </button>
-                        <button onClick={handleAbout} className={"about-button"}>
-                            <img src={about} alt="about" className="library-img" />
-                            <span className="button-label">About Us</span>
+                        <button onClick={handleAbout} className="sidebar-menu-button">
+                            <img src={about} alt="about" className="menu-icon" />
                         </button>
                         {isLoggedIn ? (
-                            <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleLogout} className="sidebar-menu-button">Logout</button>
                         ) : (
-                            <button onClick={handleLogin}>Login</button>
+                            <button onClick={handleLogin} className="sidebar-menu-button">Login</button>
                         )}
-                        <button onClick={handleRegister}>Register</button>
+                        <button onClick={handleRegister} className="sidebar-menu-button">Register</button>
                         {isLoggedIn && (
                             <div className="welcome-message-container">
                                 <span className="welcome-message">Welcome, {username}</span>
