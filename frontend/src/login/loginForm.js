@@ -13,7 +13,7 @@ import Menu from "../components/menu.js";
             e.preventDefault();
 
             try {
-                const response = await fetch('http://localhost:5000/api/login', {
+                const response = await fetch('http://54.82.71.40:5000/api/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

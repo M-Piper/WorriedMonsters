@@ -3,8 +3,8 @@ import mysql2 from 'mysql2';
 // Database connection setup
 const connection = mysql2.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'root',
+    user: 'MPiper',
+    password: 'T2spImgr8!',
     database: 'my_database',
     insecureAuth: true
 });
