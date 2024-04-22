@@ -1,3 +1,6 @@
+Simple project to demo my abilities at full stack with React, NodeJS, MySQL - this program highlights understanding of svg files, api calls, and is hosted on AWS (EC2 instance and Amazon RDS for database).
+
+
 Everyone hears about the truly scary monsters who stir up trouble, rampage villages, and generally cause problems. But what about the monsters with problems of their own?
 
 Have you ever tried to strike fear into the soul of local farmers whilst battling a crippling fear of cows? Well, Mildred the Agitated does, and bovinophobia effects not only her quality of life but also her ability to do her job.
