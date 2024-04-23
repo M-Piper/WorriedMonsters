@@ -12,8 +12,12 @@ const corsOptions = {
 };
 
 
-// Enable CORS for all routes
-app.use(cors(corsOptions));
+// Custom middleware to add the custom header
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Private-Network', 'true');
+    next();
+});
+
 
 // Use middleware to parse incoming request bodies
 // Increase the limit to 50MB (or any desired limit)
