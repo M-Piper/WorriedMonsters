@@ -24,7 +24,7 @@
 
 .long-text {
     font-family: 'Varela Round', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin-top: 5px;
     line-height: 1.6;
 }
@@ -41,14 +41,9 @@
 .long-text-italic {
     font-family: 'Madimi One', cursive;
     font-style: italic;
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin-top: 5px;
     line-height: 1.6; /* Removed 'px' from line-height value */
-}
-
-.oxford-definition {
-    margin-left: 2rem; /* Adjusted left margin for smaller devices */
-    margin-right: 2rem; /* Adjusted right margin for smaller devices */
 }
 
 /* Media query for smaller screens */

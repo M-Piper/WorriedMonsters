@@ -1,22 +1,24 @@
 import express from 'express';
+import https from 'https';
+import fs from 'fs';
 import bodyParser from 'body-parser';
 import setupEndpoints from './endpoints.js'; // Import endpoint setup function
-import {connection, startDatabase} from './database.js';
+import { startDatabase } from './database.js';
 import cors from 'cors';
 
 // Create an Express application
 const app = express();
 const PORT = process.env.PORT || 5000;
-const corsOptions = {
-    origin: 'http://54.82.71.40:5000',
-};
 
+// CORS configuration
+const corsOptions = {
+    origin: 'https://worriedmonsters.com', // Update with your frontend URL
+};
 
 // Enable CORS for all routes
 app.use(cors(corsOptions));
 
-// Use middleware to parse incoming request bodies
-// Increase the limit to 50MB (or any desired limit)
+// Middleware to parse incoming request bodies
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
@@ -26,8 +28,14 @@ startDatabase()
         // Set up endpoints after database connection is established
         setupEndpoints(app);
 
-        // Start the server
-        app.listen(PORT, () => {
+        // HTTPS options (replace 'path/to/private/key.pem' and 'path/to/certificate.crt' with actual paths)
+        const httpsOptions = {
+            key: fs.readFileSync('./monster.pem'),
+            cert: fs.readFileSync('path/to/certificate.crt'),
+        };
+
+        // Create HTTPS server
+        https.createServer(httpsOptions, app).listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
         });
     })
