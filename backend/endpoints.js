@@ -3,7 +3,6 @@ import { connection } from './database.js';
 import {saveToLibrary} from "./saveToLibrary.js";
 import { jwtSecret } from './config.js';
 import jwt from 'jsonwebtoken';
-// Import middleware function for authentication
 import { authenticateUser } from './middleware.js';
 import {removeFromLibrary} from "./removeFromLibrary.js";
 
@@ -127,6 +126,14 @@ export default function setupEndpoints(app) {
         }
     });
 
+    // Route to handle preflight requests for /api/body endpoint
+    app.options('/api/body', (req, res) => {
+        // Respond with appropriate headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.sendStatus(200);
+    });
 
     app.get('/api/body', (req, res) => {
 
@@ -149,6 +156,17 @@ export default function setupEndpoints(app) {
             res.json({bodySVG, bodyTextureSVG});
         });
     });
+
+
+    // Route to handle preflight requests for /api/body endpoint
+    app.options('/api/feet', (req, res) => {
+        // Respond with appropriate headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.sendStatus(200);
+    });
+
 
     // Route to fetch feet SVG
     app.get('/api/feet', (req, res) => {
@@ -174,6 +192,16 @@ export default function setupEndpoints(app) {
             const feetTextureSVG = feetResults[0].texturesvg;
             res.json({feetSVG, feetTextureSVG});
         });
+    });
+
+
+    // Route to handle preflight requests for /api/body endpoint
+    app.options('/api/arms', (req, res) => {
+        // Respond with appropriate headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.sendStatus(200);
     });
 
     // Route to fetch arms SVG
@@ -203,6 +231,16 @@ export default function setupEndpoints(app) {
         });
     });
 
+
+    // Route to handle preflight requests for /api/body endpoint
+    app.options('/api/mouth', (req, res) => {
+        // Respond with appropriate headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.sendStatus(200);
+    });
+
     app.get('/api/mouth', (req, res) => {
         const randomMouthNumber = Math.floor(Math.random() * 10) + 24;
 
@@ -226,6 +264,16 @@ export default function setupEndpoints(app) {
 
             res.json({mouthSVG, mouthTextureSVG});
         });
+    });
+
+
+    // Route to handle preflight requests for /api/body endpoint
+    app.options('/api/tail', (req, res) => {
+        // Respond with appropriate headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.sendStatus(200);
     });
 
     // Endpoint for a randomized selection of the SVG text for the monster's tail
@@ -255,6 +303,16 @@ export default function setupEndpoints(app) {
         });
     });
 
+
+    // Route to handle preflight requests for /api/body endpoint
+    app.options('/api/back', (req, res) => {
+        // Respond with appropriate headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.sendStatus(200);
+    });
+
 // Endpoint for a randomized selection of the SVG text for the monster's back and a texture overlay
     app.get('/api/back', (req, res) => {
         // Generate random number for selecting 'back' SVG file by ID
@@ -279,6 +337,16 @@ export default function setupEndpoints(app) {
             const backTextureSVG = backResults[0].texturesvg;
             res.json({backSVG, backTextureSVG});
         });
+    });
+
+
+    // Route to handle preflight requests for /api/body endpoint
+    app.options('/api/eyes', (req, res) => {
+        // Respond with appropriate headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.sendStatus(200);
     });
 
     app.get('/api/eyes', (req, res) => {
@@ -307,6 +375,15 @@ export default function setupEndpoints(app) {
     });
 
 
+    // Route to handle preflight requests for /api/body endpoint
+    app.options('/api/colours', (req, res) => {
+        // Respond with appropriate headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.sendStatus(200);
+    });
+
     app.get('/api/colours', (req, res) => {
         const randomColourNumber = Math.floor(Math.random() * 47) + 1;
         const colourQuery = 'SELECT main, darker, contrast FROM colours WHERE coloursID = ?';
@@ -332,7 +409,14 @@ export default function setupEndpoints(app) {
         });
     });
 
-
+    // Route to handle preflight requests for /api/body endpoint
+    app.options('/api/randomname', (req, res) => {
+        // Respond with appropriate headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.sendStatus(200);
+    });
 
     // Endpoint to select a random name and corresponding adjective
     app.get('/api/randomname', (req, res) => {
