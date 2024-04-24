@@ -308,7 +308,7 @@ export default function setupEndpoints(app) {
 
 
     app.get('/api/colours', (req, res) => {
-        const randomColourNumber = Math.floor(Math.random() * 47) + 1;
+        const randomColourNumber = Math.floor(Math.random() * 60) + 49;
         const colourQuery = 'SELECT main, darker, contrast FROM colours WHERE coloursID = ?';
 
         connection.query(colourQuery, [randomColourNumber], (err, colourResults) => {
