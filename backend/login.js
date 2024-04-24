@@ -1,6 +1,6 @@
 import { connection } from './database.js';
 import jwt from 'jsonwebtoken';
-import {jwtSecret} from "./config.js";
+import jwtSecret from "./config.js";
 
 export function registerUser(req, res) {
     const { username, password } = req.body;

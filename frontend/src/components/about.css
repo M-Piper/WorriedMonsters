@@ -24,14 +24,14 @@
 
 .long-text {
     font-family: 'Varela Round', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.5vw;
     margin-top: 5px;
     line-height: 1.6;
 }
 
 .long-text-emph {
     font-family: 'Madimi One', cursive;
-    font-size: 2rem;
+    font-size: 2vw;
     margin-top: 5px;
     line-height: 1.6; /* Removed 'px' from line-height value */
     color: green;
@@ -41,7 +41,7 @@
 .long-text-italic {
     font-family: 'Madimi One', cursive;
     font-style: italic;
-    font-size: 1.5rem;
+    font-size: 1.5vw;
     margin-top: 5px;
     line-height: 1.6; /* Removed 'px' from line-height value */
 }
