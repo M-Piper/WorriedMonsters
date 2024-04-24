@@ -9,7 +9,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Enable CORS for netlify
-app.use(cors({ origin: 'https://dulcet-torrone-c875f0.netlify.app' }));
+app.use(cors({
+    origin: 'https://dulcet-torrone-c875f0.netlify.app',
+    credentials: true,
+    methods: ['GET', 'POST', 'DELETE'], // Add other methods you're using
+    allowedHeaders: ['Content-Type', 'Authorization'], // Add other headers your requests may include
+}));
 
 // Use middleware to parse incoming request bodies
 // Increase the limit to 50MB (or any desired limit)
