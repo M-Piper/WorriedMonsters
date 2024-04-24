@@ -10,13 +10,11 @@ import cors from 'cors';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration
-const corsOptions = {
-    origin: 'https://worriedmonsters.com', // Update with your frontend URL
-};
-
-// Enable CORS for all routes
-app.use(cors(corsOptions));
+// Custom middleware to add the custom header
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Private-Network', 'true');
+    next();
+});
 
 // Middleware to parse incoming request bodies
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -31,7 +29,7 @@ startDatabase()
         // HTTPS options (replace 'path/to/private/key.pem' and 'path/to/certificate.crt' with actual paths)
         const httpsOptions = {
             key: fs.readFileSync('./monster.pem'),
-            cert: fs.readFileSync('path/to/certificate.crt'),
+            //cert: fs.readFileSync('path/to/certificate.crt'),
         };
 
         // Create HTTPS server
