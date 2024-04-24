@@ -1,7 +1,7 @@
 import { loginUser, registerUser } from './login.js';
 import { connection } from './database.js';
 import {saveToLibrary} from "./saveToLibrary.js";
-import { jwtSecret } from './config.js';
+import jwtSecret from './config.js';
 import jwt from 'jsonwebtoken';
 // Import middleware function for authentication
 import { authenticateUser } from './middleware.js';

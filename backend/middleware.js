@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { jwtSecret } from './config.js';
+import jwtSecret from './config.js';
 
 export function authenticateUser(req, res, next) {
     const authHeader = req.headers.authorization;
