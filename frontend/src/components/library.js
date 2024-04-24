@@ -22,7 +22,7 @@ function Library() {
                 }
 
                 // Make authenticated API call to fetch monsters using JWT
-                const response = await axios.get('http://localhost:5000/api/library', {
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/library`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -50,7 +50,7 @@ function Library() {
             }
 
             // Make API call to remove the monster from the library
-            await axios.delete(`http://localhost:5000/api/removeFromLibrary/${monstersID}`, {
+            await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/removeFromLibrary/${monstersID}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
