@@ -16,7 +16,8 @@ app.use((req, res, next) => {
     next();
 });
 
-// Middleware to parse incoming request bodies
+
+// Use middleware to parse incoming request bodies
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
