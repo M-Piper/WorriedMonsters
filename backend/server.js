@@ -1,20 +1,26 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import setupEndpoints from './endpoints.js'; // Import endpoint setup function
-import {connection, startDatabase} from './database.js';
+import { connection, startDatabase } from './database.js';
 import cors from 'cors';
 
 // Create an Express application
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enable CORS for netlify
-app.use(cors({
+// Define CORS options
+const corsOptions = {
     origin: 'https://dulcet-torrone-c875f0.netlify.app',
     credentials: true,
     methods: ['GET', 'POST', 'DELETE'], // Add other methods you're using
     allowedHeaders: ['Content-Type', 'Authorization'], // Add other headers your requests may include
-}));
+};
+
+// Enable CORS using the defined options
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 // Use middleware to parse incoming request bodies
 // Increase the limit to 50MB (or any desired limit)
