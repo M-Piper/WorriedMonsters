@@ -13,7 +13,7 @@ const corsOptions = {
     origin: 'https://worriedmonsters.com',
     credentials: true,
     methods: ['GET', 'POST', 'DELETE'], // Add other methods you're using
-    allowedHeaders: ['Content-Type', 'Authorization'], // Add other headers your requests may include
+    allowedHeaders: '*',
 };
 
 // Enable CORS using the defined options
