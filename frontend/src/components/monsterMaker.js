@@ -38,7 +38,7 @@ function MonsterMaker({ location }) {
     useEffect(() => {
 
         // Fetch random colour scheme
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/colours`)
+        axios.get(`/colours`)
             .then(response => {
                 setColours(prevState => ({
                     ...prevState,
@@ -53,7 +53,7 @@ function MonsterMaker({ location }) {
 
 
         // Fetch body SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/body`)
+        axios.get(`/api/body`)
             .then(response => {
                 setMonsterParts(prevState => ({
                     ...prevState,
@@ -66,7 +66,7 @@ function MonsterMaker({ location }) {
             });
 
         // Fetch feet SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/feet`)
+        axios.get(`/api/feet`)
             .then(response => {
                 setMonsterParts(prevState => ({
                     ...prevState,
@@ -80,7 +80,7 @@ function MonsterMaker({ location }) {
 
 
         // Fetch eyes SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/eyes`)
+        axios.get(`/api/eyes`)
             .then(response => {
                 setMonsterParts(prevState => ({
                     ...prevState,
@@ -94,7 +94,7 @@ function MonsterMaker({ location }) {
 
 
         // Fetch mouth SVG
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/mouth`)
+        axios.get(`/api/mouth`)
             .then(response => {
                 setMonsterParts(prevState => ({
                     ...prevState,
@@ -107,7 +107,7 @@ function MonsterMaker({ location }) {
             });
 
         // Fetch back SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/back`)
+        axios.get(`/api/back`)
             .then(response => {
                 setMonsterParts(prevState => ({
                     ...prevState,
@@ -120,7 +120,7 @@ function MonsterMaker({ location }) {
 
 
         // Fetch tail SVG and texture SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/tail`)
+        axios.get(`/api/tail`)
             .then(response => {
                 setMonsterParts(prevState => ({
                     ...prevState,
@@ -134,7 +134,7 @@ function MonsterMaker({ location }) {
 
 
         // Fetch arms SVG and texture SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/arms`)
+        axios.get(`/api/arms`)
             .then(response => {
                 setMonsterParts(prevState => ({
                     ...prevState,
@@ -149,7 +149,7 @@ function MonsterMaker({ location }) {
 
 
         // Fetch random monster name
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/randomname`)
+        axios.get(`/api/randomname`)
             .then(response => {
                 setMonsterName(response.data.output);
             })
