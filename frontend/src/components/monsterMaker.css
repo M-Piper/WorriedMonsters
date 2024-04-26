@@ -25,7 +25,7 @@
 
 /* Style the h1 header */
 .makemonster-name {
-    font-size: 5vw; /* Adjust font size to be 5% of the viewport width */
+    font-size: 4.5vw; /* Adjust font size to be 5% of the viewport width */
     margin-top: 25vh; /* Set margin-top to create space between header and SVG */
     display: flex; /* Use flex display */
     justify-content: center; /* Center text horizontally */
@@ -35,7 +35,7 @@
 .makemonster-buttons-container {
     display: flex;
     justify-content: center; /* Center the buttons horizontally */
-    margin-top: 20px; /* Add margin at the top */
+    margin-top: 17px; /* Add margin at the top */
 }
 
 /* Style the download, refresh, and add to library buttons */
