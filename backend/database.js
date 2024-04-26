@@ -1,13 +1,12 @@
 import mysql2 from 'mysql2';
-import dotenv from 'dotenv';
-dotenv.config();
 
-
-const urlDB = 'mysql://root:gxeqHlAgqDmGdvMrXYgQnOWxMYTFxVrV@mysql.railway.internal:3306/railway';
-    //`mysql://${process.env.MYSQLUSER}: ${process.env.MYSQLPASSWORD}@${process.env.MYSQLHOST}:${process.env.MYSQLPORT}/${process.env.MYSQLDATABASE}`
-
-// Database connection setup
-const connection = mysql2.createConnection(urlDB);
+const connection = mysql2.createConnection({
+    host: process.env.MYSQLHOST,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQL_ROOT_PASSWORD,
+    database: process.env.MYSQLDATABASE,
+    port: process.env.MYSQLPORT
+});
 
 connection.connect(err => {
     if (err) {
@@ -17,10 +16,8 @@ connection.connect(err => {
     console.log('Connected to MySQL database');
 });
 
-// Export the connection object for use in other files
 export { connection };
 
-// Function to start the database connection
 export function startDatabase() {
     return new Promise((resolve, reject) => {
         connection.connect(err => {
