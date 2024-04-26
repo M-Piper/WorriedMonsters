@@ -6,7 +6,7 @@ import cors from 'cors';
 
 // Create an Express application
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 // // Define CORS options
 // const corsOptions = {
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 // Initialize database connection and start server
 startDatabase()
     .then(() => {
-        // Set up endpoints after database connection is established
+        // Set up endpoints after database connection is established+
         setupEndpoints(app);
 
         // Start the server
