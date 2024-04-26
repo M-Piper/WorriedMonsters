@@ -1,8 +1,8 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import setupEndpoints from './endpoints.js'; // Import endpoint setup function
-import { connection, startDatabase } from './database.js';
-import cors from 'cors';
+import express from "express";
+import bodyParser from "body-parser";
+// import setupEndpoints from "./endpoints.js"; // Import endpoint setup function
+// import { connection, startDatabase } from "./database.js";
+import cors from "cors";
 
 // Create an Express application
 const app = express();
@@ -22,23 +22,29 @@ const PORT = process.env.PORT || 5000;
 // Handle preflight requests
 //app.options('*', cors(corsOptions));
 app.use(cors());
-console.log('test');
+console.log("test");
 // Use middleware to parse incoming request bodies
 // Increase the limit to 50MB (or any desired limit)
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-// Initialize database connection and start server
-startDatabase()
-    .then(() => {
-        // Set up endpoints after database connection is established
-        setupEndpoints(app);
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
-        // Start the server
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-        });
-    })
-    .catch(err => {
-        console.error('Error starting server:', err);
-    });
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+// // Initialize database connection and start server
+// startDatabase()
+//   .then(() => {
+//     // Set up endpoints after database connection is established
+//     setupEndpoints(app);
+
+//     // Start the server
+
+//   })
+//   .catch((err) => {
+//     console.error("Error starting server:", err);
+//   });
