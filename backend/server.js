@@ -6,7 +6,7 @@ import cors from 'cors';
 
 // Create an Express application
 const app = express();
-const PORT = 54913;
+const PORT = 3306;
 
 // // Define CORS options
 // const corsOptions = {

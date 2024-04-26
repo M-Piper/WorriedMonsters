@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 
-const urlDB = 'mysql://root:gxeqHlAgqDmGdvMrXYgQnOWxMYTFxVrV@viaduct.proxy.rlwy.net:54913/railway';
+const urlDB = 'mysql://root:gxeqHlAgqDmGdvMrXYgQnOWxMYTFxVrV@mysql.railway.internal:3306/railway';
     //`mysql://${process.env.MYSQLUSER}: ${process.env.MYSQLPASSWORD}@${process.env.MYSQLHOST}:${process.env.MYSQLPORT}/${process.env.MYSQLDATABASE}`
 
 // Database connection setup
