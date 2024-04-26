@@ -45,11 +45,11 @@
     cursor: pointer;
     background: none;
     border: none;
-    width: 8vw; /* Set the width of the buttons */
+    width: 15vw; /* Set a percentage width for better scaling */
+    min-width: 100px; /* Set a minimum width to prevent buttons from getting too small */
     height: auto; /* Auto height to maintain aspect ratio */
     margin: 0 3vw; /* Add margin between buttons */
 }
-
 
 /* Style the plus button image */
 .makemonster-plus-img, .makemonster-download-img {
@@ -82,3 +82,9 @@
     font-size: 2rem;
 }
 
+@media screen and (max-width: 768px) {
+    .monstermaker-combined-svg {
+        width: 60vw; /* Adjust SVG width for smaller screens */
+        height: auto; /* Auto height to maintain aspect ratio */
+    }
+}

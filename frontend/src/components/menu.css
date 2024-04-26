@@ -32,17 +32,6 @@
     margin-right: 10px; /* Add some spacing */
     color: black;
 }
-.mainmenu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 20vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 3vh 10vw;
-}
 
 .mainmenu button {
     background: none;
@@ -178,7 +167,7 @@
         width: 250px;
         height: 100vh;
         background: #fff;
-        background: rgba(206,252,209,0.5);
+        background: rgba(206,252,209,0.9);
         z-index: 998;
         transition: left 0.3s ease;
     }
