@@ -45,7 +45,7 @@
     cursor: pointer;
     background: none;
     border: none;
-    width: 15vw; /* Set a percentage width for better scaling */
+    width: 13vw; /* Set a percentage width for better scaling */
     min-width: 100px; /* Set a minimum width to prevent buttons from getting too small */
     height: auto; /* Auto height to maintain aspect ratio */
     margin: 0 3vw; /* Add margin between buttons */
