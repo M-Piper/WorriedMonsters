@@ -6,7 +6,7 @@ import cors from 'cors';
 
 // Create an Express application
 const app = express();
-const PORT = 3306;
+const PORT = process.env.MYSQLPORT;
 
 // // Define CORS options
 // const corsOptions = {
