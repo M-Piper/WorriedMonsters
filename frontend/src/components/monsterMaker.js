@@ -36,7 +36,7 @@ function MonsterMaker({ location }) {
   const [monsterName, setMonsterName] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/")
+    fetch(process.env.REACT_APP_BACKEND_URL)
       .then((r) => r.text())
       .then((response) => console.log(1234, response));
   }, []);
