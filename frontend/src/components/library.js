@@ -50,7 +50,7 @@ function Library() {
             }
 
             // Make API call to remove the monster from the library
-            await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/removeFromLibrary/${monstersID}`, {
+            await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/removeFromLibrary/${monstersID}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
