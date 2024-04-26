@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
-import setupEndpoints from "./endpoints.js"; // Import endpoint setup function
-import { connection, startDatabase } from "./database.js";
+// import setupEndpoints from "./endpoints.js"; // Import endpoint setup function
+// import { connection, startDatabase } from "./database.js";
 import cors from "cors";
 
 // Create an Express application
@@ -32,17 +32,19 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// Initialize database connection and start server
-startDatabase()
-  .then(() => {
-    // Set up endpoints after database connection is established
-    setupEndpoints(app);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
-    // Start the server
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error("Error starting server:", err);
-  });
+// // Initialize database connection and start server
+// startDatabase()
+//   .then(() => {
+//     // Set up endpoints after database connection is established
+//     setupEndpoints(app);
+
+//     // Start the server
+
+//   })
+//   .catch((err) => {
+//     console.error("Error starting server:", err);
+//   });
