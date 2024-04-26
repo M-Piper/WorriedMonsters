@@ -38,7 +38,7 @@ function MonsterMaker({ location }) {
     useEffect(() => {
 
         // Fetch random colour scheme
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/colours`)
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/colours`)
             .then(response => {
                 setColours(prevState => ({
                     ...prevState,
