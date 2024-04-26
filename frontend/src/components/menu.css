@@ -178,6 +178,7 @@
         width: 250px;
         height: 100vh;
         background: #fff;
+        background: rgba(206,252,209,0.5);
         z-index: 998;
         transition: left 0.3s ease;
     }
@@ -199,5 +200,22 @@
         width: 30px;
         height: 30px;
         background: url('../images/menuIcon.svg') center/cover no-repeat;
+    }
+
+    .mobile-sidebar button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        font-family: "Madimi One";
+        font-size: 1.5rem;
+        color: black;
+    }
+
+    .mobile-sidebar button img {
+        width: 30px; /* Adjust image size as needed */
+        margin-right: 10px; /* Add some spacing between image and text */
     }
 }

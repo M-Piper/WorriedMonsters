@@ -61,11 +61,24 @@ const Menu = () => {
             {/* Mobile View */}
             {isMobile ? (
                 <div className={`mobile-sidebar ${sidebarOpen ? 'open' : ''}`}>
-                    <div className="sidebar">
-                        <button onClick={handleHome} className="home-button">Home</button>
-                        <button onClick={handleLibrary} className={`library-button ${isLoggedIn ? '' : 'disabled'}`}>Monster Library</button>
-                        <button onClick={handleMakeMonster} className={"makemonster-button"}>Make a Monster!</button>
-                        <button onClick={handleAbout} className={"about-button"}>About Us</button>
+                    <div className="mobile-menu">
+                        <button onClick={handleHome} className="mobile-home-button">Home
+                            <img src={home} alt="home" className="home-img" />
+                            <span className="button-label">Home</span>
+                        </button>
+                        <button onClick={handleLibrary} className={`mobile-library-button ${isLoggedIn ? '' : 'disabled'}`}>
+                            <img src={library} alt="library" className="library-img" />
+                            <span className="button-label">Monster Library</span>
+                        </button>
+                        <button onClick={handleMakeMonster} className={"mobile-makemonster-button"}>
+                            <img src={monster} alt="monster" className="library-img" />
+                            <span className="button-label">Make a Monster!</span>
+                        </button>
+                        <button onClick={handleAbout} className={"about-button"}>
+                            <img src={about} alt="about" className="library-img" />
+                            <span className="button-label">About Us</span>
+                        </button>
+
                         {isLoggedIn ? (
                             <button onClick={handleLogout} className="logout-button">Logout</button>
                         ) : (
