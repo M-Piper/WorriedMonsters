@@ -282,7 +282,7 @@ function MonsterMaker({ location }) {
         // Reset the error message when generating a new monster
         setErrorMessage('');
         // Fetch new colours
-        axios.get('http://localhost:5000/api/colours')
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/colours`)
             .then(response => {
                 setColours(prevState => ({
                     ...prevState,
@@ -310,7 +310,7 @@ function MonsterMaker({ location }) {
         try {
             const combinedSVG = combineSVGs();
             const response = await axios.post(
-                'http://localhost:5000/api/saveToLibrary',
+                `${process.env.REACT_APP_BACKEND_URL}/api/saveToLibrary`,
                 { combinedSVG, name: monsterName },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
