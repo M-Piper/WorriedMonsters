@@ -8,16 +8,6 @@ const connection = mysql2.createConnection({
     port: process.env.MYSQLPORT
 });
 
-connection.connect(err => {
-    if (err) {
-        console.error('Error connecting to database:', err);
-        return;
-    }
-    console.log('Connected to MySQL database');
-});
-
-export { connection };
-
 export function startDatabase() {
     return new Promise((resolve, reject) => {
         connection.connect(err => {

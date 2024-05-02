@@ -8,23 +8,9 @@ import cors from 'cors';
 const app = express();
 const PORT = process.env.PORT || 54913;
 
-// // Define CORS options
-// const corsOptions = {
-//     origin: 'https://worriedmonsters.com',
-//     credentials: true,
-//     methods: ['GET', 'POST', 'DELETE'], // Add other methods you're using
-//     allowedHeaders: '*',
-// };
-//
-// // Enable CORS using the defined options
-// app.use(cors(corsOptions));
-
-// Handle preflight requests
-//app.options('*', cors(corsOptions));
 app.use(cors());
-console.log('test');
-// Use middleware to parse incoming request bodies
-// Increase the limit to 50MB (or any desired limit)
+
+//body parser deprecated - fix later(5/2/24)
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
