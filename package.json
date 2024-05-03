@@ -1,4 +1,7 @@
 {
   "name": "worriedmonsters",
-  "workspaces": ["backend", "frontend"]
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
 }

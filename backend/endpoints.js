@@ -1,5 +1,4 @@
 import { loginUser, registerUser } from './login.js';
-import { connection } from './database.js';
 import {saveToLibrary} from "./saveToLibrary.js";
 import jwtSecret from './config.js';
 import jwt from 'jsonwebtoken';
@@ -8,7 +7,7 @@ import { authenticateUser } from './middleware.js';
 import {removeFromLibrary} from "./removeFromLibrary.js";
 
 // Function to set up endpoints
-export default function setupEndpoints(app) {
+export default function setupEndpoints(app, connection) {
     // Route for user login (POST request)
     app.post('/api/login', loginUser);
 
