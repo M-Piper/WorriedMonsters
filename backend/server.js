@@ -1,8 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import setupEndpoints from './endpoints.js';
+import dotenv from "dotenv";
 import { startDatabase } from './database.js';
 import cors from 'cors';
+
+dotenv.config();
 
 // Create an Express application
 const app = express();
@@ -18,7 +21,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 startDatabase()
     .then((connection) => {
         // Set up endpoints after database connection is established+
-        //setupEndpoints(app);
+        setupEndpoints(app, connection);
 
         // Start the server
         app.listen(PORT, () => {
