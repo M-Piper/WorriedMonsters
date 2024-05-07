@@ -13,11 +13,9 @@ export default function setupEndpoints(app, connection) {
     app.post('/api/login', (req, res) => loginUser(connection, req, res));
 
     // Route for user registration (POST request)
-    //app.post('/api/register', registerUser);
     app.post('/api/register', (req, res) => registerUser(connection, req, res));
 
     // Route for saving to library (POST request)
-    //app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
     app.post('/api/savetolibrary', authenticateUser, (req, res) => saveToLibrary(connection, req, res));
 
 
