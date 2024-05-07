@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { connection } from "./database.js";
 import jwtSecret from './config.js';
 
 // Update the removeFromLibrary function to handle DELETE requests and get ID from params
