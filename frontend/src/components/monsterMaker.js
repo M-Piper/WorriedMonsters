@@ -36,128 +36,51 @@ function MonsterMaker({ location }) {
     const [monsterName, setMonsterName] = useState('');
 
     useEffect(() => {
+        // Define an array to hold all the axios promises
+        const requests = [
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/colours`),
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/body`),
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/feet`),
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/eyes`),
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/mouth`),
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/back`),
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/tail`),
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/arms`),
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/randomname`),
+        ];
 
-        // Fetch random colour scheme
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/colours`)
-            .then(response => {
-                setColours(prevState => ({
-                    ...prevState,
-                    main : response.data.main,
-                    darker : response.data.darker,
-                    contrast : response.data.contrast,
-                }));
-            })
-            .catch(error => {
-                console.error('Error fetching colour scheme:', error);
-            });
-
-
-        // Fetch body SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/body`)
-            .then(response => {
+        // Use Promise.all() to wait for all requests to complete
+        Promise.all(requests)
+            .then(responses => {
+                // Extract data from each response
+                const [coloursRes, bodyRes, feetRes, eyesRes, mouthRes, backRes, tailRes, armsRes, randomNameRes] = responses;
+                // Update state with the fetched data
+                setColours({
+                    main: coloursRes.data.main,
+                    darker: coloursRes.data.darker,
+                    contrast: coloursRes.data.contrast,
+                });
                 setMonsterParts(prevState => ({
                     ...prevState,
-                    bodySVG: response.data.bodySVG,
-                    bodyTextureSVG: response.data.bodyTextureSVG,
+                    bodySVG: bodyRes.data.bodySVG,
+                    bodyTextureSVG: bodyRes.data.bodyTextureSVG,
+                    feetSVG: feetRes.data.feetSVG,
+                    feetTextureSVG: feetRes.data.feetTextureSVG,
+                    eyesSVG: eyesRes.data.eyesSVG,
+                    mouthSVG: mouthRes.data.mouthSVG,
+                    mouthTextureSVG: mouthRes.data.mouthTextureSVG,
+                    backSVG: backRes.data.backSVG,
+                    tailSVG: tailRes.data.tailSVG,
+                    tailTextureSVG: tailRes.data.tailTextureSVG,
+                    armsSVG: armsRes.data.armsSVG,
+                    armsTextureSVG: armsRes.data.armsTextureSVG,
                 }));
+                setMonsterName(randomNameRes.data.output);
             })
             .catch(error => {
-                console.error('Error fetching body SVG:', error);
+                console.error('Error fetching data:', error);
             });
-
-        // Fetch feet SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/feet`)
-            .then(response => {
-                setMonsterParts(prevState => ({
-                    ...prevState,
-                    feetSVG: response.data.feetSVG,
-                    feetTextureSVG: response.data.feetTextureSVG,
-                }));
-            })
-            .catch(error => {
-                console.error('Error fetching feet SVG:', error);
-            });
-
-
-        // Fetch eyes SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/eyes`)
-            .then(response => {
-                setMonsterParts(prevState => ({
-                    ...prevState,
-                    eyesSVG: response.data.eyesSVG,
-                }));
-            })
-            .catch(error => {
-                console.error('Error fetching eyes SVG:', error);
-            });
-
-
-
-        // Fetch mouth SVG
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/mouth`)
-            .then(response => {
-                setMonsterParts(prevState => ({
-                    ...prevState,
-                    mouthSVG: response.data.mouthSVG,
-                    mouthTextureSVG: response.data.mouthTextureSVG,
-                }));
-            })
-            .catch(error => {
-                console.error('Error fetching mouth SVG:', error);
-            });
-
-        // Fetch back SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/back`)
-            .then(response => {
-                setMonsterParts(prevState => ({
-                    ...prevState,
-                    backSVG: response.data.backSVG,
-                }));
-            })
-            .catch(error => {
-                console.error('Error fetching back SVG:', error);
-            });
-
-
-        // Fetch tail SVG and texture SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/tail`)
-            .then(response => {
-                setMonsterParts(prevState => ({
-                    ...prevState,
-                    tailSVG: response.data.tailSVG,
-                    tailTextureSVG: response.data.tailTextureSVG,
-                }));
-            })
-            .catch(error => {
-                console.error('Error fetching tail SVG:', error);
-            });
-
-
-        // Fetch arms SVG and texture SVG from the database
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/arms`)
-            .then(response => {
-                setMonsterParts(prevState => ({
-                    ...prevState,
-                    armsSVG: response.data.armsSVG,
-                    armsTextureSVG: response.data.armsTextureSVG,
-                }));
-            })
-            .catch(error => {
-                console.error('Error fetching arms SVG:', error);
-                console.error(error.response.data)
-            });
-
-
-        // Fetch random monster name
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/randomname`)
-            .then(response => {
-                setMonsterName(response.data.output);
-            })
-            .catch(error => {
-                console.error('Error fetching random name:', error);
-            });
-
-    }, []); // Empty dependency array ensures this effect runs only once after the initial render
+    }, []);
 
     const addColour = (svgString) => {
         // Check if svgString is defined
