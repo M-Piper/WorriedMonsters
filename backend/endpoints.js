@@ -14,10 +14,10 @@ export default function setupEndpoints(app, connection) {
     app.post('/api/login', (req, res) => loginUser(connection, req, res));
 
     // Route for user registration (POST request)
-    app.post('/api/register', (req, res) => registerUser(connection, req, res));
+    app.post('/api/register', registerUser);
 
     // Route for saving to library (POST request)
-    app.post('/api/savetolibrary', (req, res) => authenticateUser(connection, req,res), saveToLibrary(connection, req, res));
+    app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
 
     // Route to delete a monster from the library
     app.delete('/api/removeFromLibrary/:monstersID', async (req, res) => {
