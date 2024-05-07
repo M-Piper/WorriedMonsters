@@ -10,8 +10,45 @@ import mysql from 'mysql2/promise'; // Import promise-based MySQL library
 // Function to set up endpoints
 export default function setupEndpoints(app, connection) {
     // Route for user login (POST request)
- //   app.post('/api/login', loginUser);
-    app.post('/api/login', (req, res) => loginUser(connection, req, res));
+   // app.post('/api/login', loginUser);
+    //app.post('/api/login', (req, res) => loginUser(connection, req, res));
+
+
+    app.post('/api/login', async (req, res) => {
+        try {
+            const { username, password } = req.body;
+
+            // Fetch user from the database based on username and password
+            connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results) => {
+                if (err) {
+                    console.error('Error fetching user:', err);
+                    res.status(500).json({ message: 'Failed to fetch user' });
+                    return;
+                }
+
+                if (results.length === 0) {
+                    res.status(401).json({ message: 'Invalid credentials' });
+                    return;
+                }
+
+                const user = results[0];
+
+                // Generate JWT token
+                const token = jwt.sign({ username, usersID: user.usersID }, jwtSecret, { expiresIn: '1h' });
+
+                res.json({ token, usersID: user.usersID, username: user.username });
+            });
+
+        } catch (error) {
+            console.error('Error logging in:', error);
+            res.status(500).json({message: 'Internal server error'});
+        }
+    });
+
+
+
+
+
 
     // Route for user registration (POST request)
     app.post('/api/register', registerUser);
