@@ -10,13 +10,14 @@ import mysql from 'mysql2/promise'; // Import promise-based MySQL library
 // Function to set up endpoints
 export default function setupEndpoints(app, connection) {
     // Route for user login (POST request)
-    app.post('/api/login', loginUser);
+    //app.post('/api/login', loginUser);
+    app.post('/api/login', (req, res) => loginUser(connection, req, res));
 
     // Route for user registration (POST request)
-    app.post('/api/register', registerUser);
+    app.post('/api/register', (req, res) => registerUser(connection, req, res));
 
     // Route for saving to library (POST request)
-    app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
+    app.post('/api/savetolibrary', (req, res) => authenticateUser(connection, req,res), saveToLibrary(connection, req, res));
 
     // Route to delete a monster from the library
     app.delete('/api/removeFromLibrary/:monstersID', async (req, res) => {

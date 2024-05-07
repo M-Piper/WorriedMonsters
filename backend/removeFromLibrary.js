@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import jwtSecret from './config.js';
 
 // Update the removeFromLibrary function to handle DELETE requests and get ID from params
-export function removeFromLibrary(req, res) {
+export function removeFromLibrary(connection, req, res) {
         // Get monstersID from URL parameters
        const { monstersID } = req.params;
 
