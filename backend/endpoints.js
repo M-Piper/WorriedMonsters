@@ -11,7 +11,7 @@ import mysql from 'mysql2/promise';
 export default function setupEndpoints(app, connection) {
 
     // Route for user login (POST request)
-    app.post('/api/login', loginUser);
+//    app.post('/api/login', loginUser);
 
     // Route for user registration (POST request)
     app.post('/api/register', registerUser);
