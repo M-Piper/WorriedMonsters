@@ -30,7 +30,7 @@ export function registerUser(req, res) {
     });
 }
 
-export function loginUser(req, res) {
+export function loginUser(connection, req, res) {
     const { username, password } = req.body;
 
     // Fetch user from the database based on username and password
