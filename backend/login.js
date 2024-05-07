@@ -29,7 +29,7 @@ export function registerUser(req, res) {
         });
     });
 }
-
+/*
 export function loginUser(req, res) {
     const { username, password } = req.body;
 
@@ -52,5 +52,27 @@ export function loginUser(req, res) {
         const token = jwt.sign({ username, usersID: user.usersID }, jwtSecret, { expiresIn: '1h' });
 
         res.json({ token, usersID: user.usersID, username: user.username });
-    });
+    });*/
+export async function loginUser(connection, req, res) {
+    const { username, password } = req.body;
+
+    try {
+        // Fetch user from the database based on username and password
+        const [results] = await connection.execute('SELECT * FROM users WHERE username = ? AND password = ?', [username, password]);
+
+        if (results.length === 0) {
+            res.status(401).json({ message: 'Invalid credentials' });
+            return;
+        }
+
+        const user = results[0];
+
+        // Generate JWT token
+        const token = jwt.sign({ username, usersID: user.usersID }, jwtSecret, { expiresIn: '1h' });
+
+        res.json({ token, usersID: user.usersID, username: user.username });
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ message: 'Failed to fetch user' });
+    };
 }

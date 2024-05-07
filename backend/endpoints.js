@@ -5,20 +5,22 @@ import jwt from 'jsonwebtoken';
 // Import middleware function for authentication
 import { authenticateUser } from './middleware.js';
 import {removeFromLibrary} from "./removeFromLibrary.js";
-import mysql from 'mysql2/promise'; // Import promise-based MySQL library
+import mysql from 'mysql2/promise';
 
 // Function to set up endpoints
 export default function setupEndpoints(app, connection) {
+
     // Route for user login (POST request)
     app.post('/api/login', loginUser);
-    //app.post('/api/login', (req, res) => loginUser(connection, req, res));
 
     // Route for user registration (POST request)
     app.post('/api/register', registerUser);
 
     // Route for saving to library (POST request)
-    app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
+    //app.post('/api/savetolibrary', authenticateUser, saveToLibrary);
 
+    // Route for user login (POST request)
+    app.post('/api/login', (req, res) => loginUser(connection, req, res));
     // Route to delete a monster from the library
     app.delete('/api/removeFromLibrary/:monstersID', async (req, res) => {
         // Extract the monstersID from the request parameters
