@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import jwtSecret from "./config.js";
-export function registerUser(connection, req, res) {
+export function registerUser(req, res) {
     const { username, password } = req.body;
 
     // Check if the username already exists in the database
@@ -30,7 +30,7 @@ export function registerUser(connection, req, res) {
     });
 }
 
-export function loginUser(connection, req, res) {
+export function loginUser(req, res) {
     const { username, password } = req.body;
 
     // Fetch user from the database based on username and password

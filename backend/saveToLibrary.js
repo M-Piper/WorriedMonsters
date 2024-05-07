@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import jwtSecret from './config.js';
-export function saveToLibrary(connection, req, res) {
+export function saveToLibrary(req, res) {
     const token = req.headers.authorization.split(' ')[1]; // Extract JWT token from Authorization header
 
     try {
