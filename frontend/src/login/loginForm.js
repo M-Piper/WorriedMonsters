@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './loginForm.css';
 import Menu from "../components/menu.js";
 
@@ -12,20 +13,10 @@ function LoginForm() {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        })
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, { username, password })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to login');
-                }
-                return response.json();
-            })
-            .then(data => {
+                const { data } = response;
+
                 // Store token and user details in local storage
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('username', data.username);
@@ -65,6 +56,7 @@ function LoginForm() {
 }
 
 export default LoginForm;
+
 
 
 /*
