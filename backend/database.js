@@ -1,4 +1,3 @@
-// database.js
 import mysql2 from 'mysql2/promise';
 
 export function startDatabase() {

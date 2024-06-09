@@ -1,4 +1,3 @@
-// index.js
 import express from 'express';
 import bodyParser from 'body-parser';
 import setupEndpoints from './endpoints.js';
@@ -13,13 +12,15 @@ const app = express();
 const PORT = process.env.PORT || 54913;
 
 app.use(cors());
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+//body parser deprecated - fix later(5/2/24)
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Initialize database connection and start server
 startDatabase()
     .then((connection) => {
-        // Set up endpoints after database connection is established
+        // Set up endpoints after database connection is established+
         setupEndpoints(app, connection);
 
         // Start the server
